@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class ant_movement : MonoBehaviour
@@ -6,21 +5,21 @@ public class ant_movement : MonoBehaviour
     public float MovementSpeed = 1;
     public float JumpForce = 1;
 
-    private Rigidbody2D _rigibody;
+    private Rigidbody2D PlayerAnt;
    private void Start()
     {
-        _rigibody = GetComponent<Rigidbody2D>();
+        PlayerAnt = GetComponent<Rigidbody2D>();
     }
 
   
     private void Update()
     {
-        var movement = Input.GetAxis("Horizontal");
+        var movement = Input.GetAxis("Horizontal");             //poruszanie sie lewo/prawo
         transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
 
-        if(Input.GetButtonDown("Jump")&& Mathf.Abs(_rigibody.velocity.y)<0.001f)
+        if(Input.GetButtonDown("Jump")&& Mathf.Abs(PlayerAnt.velocity.y)<0.001f)       //skok
         {
-            _rigibody.AddForce(new Vector2(0, JumpForce),ForceMode2D.Impulse);
+            PlayerAnt.AddForce(new Vector2(0, JumpForce),ForceMode2D.Impulse);
         }
     }
 }

@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 267765063}
   - component: {fileID: 267765067}
   m_Layer: 0
-  m_Name: mrowka32x32
+  m_Name: PlayerAnt(32x32)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 409c403cf5d88034e9b5c1aedecbcf7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 30
+  MovementSpeed: 7
   JumpForce: 15
 --- !u!1 &519420028
 GameObject:
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 1898734058}
   - component: {fileID: 1898734057}
   m_Layer: 0
-  m_Name: tlo
+  m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
