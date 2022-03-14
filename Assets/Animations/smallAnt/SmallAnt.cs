@@ -7,15 +7,34 @@ public class SmallAnt : MonoBehaviour
     private Rigidbody2D rb;
     private bool facingRight = false;
     private Vector3 localScale;
+    public KeyCode[] combo;
+    private int currentIndex = 0;
+    public bool comboDone = false;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         localScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
         dirX = -1f;
         moveSpeed = 0.5f;
     }
+
+    private void Update()
+    {
+        if (currentIndex < combo.Length)
+        {
+            if (Input.GetKeyDown(combo[currentIndex]))
+            {
+                currentIndex++;
+            }
+        }
+        else
+        {
+            comboDone = true;
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

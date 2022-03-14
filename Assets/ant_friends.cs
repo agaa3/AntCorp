@@ -26,19 +26,22 @@ public class ant_friends : MonoBehaviour
 
     private void Update()
     {
-        
     }
- 
 
-	private void OnTriggerEnter2D(Collider2D other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.CompareTag("Friends"))
+        if (other.gameObject.CompareTag("Friends"))
         {
-            Destroy(other.gameObject);
-            FriendsManager.instance.ChangeFriendsScore();
+            if (other.gameObject.GetComponent<SmallAnt>().comboDone == true)
+            {
+                Destroy(other.gameObject);
+                FriendsManager.instance.ChangeFriendsScore();
+            }
+
         }
     }
 
 
-   
+
 }
