@@ -33,7 +33,7 @@ public class ant_movement : MonoBehaviour
         Jump();
         wallWalk();
         beSlow();
-        if((groundCheck()||groundCheck1())&&frontCheck()==false)
+        if((groundCheck()||groundCheck())&&frontCheck()==false)
             animator.SetInteger("wallClimbSide", 0);
 
 
@@ -93,45 +93,6 @@ public class ant_movement : MonoBehaviour
         }
 
     }
-
-
-    // FUNKCJA DO USUNIECIA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    private bool groundCheck1()
-    {
-        float extraHeightText = 0.1f;
-        RaycastHit2D groundToutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, extraHeightText, groundLayerMask1);
-
-        Color rayColor;
-        if (groundToutch.collider != null)
-        {
-            rayColor = Color.green;
-        }
-        else
-        {
-            rayColor = Color.red;
-        }
-
-
-        //    Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x , 0), Vector2.down * (boxCollider2d.bounds.extents.y + extraHeightText), rayColor);
-        //   Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x , 0), Vector2.down * (boxCollider2d.bounds.extents.y + extraHeightText), rayColor);
-        // Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y+ extraHeightText, 0), Vector2.left * (boxCollider2d.bounds.extents.x ), rayColor);
-        //  Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y+ extraHeightText, 0), Vector2.right * (boxCollider2d.bounds.extents.x ), rayColor);
-        // Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.left * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-        // Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.right * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-
-        if (groundToutch.collider != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
     private bool groundCheck()
