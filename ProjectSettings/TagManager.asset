@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Friends
+  - Candy
   layers:
   - Default
   - TransparentFX
