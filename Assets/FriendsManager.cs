@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class FriendsManager : MonoBehaviour
 {
-    public RawImage friendsCount;
     public static FriendsManager instance;
-    //public Text text;
-    int friendsScore = 0;
-    public Texture[] friendsNumbers = new Texture[10];
+    public Text text;
+    int friendsNumber = 5; //na razie, do testow 
+    
+    public GameObject messageBox;
+    public Text messageText;
+
+    private IEnumerator popCoroutine;
+    public bool collides = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,21 +22,40 @@ public class FriendsManager : MonoBehaviour
         {
             instance = this;
         }
-        friendsCount.texture = friendsNumbers[friendsScore];
+        text.text = "X" + friendsNumber.ToString();
+        messageBox.SetActive(false);    
     }
 
     public void ChangeFriendsScore()
     {
-        if(friendsScore < friendsNumbers.Length - 1)
-        {
-            friendsScore++;
-            //text.text = "friends: "+friendsScore.ToString();
-            friendsCount.texture = friendsNumbers[friendsScore];
-        }
-        else
-        {
-            friendsCount.texture = friendsNumbers[friendsNumbers.Length - 1];
-        }
-        
+        friendsNumber += 1;
+        text.text = "X"+friendsNumber.ToString();
     }
+
+    public void PopMessage(string text)
+    {
+        if (popCoroutine != null)
+        {
+            StopCoroutine(popCoroutine);
+        }
+        popCoroutine = PopCoroutine(text);
+        StartCoroutine(popCoroutine);
+        messageBox.SetActive(true);
+        collides = true;
+    }
+
+    public void HidePopMessage()
+    {
+        messageBox.SetActive(false);
+    }
+
+    public IEnumerator PopCoroutine(string text)
+    {
+        messageText.text = text;
+        yield return new WaitForSeconds(3);
+        collides = false;
+        HidePopMessage();
+    }
+
+
 }

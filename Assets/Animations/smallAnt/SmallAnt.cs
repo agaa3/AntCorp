@@ -7,9 +7,12 @@ public class SmallAnt : MonoBehaviour
     private Rigidbody2D rb;
     private bool facingRight = false;
     private Vector3 localScale;
-    public KeyCode[] combo;
-    private int currentIndex = 0;
+    public KeyCode combo;
     public bool comboDone = false;
+
+    public float mashDelay = .5f;
+    float mash;
+    bool pressed;
 
     // Start is called before the first frame update
     private void Start()
@@ -18,21 +21,34 @@ public class SmallAnt : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         dirX = -1f;
         moveSpeed = 0.5f;
+        mash = 0f;
     }
 
     private void Update()
     {
-        if (currentIndex < combo.Length)
+        if (FriendsManager.instance.collides == true)
         {
-            if (Input.GetKeyDown(combo[currentIndex]))
+            if(mash > 0f)
             {
-                currentIndex++;
+                mash -= Time.deltaTime;
+            }
+            if (Input.GetKeyDown(combo) && !pressed)
+            {
+                pressed = true;
+                mash += mashDelay;
+            }else if (Input.GetKeyUp(combo))
+            {
+                pressed = false;
             }
         }
         else
         {
-            comboDone = true;
+            mash = 0f;
         }
+        if(mash > 3)
+        {
+            comboDone = true;
+        }       
     }
 
 
