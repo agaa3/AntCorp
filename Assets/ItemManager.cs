@@ -7,8 +7,10 @@ public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
     public Text text;
-    int itemNumber = 5; //na razie, do testow 
+    int candyNumber = 5; //na razie, do testow 
+    int stickNumber = 3;
     public RawImage numberOfCandiesImage;
+    public RawImage numberOfSticksImage;
     public Texture[] allNumbers = new Texture[10];
 
 
@@ -19,15 +21,23 @@ public class ItemManager : MonoBehaviour
         {
             instance = this;
         }
-        text.text = "X" + itemNumber.ToString();
-        numberOfCandiesImage.texture = allNumbers[itemNumber];
+        text.text = "X" + candyNumber.ToString();
+        numberOfCandiesImage.texture = allNumbers[candyNumber];
+        numberOfSticksImage.texture = allNumbers[stickNumber];
     }
 
-    public void ChangeItemNumber()
+    public void ChangeCandyNumber()
     {
-        itemNumber += 1;
-        text.text = "X" + itemNumber.ToString();
-        numberOfCandiesImage.texture = allNumbers[itemNumber];
+        candyNumber += 1;
+        text.text = "X" + candyNumber.ToString();
+        numberOfCandiesImage.texture = allNumbers[candyNumber];
+        
+    }
+
+    public void ChangeStickNumber()
+    {
+        stickNumber += 1;
+        numberOfSticksImage.texture = allNumbers[stickNumber];
     }
 
 }

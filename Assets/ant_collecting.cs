@@ -37,7 +37,13 @@ public class ant_collecting : MonoBehaviour
         if (other.gameObject.CompareTag("Candy"))
         {
             Destroy(other.gameObject);
-            ItemManager.instance.ChangeItemNumber();
+            ItemManager.instance.ChangeCandyNumber();
+        }
+        
+        if (other.gameObject.CompareTag("Stick"))
+        {
+            Destroy(other.gameObject);
+            ItemManager.instance.ChangeStickNumber();
         }
     }
 
