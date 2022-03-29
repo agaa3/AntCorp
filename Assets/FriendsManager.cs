@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class FriendsManager : MonoBehaviour
 {
     public static FriendsManager instance;
-    public Text text;
     int friendsNumber = 5; //na razie, do testow 
     
     public GameObject messageBox;
     public Text messageText;
+
+    public RawImage numberOfFriendsImage;
+    public Texture[] allNumbers = new Texture[10];
 
     private IEnumerator popCoroutine;
     public bool collides = false;
@@ -22,14 +24,14 @@ public class FriendsManager : MonoBehaviour
         {
             instance = this;
         }
-        text.text = "X" + friendsNumber.ToString();
         messageBox.SetActive(false);    
+        numberOfFriendsImage.texture = allNumbers[friendsNumber];
     }
 
     public void ChangeFriendsScore()
     {
         friendsNumber += 1;
-        text.text = "X"+friendsNumber.ToString();
+        numberOfFriendsImage.texture = allNumbers[friendsNumber];
     }
 
     public void PopMessage(string text)

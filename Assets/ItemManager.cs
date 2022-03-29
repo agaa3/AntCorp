@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
-    public Text text;
     int candyNumber = 5; //na razie, do testow 
     int stickNumber = 3;
     public RawImage numberOfCandiesImage;
@@ -21,7 +20,6 @@ public class ItemManager : MonoBehaviour
         {
             instance = this;
         }
-        text.text = "X" + candyNumber.ToString();
         numberOfCandiesImage.texture = allNumbers[candyNumber];
         numberOfSticksImage.texture = allNumbers[stickNumber];
     }
@@ -29,7 +27,6 @@ public class ItemManager : MonoBehaviour
     public void ChangeCandyNumber()
     {
         candyNumber += 1;
-        text.text = "X" + candyNumber.ToString();
         numberOfCandiesImage.texture = allNumbers[candyNumber];
         
     }
