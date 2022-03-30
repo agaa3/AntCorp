@@ -26737,7 +26737,7 @@ Camera:
   far clip plane: 5000
   field of view: 60
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -26761,7 +26761,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.9915895, y: 2.74, z: -10}
+  m_LocalPosition: {x: 5.9920807, y: 2.52, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -26888,8 +26888,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.9, y: 192.5}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 10.9, y: 184}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &552293181
 MonoBehaviour:
@@ -29784,8 +29784,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -130, y: 192.5}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -130, y: 184}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &788026560
 GameObject:
@@ -93831,7 +93831,7 @@ MonoBehaviour:
   m_Follow: {fileID: 831651480}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 2
+    OrthographicSize: 3
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -93852,7 +93852,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256733010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.9915895, y: 2.74, z: -10}
+  m_LocalPosition: {x: 5.9920807, y: 2.52, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 523974062}
@@ -94086,8 +94086,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -270.9, y: 192.5}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -270.9, y: 184}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1447297274
 GameObject:
@@ -98449,7 +98449,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1819329206}
   - component: {fileID: 1819329205}
-  - component: {fileID: 1819329204}
   - component: {fileID: 1819329203}
   - component: {fileID: 1819329202}
   - component: {fileID: 1819329201}
@@ -98527,31 +98526,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1819329204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819329200}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409c403cf5d88034e9b5c1aedecbcf7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1819329201}
-  JumpForce: 0
-  checkRadius: 0.0001
-  wallSlidingSpeed: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 8192
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  groundLayerMask1:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!212 &1819329205
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -98632,6 +98606,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combo: 104
   comboDone: 0
+  animatorMud: {fileID: 2072758444}
+  animatorAnt: {fileID: 1819329201}
   mashDelay: 0.5
 --- !u!1 &1842664538
 GameObject:
@@ -99039,8 +99015,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901135321}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9636.535}
-  m_LocalScale: {x: 107.0726, y: 107.0726, z: 107.0726}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1128449927}
   m_RootOrder: 3
@@ -99048,7 +99024,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -36.1, y: 192.5}
-  m_SizeDelta: {x: 1, y: 1}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901135323
 MonoBehaviour:
@@ -99237,7 +99213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072758442}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.031, y: -0, z: 0}
+  m_LocalPosition: {x: -0.0003, y: -0.0004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1819329206}
@@ -99307,7 +99283,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

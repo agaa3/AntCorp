@@ -7,6 +7,7 @@ public class ant_collecting : MonoBehaviour
 {
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
+    private GameObject friend;
 
     private void Start()
     {
@@ -15,7 +16,14 @@ public class ant_collecting : MonoBehaviour
 
     private void Update()
     {
-     }
+        if (friend.GetComponent<SmallAnt>().comboDone == true)
+        {
+            Destroy(friend);
+            FriendsManager.instance.messageBox.SetActive(false);
+            FriendsManager.instance.ChangeFriendsScore();
+            friend = null;
+        }
+    }
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,14 +32,7 @@ public class ant_collecting : MonoBehaviour
         {
             string message = "uderzaj klawisz " + other.gameObject.GetComponent<SmallAnt>().combo;
             FriendsManager.instance.PopMessage(message);
-
-            if (other.gameObject.GetComponent<SmallAnt>().comboDone == true)
-            {
-                Destroy(other.gameObject);
-                FriendsManager.instance.messageBox.SetActive(false);
-                FriendsManager.instance.ChangeFriendsScore();
-            }
-
+            friend = other.gameObject;
         }
 
         if (other.gameObject.CompareTag("Candy"))

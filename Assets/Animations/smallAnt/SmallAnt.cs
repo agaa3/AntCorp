@@ -9,6 +9,8 @@ public class SmallAnt : MonoBehaviour
     private Vector3 localScale;
     public KeyCode combo;
     public bool comboDone = false;
+    public Animator animatorMud;
+    public Animator animatorAnt;
 
     public float mashDelay = .5f;
     float mash;
@@ -22,6 +24,9 @@ public class SmallAnt : MonoBehaviour
         dirX = -1f;
         moveSpeed = 0.5f;
         mash = 0f;
+        animatorMud.SetInteger("mash", 0);
+        animatorAnt.SetInteger("mash1", 0);
+
     }
 
     private void Update()
@@ -30,22 +35,31 @@ public class SmallAnt : MonoBehaviour
         {
             if(mash > 0f)
             {
-                mash -= Time.deltaTime;
+                mash -= 0.5f * Time.deltaTime;
             }
             if (Input.GetKeyDown(combo) && !pressed)
             {
                 pressed = true;
                 mash += mashDelay;
+                animatorMud.SetInteger("mash", 1);
+                animatorAnt.SetInteger("mash1", 1);
+
+                moveSpeed = 0;  
             }else if (Input.GetKeyUp(combo))
             {
                 pressed = false;
+                animatorMud.SetInteger("mash", 2);
             }
         }
         else
         {
             mash = 0f;
+            animatorMud.SetInteger("mash", 0);
+            animatorAnt.SetInteger("mash1", 0);
+
+            moveSpeed = 0.5f;
         }
-        if(mash > 3)
+        if (mash > 5)
         {
             comboDone = true;
         }       
