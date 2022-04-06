@@ -13,10 +13,9 @@ public class ant_collecting : MonoBehaviour
     {
     }
 
-
     private void Update()
     {
-        if (friend.GetComponent<SmallAnt>().comboDone == true)
+        if (friend != null && friend.GetComponent<SmallAnt>().comboDone == true)
         {
             Destroy(friend);
             FriendsManager.instance.messageBox.SetActive(false);
@@ -25,6 +24,13 @@ public class ant_collecting : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Friends"))
+        {
+            FriendsManager.instance.StopCollision();
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -33,6 +39,7 @@ public class ant_collecting : MonoBehaviour
             string message = "uderzaj klawisz " + other.gameObject.GetComponent<SmallAnt>().combo;
             FriendsManager.instance.PopMessage(message);
             friend = other.gameObject;
+
         }
 
         if (other.gameObject.CompareTag("Candy"))

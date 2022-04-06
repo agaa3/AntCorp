@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
-    int candyNumber = 5; //na razie, do testow 
-    int stickNumber = 3;
+    int candyNumber = 0; //na razie, do testow 
+    int stickNumber = 0;
     public RawImage numberOfCandiesImage;
     public RawImage numberOfSticksImage;
     public Texture[] allNumbers = new Texture[10];

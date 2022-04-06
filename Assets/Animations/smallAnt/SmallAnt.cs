@@ -13,8 +13,9 @@ public class SmallAnt : MonoBehaviour
     public Animator animatorAnt;
 
     public float mashDelay = .5f;
-    float mash;
+    public float mash;
     bool pressed;
+    public float collides = 0;
 
     // Start is called before the first frame update
     private void Start()
@@ -33,6 +34,7 @@ public class SmallAnt : MonoBehaviour
     {
         if (FriendsManager.instance.collides == true)
         {
+            collides = 1;
             if(mash > 0f)
             {
                 mash -= 0.5f * Time.deltaTime;
@@ -43,9 +45,8 @@ public class SmallAnt : MonoBehaviour
                 mash += mashDelay;
                 animatorMud.SetInteger("mash", 1);
                 animatorAnt.SetInteger("mash1", 1);
-
                 moveSpeed = 0;  
-            }else if (Input.GetKeyUp(combo))
+            } else if (Input.GetKeyUp(combo))
             {
                 pressed = false;
                 animatorMud.SetInteger("mash", 2);
@@ -53,9 +54,10 @@ public class SmallAnt : MonoBehaviour
         }
         else
         {
+            collides = 0;
             mash = 0f;
-            animatorMud.SetInteger("mash", 0);
             animatorAnt.SetInteger("mash1", 0);
+            animatorMud.SetInteger("mash", 0);
 
             moveSpeed = 0.5f;
         }
@@ -72,6 +74,7 @@ public class SmallAnt : MonoBehaviour
         {
             dirX *= -1f;
         }
+
     }
 
     void FixedUpdate()

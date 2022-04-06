@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FriendsManager : MonoBehaviour
 {
     public static FriendsManager instance;
-    int friendsNumber = 5; //na razie, do testow 
+    int friendsNumber = 0; //na razie, do testow 
     
     public GameObject messageBox;
     public Text messageText;
@@ -15,6 +15,8 @@ public class FriendsManager : MonoBehaviour
     public Texture[] allNumbers = new Texture[10];
 
     private IEnumerator popCoroutine;
+    private IEnumerator stopCoroutine;
+
     public bool collides = false;
 
     // Start is called before the first frame update
@@ -55,8 +57,23 @@ public class FriendsManager : MonoBehaviour
     {
         messageText.text = text;
         yield return new WaitForSeconds(3);
-        collides = false;
         HidePopMessage();
+    }
+
+    public void StopCollision()
+    {
+        if (stopCoroutine != null)
+        {
+            StopCoroutine(stopCoroutine);
+        }
+        stopCoroutine = StopCollisionCoroutine();
+        StartCoroutine(stopCoroutine);
+    }
+
+    public IEnumerator StopCollisionCoroutine()
+    {
+        yield return new WaitForSeconds(3);
+        collides = false;
     }
 
 

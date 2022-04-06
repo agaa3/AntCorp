@@ -19,26 +19,45 @@ public class ant_movement : MonoBehaviour
     bool isTouchingFront;
     [SerializeField] private LayerMask layerMask,groundLayerMask,groundLayerMask1;
 
+
     private void Start()
     {
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
+        
     }
 
 
     private void Update()
     {
-        Move();
-        Jump();
-        wallWalk();
-        beSlow();
-        if((groundCheck()||groundCheck1())&&frontCheck()==false)
-            animator.SetInteger("wallClimbSide", 0);
-
-
         //Cursor.lockState = CursorLockMode.Locked;  //Placeholder na celownik
         //  Cursor.visible = false;
+
+        if (frontCheck())
+        {
+            PlayerAnt.gravityScale = 0;
+            if (upCheck() || groundCheck())
+            {
+                var wallMovement = Input.GetAxisRaw("Vertical");
+                var movement = Input.GetAxisRaw("Horizontal");   
+                transform.position += new Vector3(movement, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            } else 
+            {
+                var wallMovement = Input.GetAxisRaw("Vertical");
+                transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            }
+        }
+        else if (upCheck())
+        {
+            PlayerAnt.gravityScale = -1;
+            Move();
+        } else
+        {
+            PlayerAnt.gravityScale = 1;
+            Move();
+        }
+
     }
     
     private void Move()
@@ -72,17 +91,6 @@ public class ant_movement : MonoBehaviour
             rayColor = Color.red;
         }
        
-        
-          Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x+ extraHeightText, 0), Vector2.down * (boxCollider2d.bounds.extents.y),rayColor);       //narysowanie prostokatow
-          Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x+ extraHeightText, 0), Vector2.up * (boxCollider2d.bounds.extents.y ), rayColor);
-          Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x+ extraHeightText, 0), Vector2.up * (boxCollider2d.bounds.extents.y ), rayColor);
-          Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x+ extraHeightText, 0), Vector2.down * (boxCollider2d.bounds.extents.y ), rayColor);
-          Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.left * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-          Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.right * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-          Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.left * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-          Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.right * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-       
-
         if ((rightToutch.collider != null) || (leftToutch.collider != null))
         {
             return true;
@@ -94,16 +102,12 @@ public class ant_movement : MonoBehaviour
 
     }
 
-
-    // FUNKCJA DO USUNIECIA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    private bool groundCheck1()
+    private bool upCheck()
     {
         float extraHeightText = 0.1f;
-        RaycastHit2D groundToutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, extraHeightText, groundLayerMask1);
-
+        RaycastHit2D upToutch = Physics2D.BoxCast(boxCollider2d.bounds.center, 0.8f*boxCollider2d.bounds.size, 0f, Vector2.up, extraHeightText, layerMask);
         Color rayColor;
-        if (groundToutch.collider != null)
+        if ((upToutch.collider != null) )
         {
             rayColor = Color.green;
         }
@@ -112,15 +116,7 @@ public class ant_movement : MonoBehaviour
             rayColor = Color.red;
         }
 
-
-        //    Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x , 0), Vector2.down * (boxCollider2d.bounds.extents.y + extraHeightText), rayColor);
-        //   Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x , 0), Vector2.down * (boxCollider2d.bounds.extents.y + extraHeightText), rayColor);
-        // Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y+ extraHeightText, 0), Vector2.left * (boxCollider2d.bounds.extents.x ), rayColor);
-        //  Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y+ extraHeightText, 0), Vector2.right * (boxCollider2d.bounds.extents.x ), rayColor);
-        // Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.left * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-        // Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.right * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-
-        if (groundToutch.collider != null)
+        if ((upToutch.collider != null))
         {
             return true;
         }
@@ -131,13 +127,11 @@ public class ant_movement : MonoBehaviour
 
     }
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
     private bool groundCheck()
     {
-        float extraHeightText = 0.1f;
-        RaycastHit2D groundToutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, extraHeightText, groundLayerMask);
+        float extraHeightText = 0.2f;
+        RaycastHit2D groundToutch = Physics2D.BoxCast(boxCollider2d.bounds.center, 0.8f*boxCollider2d.bounds.size, 0f, Vector2.down, extraHeightText, layerMask);
 
         Color rayColor;
         if (groundToutch.collider != null)
@@ -148,15 +142,6 @@ public class ant_movement : MonoBehaviour
         {
             rayColor = Color.red;
         }
-
-       
-    //    Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x , 0), Vector2.down * (boxCollider2d.bounds.extents.y + extraHeightText), rayColor);
-     //   Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(boxCollider2d.bounds.extents.x , 0), Vector2.down * (boxCollider2d.bounds.extents.y + extraHeightText), rayColor);
-       // Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y+ extraHeightText, 0), Vector2.left * (boxCollider2d.bounds.extents.x ), rayColor);
-      //  Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.y+ extraHeightText, 0), Vector2.right * (boxCollider2d.bounds.extents.x ), rayColor);
-       // Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.left * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-       // Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.y, 0), Vector2.right * (boxCollider2d.bounds.extents.x + extraHeightText), rayColor);
-
         if (groundToutch.collider!=null)
         {
             return true;
@@ -165,7 +150,6 @@ public class ant_movement : MonoBehaviour
         {
             return false;
         }
-
     }
 
     private void beSlow()
@@ -177,42 +161,14 @@ public class ant_movement : MonoBehaviour
         else
             MovementSpeed = 2;
     }
-    
-    private void wallWalk()
-    {
-  
-        
-       
-       
-         if(frontCheck())
-        {
-            if (m_FacingRight)
-                animator.SetInteger("wallClimbSide", 1);
-            else if (!m_FacingRight)
-                animator.SetInteger("wallClimbSide", 1);
-            
-            PlayerAnt.gravityScale = 0;
-            var wallMovement = Input.GetAxisRaw("Vertical");
-            transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
-        }
-         else
-        {
-            PlayerAnt.gravityScale = 1;
-          
-        }
-         
-        
-        
-    }
-        
 
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && Mathf.Abs(PlayerAnt.velocity.y) < 0.001f)
-        {
-            PlayerAnt.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-        }
-    }
+    //private void Jump()
+    //{
+    //    if (Input.GetButtonDown("Jump") && Mathf.Abs(PlayerAnt.velocity.y) < 0.001f)
+    //    {
+    //        PlayerAnt.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+    //    }
+    //}
     
 
     private void Flip()
