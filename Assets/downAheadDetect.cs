@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class downLeftDetect : MonoBehaviour
+public class downAheadDetect : MonoBehaviour
 {
     public bool flag = false;
 
@@ -26,12 +26,12 @@ public class downLeftDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("DOWNLEWYPRAWDA");
+            Debug.Log("PRAWYDOLPRAWDA");
             return true;
         }
         else
         {
-            Debug.Log("DOWNLEWYFALSZ");
+            Debug.Log("PRAWYDOLFALSZ");
             return false;
         }
     }

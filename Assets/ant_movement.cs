@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class ant_movement : MonoBehaviour
 {
-    public GameObject topRightDetector;             //Scripts import
-    topRightDetect topRightDetectScript;
-    public GameObject downRightDetector;
-    downRightDetect downRightDetectScript;
-    public GameObject topLeftDetector;
-    topLeftDetect topLeftDetectScript;
-    public GameObject downLeftDetector;
-    downLeftDetect downLeftDetectScript;
+    public GameObject topAheadDetector;             //Scripts import
+    topAheadDetect topAheadDetectScript;
+    public GameObject downAheadDetector;
+    downAheadDetect downAheadDetectScript;
+    public GameObject topBehindDetector;
+    topLeftDetect topBehindDetectScript;
+    public GameObject downBehindDetector;
+    downBehindDetect downBehindDetectScript;
    
 
     private Rigidbody2D PlayerAnt;
@@ -33,10 +33,10 @@ public class ant_movement : MonoBehaviour
 
     private void Start()
     {
-        topRightDetectScript = topRightDetector.GetComponent<topRightDetect>();
-        downRightDetectScript = downRightDetector.GetComponent<downRightDetect>();
-        topLeftDetectScript = topLeftDetector.GetComponent<topLeftDetect>();
-        downLeftDetectScript = downLeftDetector.GetComponent<downLeftDetect>();
+        topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
+        downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
+        topBehindDetectScript = topBehindDetector.GetComponent<topLeftDetect>();
+        downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
 
 
         PlayerAnt = GetComponent<Rigidbody2D>();
@@ -50,10 +50,7 @@ public class ant_movement : MonoBehaviour
     {
         
         Move();
-        leftCheck();
-        rightCheck();
-        upCheck();
-        downCheck();
+       
         isGravity();
         climb();
         
@@ -93,33 +90,33 @@ public class ant_movement : MonoBehaviour
     
     }
     
-    private bool topRightCheckPoint()
+    private bool topAheadCheckPoint()
     {
-        if (topRightDetectScript.flag)
+        if (topAheadDetectScript.flag)
             return true;
         else
             return false;
     }
 
-    private bool downRightCheckPoint()
+    private bool downAheadCheckPoint()
     {
-        if (downRightDetectScript.flag)
+        if (downAheadDetectScript.flag)
             return true;
         else
             return false;
     }
 
-    private bool topLeftCheckPoint()
+    private bool topBehindCheckPoint()
     {
-        if (topLeftDetectScript.flag)
+        if (topBehindDetectScript.flag)
             return true;
         else
             return false;
     }
 
-    private bool downLeftCheckPoint()
+    private bool downBehindCheckPoint()
     {
-        if (downLeftDetectScript.flag)
+        if (downBehindDetectScript.flag)
             return true;
         else
             return false;
@@ -238,40 +235,20 @@ public class ant_movement : MonoBehaviour
  
     private void climb()
     {
+        /*
         var movement = Input.GetAxisRaw("Horizontal");
-        if (rightCheck()==true&&topRightCheckPoint()==true)
+
+        if (rightCheck() == true && topRightCheckPoint() == true)
         {
             Physics2D.gravity = new Vector2(0, 0);
             var wallMovement = Input.GetAxisRaw("Vertical");
             transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
             isClimbing = true;
         }
-
-        if (rightCheck()&&Input.GetKey(KeyCode.A)&& Input.GetKey(KeyCode.J)==false)
-        {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
-        else
-        {
-            Physics2D.gravity = new Vector2(0, -10f);
-            isClimbing = false;
-
-        }
-       
-        if (leftCheck() && topRightCheckPoint() )
-        {
-            Physics2D.gravity = new Vector2(0, 0);
-            var wallMovement = Input.GetAxisRaw("Vertical");
-            transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
-
-        }
-        else
-        {
-            Physics2D.gravity = new Vector2(0, -10f);
-
-        }
+        */
 
     }
+ 
     private void wallWalk()
     {
        
@@ -317,5 +294,14 @@ public class ant_movement : MonoBehaviour
         
     }
 
-   
+
+    void zatrzymaj()
+    {
+
+        ////////////////////////////////////////////////////////////////////////
+
+
+    }
+
+
 }

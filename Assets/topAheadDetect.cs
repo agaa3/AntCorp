@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class downRightDetect : MonoBehaviour
+public class topAheadDetect : MonoBehaviour
 {
-    public bool flag = false;
+    public bool flag=false;
 
     public void Update()
     {
@@ -26,13 +26,14 @@ public class downRightDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("PRAWYDOLPRAWDA");
+            Debug.Log("topRightTrue");
             return true;
         }
         else
         {
-            Debug.Log("PRAWYDOLFALSZ");
+            Debug.Log("topRightFalse");
             return false;
         }
     }
+ 
 }
