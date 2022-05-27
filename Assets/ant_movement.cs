@@ -48,10 +48,10 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        
+        isOnTheWall();
         Move();
        
-        isGravity();
+
         climb();
         
     
@@ -59,34 +59,36 @@ public class ant_movement : MonoBehaviour
 
     private void Move()
     {
-        // isGrounded();
-        var movement = Input.GetAxisRaw("Horizontal");           
-        transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-
-        if (leftCheck() == true && Input.GetKey(KeyCode.A))
+       
+        if (!isClimbing)
         {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
-        if (rightCheck() == true && Input.GetKey(KeyCode.D))
-        {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
-        if(downCheck()==true&&Input.GetKey(KeyCode.S))
-        {
-            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
-        }
-
-        if (isClimbing == false)
-        { 
-            if (movement > 0 && !m_FacingRight)
+            var movement = Input.GetAxisRaw("Horizontal");
+            transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
+            if (leftCheck() == true && Input.GetKey(KeyCode.A))
             {
-                Flip();
+                transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
             }
-            else if (movement < 0 && m_FacingRight)
+            if (rightCheck() == true && Input.GetKey(KeyCode.D))
             {
-                Flip();
+                transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
             }
-         }
+            if (downCheck() == true && Input.GetKey(KeyCode.S))
+            {
+                transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
+            }
+
+            if (isClimbing == false)
+            {
+                if (movement > 0 && !m_FacingRight)
+                {
+                    Flip();
+                }
+                else if (movement < 0 && m_FacingRight)
+                {
+                    Flip();
+                }
+            }
+        }
     
     }
     
@@ -235,17 +237,21 @@ public class ant_movement : MonoBehaviour
  
     private void climb()
     {
-        /*
+        
         var movement = Input.GetAxisRaw("Horizontal");
 
-        if (rightCheck() == true && topRightCheckPoint() == true)
+        if ((rightCheck() == true && Input.GetKey(KeyCode.E)) ||(rightCheck()==true&&isClimbing==true))
         {
             Physics2D.gravity = new Vector2(0, 0);
             var wallMovement = Input.GetAxisRaw("Vertical");
+            if(topAheadCheckPoint()==false && Input.GetKey(KeyCode.W))
+            {
+                transform.position -= new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            }
             transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
             isClimbing = true;
         }
-        */
+        
 
     }
  
@@ -273,13 +279,13 @@ public class ant_movement : MonoBehaviour
         
     }
 
-    private void isGravity()
+    private void isOnTheWall()
     {
 
-        if(leftCheck()||rightCheck()||upCheck()||downCheck())
-            PlayerAnt.gravityScale=0.0f;
+        if (Physics2D.gravity == new Vector2(0, 0))
+            isClimbing = true;
         else
-            PlayerAnt.gravityScale = 1.0f;
+            isClimbing = false;
 
     }
 
