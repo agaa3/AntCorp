@@ -240,11 +240,18 @@ public class ant_movement : MonoBehaviour
         
         var movement = Input.GetAxisRaw("Horizontal");
 
+        
         if ((rightCheck() == true && Input.GetKey(KeyCode.E)) ||(rightCheck()==true&&isClimbing==true))
         {
+            if (isClimbing == false)
+            {
+                animator.SetInteger("wallClimbSide", 1);
+            }
+            //animator.SetInteger("wallClimbSide", 3);
             Physics2D.gravity = new Vector2(0, 0);
             var wallMovement = Input.GetAxisRaw("Vertical");
-            if(topAheadCheckPoint()==false && Input.GetKey(KeyCode.W))
+           // animator.SetInteger("wallClimbSide", 3);
+            if (topAheadCheckPoint()==false && Input.GetKey(KeyCode.W))
             {
                 transform.position -= new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
             }
