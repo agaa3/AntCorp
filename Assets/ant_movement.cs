@@ -247,7 +247,10 @@ public class ant_movement : MonoBehaviour
             {
                 animator.SetInteger("wallClimbSide", 1);
             }
-            //animator.SetInteger("wallClimbSide", 3);
+            if (Input.GetKey(KeyCode.X))
+            {
+                animator.SetInteger("wallClimbSide", 3);
+            }
             Physics2D.gravity = new Vector2(0, 0);
             var wallMovement = Input.GetAxisRaw("Vertical");
            // animator.SetInteger("wallClimbSide", 3);
