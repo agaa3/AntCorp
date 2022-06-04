@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class ant_movement : MonoBehaviour
 {
     public GameObject topAheadDetector;             //Scripts import
@@ -11,7 +9,7 @@ public class ant_movement : MonoBehaviour
     public GameObject downAheadDetector;
     downAheadDetect downAheadDetectScript;
     public GameObject topBehindDetector;
-    topLeftDetect topBehindDetectScript;
+    topBehindDetect topBehindDetectScript;
     public GameObject downBehindDetector;
     downBehindDetect downBehindDetectScript;
    
@@ -19,6 +17,7 @@ public class ant_movement : MonoBehaviour
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
     public Animator animator;
+    public Animation anim;
     [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
 
     private float extraHeightText = 0.009f;
@@ -35,14 +34,17 @@ public class ant_movement : MonoBehaviour
     {
         topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
         downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
-        topBehindDetectScript = topBehindDetector.GetComponent<topLeftDetect>();
+        topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
         downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
 
-
+        
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
-       // Physics2D.gravity = new Vector2(0, -10f);
+        Physics2D.gravity = new Vector2(0, -9.81f);
+       
+       
+       
     }
     
 
@@ -53,6 +55,7 @@ public class ant_movement : MonoBehaviour
        
 
         climb();
+        Move();
         
     
     }
@@ -76,8 +79,11 @@ public class ant_movement : MonoBehaviour
             {
                 transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
             }
-
-            if (isClimbing == false)
+          /*  if (Input.GetKey(KeyCode.P))
+                {
+                animator.Play("climb_right 0");
+            }*/
+                if (isClimbing == false)
             {
                 if (movement > 0 && !m_FacingRight)
                 {
@@ -247,10 +253,7 @@ public class ant_movement : MonoBehaviour
             {
                 animator.SetInteger("wallClimbSide", 1);
             }
-            if (Input.GetKey(KeyCode.X))
-            {
-                animator.SetInteger("wallClimbSide", 3);
-            }
+      
             Physics2D.gravity = new Vector2(0, 0);
             var wallMovement = Input.GetAxisRaw("Vertical");
            // animator.SetInteger("wallClimbSide", 3);
@@ -260,34 +263,54 @@ public class ant_movement : MonoBehaviour
             }
             transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
             isClimbing = true;
+            if (Input.GetKey(KeyCode.X))
+            {
+                animator.SetInteger("wallClimbSide", 3);
+                //zatrzymaj();
+                StartCoroutine(zatrzymaj());
+               // transform.position = new Vector2(transform.position.x + 1f, transform.position.y + 1f);
+                /*   if (!(this.animator.GetCurrentAnimatorStateInfo(0).IsName("right_climb 0")))
+                   {
+                       transform.position = new Vector2(transform.position.x + 1.2f, transform.position.y + 1f);
+                       Physics2D.gravity = new Vector2(0, -9.81f);
+                   }
+              
+                Physics2D.gravity = new Vector2(0, -9.81f);
+                */
+            }
         }
-        
+
+        if ((leftCheck() == true && Input.GetKey(KeyCode.E)) || (leftCheck() == true && isClimbing == true))
+        {
+            if (isClimbing == false)
+            {
+                Flip();
+                animator.SetInteger("wallClimbSide", 2);
+            }
+
+            Physics2D.gravity = new Vector2(0, 0);
+            var wallMovement = Input.GetAxisRaw("Vertical");
+            
+            if (topBehindCheckPoint() == false && Input.GetKey(KeyCode.W))
+            {
+                transform.position -= new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            }
+            transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            isClimbing = true;
+            if (Input.GetKey(KeyCode.X))
+            {
+                animator.SetInteger("wallClimbSide", 3);
+                //zatrzymaj();
+                transform.position = new Vector2(transform.position.x + 1f, transform.position.y + 1f);
+
+                Physics2D.gravity = new Vector2(0, -9.81f);
+
+            }
+        }
 
     }
  
-    private void wallWalk()
-    {
-       
-         if(true)
-        {
-            if (m_FacingRight)
-                animator.SetInteger("wallClimbSide", 1);
-            else if (!m_FacingRight)
-                animator.SetInteger("wallClimbSide", 1);
-            
-          //  PlayerAnt.gravityScale = 0;
-            var wallMovement = Input.GetAxisRaw("Vertical");
-            transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
-        }
-         else
-        {
-          //  PlayerAnt.gravityScale = 1;
-          
-        }
-         
-        
-        
-    }
+    
 
     private void isOnTheWall()
     {
@@ -309,15 +332,24 @@ public class ant_movement : MonoBehaviour
             transform.Rotate(0f, 180f, 0f);
         
     }
+    //sprobujmy zara wystartowac corutinea w srodku kodu - moze kurwa raczy zadzialac
 
-
-    void zatrzymaj()
+    IEnumerator zatrzymaj()//jak to kurwa zrobic zeby dzialalo
     {
-
-        ////////////////////////////////////////////////////////////////////////
-
-
+        Debug.Log("stop");
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        transform.position = new Vector2(transform.position.x + 0.065f, transform.position.y + 0.05f);
+        Physics2D.gravity = new Vector2(0, -9.81f);
     }
-
-
+   // animator.GetCurrentAnimatorStateInfo(0).length + animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+   void setStartParameters()
+    {
+        animator.Play("idle");
+        wallClimbing = false;
+        Physics2D.gravity = new Vector2(11, 0);
+        isClimbing = false;
+    }
 }
+
+
+

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class topLeftDetect : MonoBehaviour
+public class topBehindDetect : MonoBehaviour
 {
     public bool flag = false;
 
