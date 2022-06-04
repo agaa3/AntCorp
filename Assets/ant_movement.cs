@@ -301,7 +301,7 @@ public class ant_movement : MonoBehaviour
             {
                 animator.SetInteger("wallClimbSide", 3);
                 //zatrzymaj();
-                transform.position = new Vector2(transform.position.y + 0.1f,transform.position.x + 0.05f);
+                transform.position = new Vector2(transform.position.y + 0.0005f,transform.position.x + 0.0005f);
 
                 Physics2D.gravity = new Vector2(0, -9.81f);
 
