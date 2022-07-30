@@ -40,8 +40,11 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        Move();
-        climb();
+        if (couldAntMove())
+        {
+            Move();
+            climb();
+        }
     }
 
 
@@ -71,10 +74,17 @@ public class ant_movement : MonoBehaviour
     }
     
 
+
+
+
+
     //                                                 
     // bunch of some little functions bellow         \    /     \    /     \    /     \    /     \    /
     //                                                \  /       \  /       \  /       \  /       \  /
     //                                                 \/         \/         \/         \/         \/
+
+
+
 
 
     private bool isClimbing()
@@ -331,5 +341,15 @@ public class ant_movement : MonoBehaviour
     private void zeroGravity()
     {
         Physics2D.gravity = new Vector2(0, 0);
+    }
+
+    private bool couldAntMove()
+    {
+        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("rightClimb") &&
+            !this.animator.GetCurrentAnimatorStateInfo(0).IsName("leftClimb"))
+        {
+            return true;
+        }
+        return false;
     }
 }
