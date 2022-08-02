@@ -7,6 +7,8 @@ TagManager:
   - Friends
   - Candy
   - Stick
+  - Teleporter11
+  - Teleporter12
   layers:
   - Default
   - TransparentFX

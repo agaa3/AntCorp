@@ -24,6 +24,9 @@ public class ant_movement : MonoBehaviour
 
     private bool m_FacingRight = true;
 
+    public Transform teleportingDestination;
+    public float distanceFromTeleport=0.5f; 
+
     private void Start()
     {
         topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
@@ -71,6 +74,7 @@ public class ant_movement : MonoBehaviour
         leftClimbOnWall();
         upToDownWallMoveRight();
         upToDownWallMoveLeft();
+        rightClimbFromWallToSurface();
     }
     
 
@@ -85,7 +89,19 @@ public class ant_movement : MonoBehaviour
 
 
 
+    void rightClimbFromWallToSurface()
+    {
+        float positionX = PlayerAnt.transform.position.x;
+        float positionY = PlayerAnt.transform.position.y;
+        if (isClimbing()&&!topAheadCheckPoint()&&rightCheck()&&Input.GetKey(KeyCode.R))
+        {
+            teleportPlayerAnt();
+            animator.SetInteger("wallClimbSide", 2137);
+            Physics2D.gravity = new Vector2(0, -9.81f);
 
+        }
+        
+    }    
 
     private bool isClimbing()
     {
@@ -351,5 +367,17 @@ public class ant_movement : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public void teleportPlayerAnt()
+    {
+        
+        Transform temp = GameObject.FindGameObjectWithTag("TELEPORTER11").GetComponent<Transform>();
+        Transform temp2 = GameObject.FindGameObjectWithTag("TELEPORTER12").GetComponent<Transform>();
+        if (Vector2.Distance(PlayerAnt.transform.position, temp.transform.position)>distanceFromTeleport);
+        {
+            PlayerAnt.transform.position = new Vector2(temp2.position.x, temp2.position.y);
+        }
+                
+
     }
 }
