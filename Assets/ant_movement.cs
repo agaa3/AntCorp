@@ -1,3 +1,9 @@
+// Przy budowaniu mapy nale¿y umiescic na ka¿dym rogu teleport , inacze findDestinationTeleport()/findStartTeleport() zwraca null i gierka sie wysypie
+//Sterowanie:
+//  E: wejœcie na œcianê
+//  R: wdrapanie sie na górê 
+//  F: oderwanie siê od œciany
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,6 +85,7 @@ public class ant_movement : MonoBehaviour
         upToDownWallMoveLeft();
         rightClimbFromWallToSurface();
         leftClimbFromWallToSurface();
+        detachFromWall();
     }
     
 
@@ -110,7 +117,7 @@ public class ant_movement : MonoBehaviour
     {
         float positionX = PlayerAnt.transform.position.x;
         float positionY = PlayerAnt.transform.position.y;
-        if (isClimbing() && !downAheadCheckPoint() && leftCheck() && Input.GetKey(KeyCode.R))
+        if (isClimbing() && !topBehindCheckPoint() && leftCheck() && Input.GetKey(KeyCode.R))
         {
             teleportPlayerAnt();
             Flip();
@@ -430,5 +437,17 @@ public class ant_movement : MonoBehaviour
         teleports[5] = GameObject.FindGameObjectWithTag("TELEPORTER_3_2").GetComponent<Transform>();
         teleports[6] = GameObject.FindGameObjectWithTag("TELEPORTER_4_1").GetComponent<Transform>();
         teleports[7] = GameObject.FindGameObjectWithTag("TELEPORTER_4_2").GetComponent<Transform>();
+    }
+
+    public void detachFromWall()
+    {
+        if(isClimbing())
+        {
+            if((leftCheck()||rightCheck())&&Input.GetKey(KeyCode.F))
+            {
+                Physics2D.gravity = new Vector2(0, -9.81f);
+                animator.SetInteger("wallClimbSide", 2137);
+            }
+        }
     }
 }
