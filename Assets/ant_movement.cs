@@ -24,8 +24,10 @@ public class ant_movement : MonoBehaviour
 
     private bool m_FacingRight = true;
 
-    public Transform teleportingDestination;
-    public float distanceFromTeleport=0.5f; 
+    public static int NUMBER_OF_TELEPORTS=8;
+    public static float distanceFromStartingTeleport = 0.5f;
+    public static float distanceFromDestinationTeleport = 1.9f;
+    private Transform[] teleports=new Transform[NUMBER_OF_TELEPORTS];
 
     private void Start()
     {
@@ -38,6 +40,7 @@ public class ant_movement : MonoBehaviour
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
         Physics2D.gravity = new Vector2(0, -9.81f);
+        setTeleportsInArray(teleports);
     }
 
 
@@ -75,6 +78,7 @@ public class ant_movement : MonoBehaviour
         upToDownWallMoveRight();
         upToDownWallMoveLeft();
         rightClimbFromWallToSurface();
+        leftClimbFromWallToSurface();
     }
     
 
@@ -98,10 +102,23 @@ public class ant_movement : MonoBehaviour
             teleportPlayerAnt();
             animator.SetInteger("wallClimbSide", 2137);
             Physics2D.gravity = new Vector2(0, -9.81f);
-
         }
         
-    }    
+    }
+
+    void leftClimbFromWallToSurface()
+    {
+        float positionX = PlayerAnt.transform.position.x;
+        float positionY = PlayerAnt.transform.position.y;
+        if (isClimbing() && !downAheadCheckPoint() && leftCheck() && Input.GetKey(KeyCode.R))
+        {
+            teleportPlayerAnt();
+            Flip();
+            animator.SetInteger("wallClimbSide", 2137);
+            Physics2D.gravity = new Vector2(0, -9.81f);
+        }
+
+    }
 
     private bool isClimbing()
     {
@@ -370,14 +387,48 @@ public class ant_movement : MonoBehaviour
     }
     public void teleportPlayerAnt()
     {
-        
-        Transform temp = GameObject.FindGameObjectWithTag("TELEPORTER11").GetComponent<Transform>();
-        Transform temp2 = GameObject.FindGameObjectWithTag("TELEPORTER12").GetComponent<Transform>();
-        if (Vector2.Distance(PlayerAnt.transform.position, temp.transform.position)>distanceFromTeleport);
-        {
-            PlayerAnt.transform.position = new Vector2(temp2.position.x, temp2.position.y);
-        }
-                
+            PlayerAnt.transform.position = new Vector2(findDestinationTeleport().position.x, findDestinationTeleport().position.y);
+    }
 
+    public Transform findStartTeleport()
+    {
+        for(int i=0;i<NUMBER_OF_TELEPORTS;i++)
+        {
+            if (Vector2.Distance(PlayerAnt.transform.position, teleports[i].position) <= distanceFromStartingTeleport)
+            {
+                Debug.Log("Start Teleport number: " + i);
+                return teleports[i];
+            }
+        }
+        return null;
+    }
+
+    public Transform findDestinationTeleport()
+    {
+        for (int i = 0; i < NUMBER_OF_TELEPORTS; i++)
+        {
+            float distanceBetweenAntAndTeleport = Vector2.Distance(PlayerAnt.transform.position, teleports[i].position);
+            float distanceBetweenAndAndStartingTeleport = Vector2.Distance(PlayerAnt.transform.position, findStartTeleport().transform.position);
+            if ((distanceBetweenAntAndTeleport <= distanceFromDestinationTeleport) && (distanceBetweenAntAndTeleport != distanceBetweenAndAndStartingTeleport)) 
+            {
+                Debug.Log("Distance: " + Vector2.Distance(PlayerAnt.transform.position, teleports[i].position));
+                Debug.Log("Teleport number: " + i);
+                return teleports[i];
+            }
+        }
+        return null;
+    }
+
+
+    public void setTeleportsInArray(Transform[] teleports)
+    {
+        teleports[0] = GameObject.FindGameObjectWithTag("TELEPORTER_1_1").GetComponent<Transform>();
+        teleports[1] = GameObject.FindGameObjectWithTag("TELEPORTER_1_2").GetComponent<Transform>();
+        teleports[2] = GameObject.FindGameObjectWithTag("TELEPORTER_2_1").GetComponent<Transform>();
+        teleports[3] = GameObject.FindGameObjectWithTag("TELEPORTER_2_2").GetComponent<Transform>();
+        teleports[4] = GameObject.FindGameObjectWithTag("TELEPORTER_3_1").GetComponent<Transform>();
+        teleports[5] = GameObject.FindGameObjectWithTag("TELEPORTER_3_2").GetComponent<Transform>();
+        teleports[6] = GameObject.FindGameObjectWithTag("TELEPORTER_4_1").GetComponent<Transform>();
+        teleports[7] = GameObject.FindGameObjectWithTag("TELEPORTER_4_2").GetComponent<Transform>();
     }
 }

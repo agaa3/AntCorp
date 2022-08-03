@@ -36,7 +36,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: wallClimbSide
-    m_EventTreshold: 0
+    m_EventTreshold: 2137
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7136240301263930022}
   m_Solo: 0
