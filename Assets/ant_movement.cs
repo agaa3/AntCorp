@@ -102,34 +102,28 @@ public class ant_movement : MonoBehaviour
 
     void rightClimbFromWallToSurface()
     {
-        float positionX = PlayerAnt.transform.position.x;
-        float positionY = PlayerAnt.transform.position.y;
         if (isClimbing()&&!topAheadCheckPoint()&&rightCheck()&&Input.GetKey(KeyCode.R))
         {
             teleportPlayerAnt();
             animator.SetInteger("wallClimbSide", 2137);
-            Physics2D.gravity = new Vector2(0, -9.81f);
-        }
-        
+            turnOnGravity();
+        }      
     }
 
     void leftClimbFromWallToSurface()
     {
-        float positionX = PlayerAnt.transform.position.x;
-        float positionY = PlayerAnt.transform.position.y;
         if (isClimbing() && !topBehindCheckPoint() && leftCheck() && Input.GetKey(KeyCode.R))
         {
             teleportPlayerAnt();
             Flip();
             animator.SetInteger("wallClimbSide", 2137);
-            Physics2D.gravity = new Vector2(0, -9.81f);
+            turnOnGravity();
         }
-
     }
 
     private bool isClimbing()
     {
-        if (Physics2D.gravity == new Vector2(0, 0))
+        if (PlayerAnt.gravityScale == 0)
             return true;
         else
             return false;
@@ -324,7 +318,7 @@ public class ant_movement : MonoBehaviour
         if (rightCheck() == true && Input.GetKey(KeyCode.E) && !isClimbing())
         {
             animator.SetInteger("wallClimbSide", 1);
-            zeroGravity();
+            turnOffGravity();
         }
     }
 
@@ -336,7 +330,7 @@ public class ant_movement : MonoBehaviour
             {
                 Flip();
                 animator.SetInteger("wallClimbSide", 2);
-                zeroGravity();
+                turnOffGravity();
             }
         }
     }
@@ -345,7 +339,7 @@ public class ant_movement : MonoBehaviour
     {
         if ((rightCheck() && isClimbing()))
         {
-            zeroGravity();
+            turnOffGravity();
             var wallMovement = Input.GetAxisRaw("Vertical");
             doNotClimbTooFarWhileUpToDownWallMoveRight(wallMovement);
             transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
@@ -371,16 +365,21 @@ public class ant_movement : MonoBehaviour
     {
         if ((leftCheck() && isClimbing()))
         {
-            zeroGravity();
+            turnOffGravity();
             var wallMovement = Input.GetAxisRaw("Vertical");
             doNotClimbTooFarWhileUpToDownWallMoveLeft(wallMovement);
             transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
         }
     }
 
-    private void zeroGravity()
+    private void turnOnGravity()
     {
-        Physics2D.gravity = new Vector2(0, 0);
+        PlayerAnt.gravityScale = 1;
+    }
+
+    private void turnOffGravity()
+    {
+        PlayerAnt.gravityScale = 0 ;
     }
 
     private bool couldAntMove()
@@ -445,7 +444,7 @@ public class ant_movement : MonoBehaviour
         {
             if((leftCheck()||rightCheck())&&Input.GetKey(KeyCode.F))
             {
-                Physics2D.gravity = new Vector2(0, -9.81f);
+                turnOnGravity();
                 animator.SetInteger("wallClimbSide", 2137);
             }
         }
