@@ -71,6 +71,7 @@ public class ant_movement : MonoBehaviour
             doNotBuggingOnLeftWall(movement);
             doNotBuggingOnRightWall(movement);
             doNotBuggingOnFloor(movement);
+            doNotFallDownFromPlatform(movement);
             flippingWhenAntIsOnTheFloor(movement);
         }
 
@@ -87,18 +88,6 @@ public class ant_movement : MonoBehaviour
         leftClimbFromWallToSurface();
         detachFromWall();
     }
-    
-
-
-
-
-
-    //                                                 
-    // bunch of some little functions bellow         \    /     \    /     \    /     \    /     \    /
-    //                                                \  /       \  /       \  /       \  /       \  /
-    //                                                 \/         \/         \/         \/         \/
-
-
 
     void rightClimbFromWallToSurface()
     {
@@ -157,6 +146,12 @@ public class ant_movement : MonoBehaviour
         {
             transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
         }
+    }
+
+    private void doNotFallDownFromPlatform(float movement)
+    {
+        if (!downAheadCheckPoint())
+            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
     }
 
     private void flippingWhenAntIsOnTheFloor(float movement)
