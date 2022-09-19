@@ -26,12 +26,12 @@ public class downBehindDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("DOWNLEWYPRAWDA");
+            Debug.Log("DOWN BEHIND: TRUE");
             return true;
         }
         else
         {
-            Debug.Log("DOWNLEWYFALSZ");
+            Debug.Log("DOWN BEHIND: FALSE");
             return false;
         }
     }

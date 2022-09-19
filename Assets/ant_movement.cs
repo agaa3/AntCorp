@@ -26,7 +26,7 @@ public class ant_movement : MonoBehaviour
     [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
 
     private float extraHeightText = 0.009f;
-    private float MovementSpeed = 2;
+    private float MovementSpeed = 3;
 
     private bool m_FacingRight = true;
 
@@ -71,7 +71,7 @@ public class ant_movement : MonoBehaviour
             doNotBuggingOnLeftWall(movement);
             doNotBuggingOnRightWall(movement);
             doNotBuggingOnFloor(movement);
-            doNotFallDownFromPlatform(movement);
+            //doNotFallDownFromPlatform(movement);
             flippingWhenAntIsOnTheFloor(movement);
         }
 
@@ -147,6 +147,7 @@ public class ant_movement : MonoBehaviour
             transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
         }
     }
+
 
     private void doNotFallDownFromPlatform(float movement)
     {

@@ -26,12 +26,12 @@ public class topBehindDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("TOPLEWYPRAWDA");
+            Debug.Log("TOP BEHIND : TRUE");
             return true;
         }
         else
         {
-            Debug.Log("TOPLEWYFALSZ");
+            Debug.Log("TOP BEHIND : FALSE");
             return false;
         }
     }

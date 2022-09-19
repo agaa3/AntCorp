@@ -26,12 +26,12 @@ public class downAheadDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("PRAWYDOLPRAWDA");
+            Debug.Log("DOWN AHEAD : TRUE");
             return true;
         }
         else
         {
-            Debug.Log("PRAWYDOLFALSZ");
+            Debug.Log("DOWN AHEAD : FALSE");
             return false;
         }
     }

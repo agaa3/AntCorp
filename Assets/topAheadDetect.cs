@@ -26,12 +26,12 @@ public class topAheadDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("topRightTrue");
+            Debug.Log("TOP AHEAD: TRUE");
             return true;
         }
         else
         {
-            Debug.Log("topRightFalse");
+            Debug.Log("TOP AHEAD: FALSE");
             return false;
         }
     }
