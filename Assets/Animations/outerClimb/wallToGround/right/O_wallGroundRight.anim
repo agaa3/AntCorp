@@ -28,7 +28,7 @@ AnimationClip:
     - time: 0.4
       value: {fileID: 21300000, guid: 02f0350bdb0aa094ab4879edf56ce32c, type: 3}
     - time: 0.6
-      value: {fileID: 21300000, guid: 076d4a3489f1ff942ba055e3380c7bbc, type: 3}
+      value: {fileID: 21300000, guid: 59d1860231ffa734a87926031dd80741, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -52,7 +52,7 @@ AnimationClip:
     - {fileID: 21300000, guid: 4bdd4ccb1ea22894fa242567af82882f, type: 3}
     - {fileID: 21300000, guid: f8e10bc6cee7bc6428e0bd354822cbf9, type: 3}
     - {fileID: 21300000, guid: 02f0350bdb0aa094ab4879edf56ce32c, type: 3}
-    - {fileID: 21300000, guid: 076d4a3489f1ff942ba055e3380c7bbc, type: 3}
+    - {fileID: 21300000, guid: 59d1860231ffa734a87926031dd80741, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -77,4 +77,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.5
+    functionName: teleportPlayerAnt
+    data: 
+    objectReferenceParameter: {fileID: 9100000, guid: 76bd4337804f15741be4a581ded03bb8, type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6
+    functionName: turnOnGravity
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

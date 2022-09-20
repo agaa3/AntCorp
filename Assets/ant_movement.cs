@@ -93,9 +93,9 @@ public class ant_movement : MonoBehaviour
     {
         if (isClimbing()&&!topAheadCheckPoint()&&rightCheck()&&Input.GetKey(KeyCode.R))
         {
-            teleportPlayerAnt();
+            //teleportPlayerAnt();
             animator.SetInteger("wallClimbSide", 2137);
-            turnOnGravity();
+            //turnOnGravity();
         }      
     }
 
@@ -103,10 +103,10 @@ public class ant_movement : MonoBehaviour
     {
         if (isClimbing() && !topBehindCheckPoint() && leftCheck() && Input.GetKey(KeyCode.R))
         {
-            teleportPlayerAnt();
-            Flip();
+            //teleportPlayerAnt();
+            //Flip();
             animator.SetInteger("wallClimbSide", 2137);
-            turnOnGravity();
+            //turnOnGravity();
         }
     }
 
@@ -441,7 +441,7 @@ public class ant_movement : MonoBehaviour
             if((leftCheck()||rightCheck())&&Input.GetKey(KeyCode.F))
             {
                 turnOnGravity();
-                animator.SetInteger("wallClimbSide", 2137);
+                animator.SetInteger("wallClimbSide", 1234);
             }
         }
     }
