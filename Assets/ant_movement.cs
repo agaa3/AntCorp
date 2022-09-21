@@ -71,7 +71,7 @@ public class ant_movement : MonoBehaviour
             doNotBuggingOnLeftWall(movement);
             doNotBuggingOnRightWall(movement);
             doNotBuggingOnFloor(movement);
-            //doNotFallDownFromPlatform(movement);
+            doNotFallDownFromPlatform(movement);
             flippingWhenAntIsOnTheFloor(movement);
         }
 
@@ -80,13 +80,18 @@ public class ant_movement : MonoBehaviour
     private void climb()
     {
         var movement = Input.GetAxisRaw("Horizontal");
+        var verticalMovement = Input.GetAxisRaw("Vertical");
+        goDownFromRightWallToFloor();
         rightClimbOnWall();
         leftClimbOnWall();
         upToDownWallMoveRight();
         upToDownWallMoveLeft();
         rightClimbFromWallToSurface();
         leftClimbFromWallToSurface();
+        doNotBuggingOnRightWallWhenAntGoingDown(movement);
         detachFromWall();
+        rightGoDown();
+        
     }
 
     void rightClimbFromWallToSurface()
@@ -99,6 +104,21 @@ public class ant_movement : MonoBehaviour
         }      
     }
 
+    private void goDownFromRightWallToFloor()
+    {
+        if (isClimbing() && downAheadCheckPoint() && Input.GetKey(KeyCode.E))
+        {
+            animator.SetInteger("wallClimbSide", 9999);
+        }
+    }
+
+    void rightGoDown()
+    {
+        if(!isClimbing() && !downAheadCheckPoint() && Input.GetKey(KeyCode.R))
+        {
+            animator.SetInteger("wallClimbSide", 1111);
+        }
+    }
     void leftClimbFromWallToSurface()
     {
         if (isClimbing() && !topBehindCheckPoint() && leftCheck() && Input.GetKey(KeyCode.R))
@@ -113,15 +133,29 @@ public class ant_movement : MonoBehaviour
     private bool isClimbing()
     {
         if (PlayerAnt.gravityScale == 0)
+        {
+            Debug.Log("is Climbing: TRUE");
             return true;
+        }
         else
-            return false;
+        {
+            Debug.Log("is Climbing: FALSE");
+                return false;
+        }
     }
 
     private void Flip()
     {
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
+    {
+        if(isClimbing() && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
+        {
+            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
+        }
     }
 
     private void doNotBuggingOnLeftWall(float movement)
@@ -220,10 +254,12 @@ public class ant_movement : MonoBehaviour
             (boxCollider2d.bounds.extents.y), rayColor);
         if (Toutch.collider != null)
         {
+            Debug.Log("RIGHT CHECK: TRUE");
             return true;
         }
         else
         {
+            Debug.Log("RIGHT CHECK: FALSE");
             return false;
         }
     }
@@ -309,11 +345,11 @@ public class ant_movement : MonoBehaviour
         }
     }
 
-    private void rightClimbOnWall()
+    private void rightClimbOnWall()//**************************************************************************************************************************************
     {
-        if (rightCheck() == true && Input.GetKey(KeyCode.E) && !isClimbing())
+        if (rightCheck() && Input.GetKey(KeyCode.E) && !isClimbing())
         {
-            animator.SetInteger("wallClimbSide", 1);
+            animator.SetInteger("wallClimbSide", 2323);
             turnOffGravity();
         }
     }
