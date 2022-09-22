@@ -36,7 +36,7 @@ public class ant_collecting : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Friends"))
         {
-            string message = "uderzaj klawisz " + other.gameObject.GetComponent<SmallAnt>().combo;
+            string message = "Hit " + other.gameObject.GetComponent<SmallAnt>().combo + " key. ";
             FriendsManager.instance.PopMessage(message);
             friend = other.gameObject;
 
