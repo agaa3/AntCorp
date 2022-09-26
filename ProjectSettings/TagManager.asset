@@ -17,6 +17,8 @@ TagManager:
   - TELEPORTER_3_2
   - TELEPORTER_4_1
   - TELEPORTER_4_2
+  - TELEPORTER_5_1
+  - TELEPORTER_5_2
   layers:
   - Default
   - TransparentFX
