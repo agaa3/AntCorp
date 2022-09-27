@@ -54,7 +54,7 @@ public class ant_movement : MonoBehaviour
 
     private bool m_FacingRight = true;
 
-    public static int NUMBER_OF_TELEPORTS_PAIRS = 5;
+    public static int NUMBER_OF_TELEPORTS_PAIRS = 6;
     public static float distanceFromStartingTeleport = 0.5f;
     public static float distanceFromDestinationTeleport = 1.65f;
     public List<teleports_pair> teleports = new List<teleports_pair>();
@@ -91,9 +91,7 @@ public class ant_movement : MonoBehaviour
         {
             var movement = Input.GetAxisRaw("Horizontal");
             transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-            doNotBuggingOnLeftWall(movement);
-            doNotBuggingOnRightWall(movement);
-            doNotBuggingOnFloor(movement);
+            doNotBuggingWhileWalking(movement);
             doNotFallDownFromPlatform(movement);
             flippingWhenAntIsOnTheFloor(movement);
         }
@@ -181,30 +179,12 @@ public class ant_movement : MonoBehaviour
         }
     }
 
-    private void doNotBuggingOnLeftWall(float movement)
+    private void doNotBuggingWhileWalking(float movement)
     {
-        if (leftCheck() == true && Input.GetKey(KeyCode.A))
-        {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
+        doNotBuggingOnLeftWall(movement);
+        doNotBuggingOnRightWall(movement);
+        doNotBuggingOnFloor(movement);
     }
-
-    private void doNotBuggingOnRightWall(float movement)
-    {
-        if (rightCheck() == true && Input.GetKey(KeyCode.D))
-        {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
-    }
-
-    private void doNotBuggingOnFloor(float movement)
-    {
-        if (downCheck() == true && Input.GetKey(KeyCode.S))
-        {
-            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
-        }
-    }
-
 
     private void doNotFallDownFromPlatform(float movement)
     {
@@ -495,6 +475,30 @@ public class ant_movement : MonoBehaviour
                 turnOnGravity();
                 animator.SetInteger("wallClimbSide", 1234);
             }
+        }
+    }
+
+    private void doNotBuggingOnLeftWall(float movement)
+    {
+        if (leftCheck() == true && Input.GetKey(KeyCode.A))
+        {
+            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
+        }
+    }
+
+    private void doNotBuggingOnRightWall(float movement)
+    {
+        if (rightCheck() == true && Input.GetKey(KeyCode.D))
+        {
+            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
+        }
+    }
+
+    private void doNotBuggingOnFloor(float movement)
+    {
+        if (downCheck() == true && Input.GetKey(KeyCode.S))
+        {
+            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
         }
     }
 }
