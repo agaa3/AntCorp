@@ -3,8 +3,8 @@
 //  E: wejœcie na œcianê
 //  R: wdrapanie sie na górê 
 //  F: oderwanie siê od œciany
-
-
+//TODO:
+//switch na pocz¹tku i koñcu animacji
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -102,6 +102,7 @@ public class ant_movement : MonoBehaviour
     {
         var movement = Input.GetAxisRaw("Horizontal");
         var verticalMovement = Input.GetAxisRaw("Vertical");
+        Debug.Log("aaaaaaaaa");
         goDownFromRightWallToFloor();
         rightClimbOnWall();
         leftClimbOnWall();
@@ -170,7 +171,7 @@ public class ant_movement : MonoBehaviour
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
-
+    
     private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
     {
         if(isClimbing() && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
@@ -300,10 +301,12 @@ public class ant_movement : MonoBehaviour
         Color rayColor;
         if (Toutch.collider != null)
         {
+            Debug.Log("UP CHECK : TRUE");
             rayColor = Color.green;
         }
         else
         {
+            Debug.Log("UP CHECK : FALSE");
             rayColor = Color.red;
         }
         Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.left *
@@ -327,10 +330,12 @@ public class ant_movement : MonoBehaviour
         Color rayColor;
         if (Toutch.collider != null)
         {
+            Debug.Log("DOWN CHECK : TRUE");
             rayColor = Color.green;
         }
         else
         {
+            Debug.Log("DOWN CHECK : FALSE");
             rayColor = Color.red;
         }
         Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.left *
