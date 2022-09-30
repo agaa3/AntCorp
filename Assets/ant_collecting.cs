@@ -19,7 +19,7 @@ public class ant_collecting : MonoBehaviour
         {
             Destroy(friend);
             FriendsManager.instance.messageBox.SetActive(false);
-            FriendsManager.instance.ChangeFriendsScore();
+            FriendsManager.instance.IncreaseFriendsScore();
             friend = null;
         }
     }
@@ -45,13 +45,13 @@ public class ant_collecting : MonoBehaviour
         if (other.gameObject.CompareTag("Candy"))
         {
             Destroy(other.gameObject);
-            ItemManager.instance.ChangeCandyNumber();
+            ItemManager.instance.IncreaseCandyNumber();
         }
         
         if (other.gameObject.CompareTag("Stick"))
         {
             Destroy(other.gameObject);
-            ItemManager.instance.ChangeStickNumber();
+            ItemManager.instance.IncreaseStickNumber();
         }
     }
 
