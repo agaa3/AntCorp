@@ -30,7 +30,7 @@ public class FriendsManager : MonoBehaviour
         numberOfFriendsImage.texture = allNumbers[friendsNumber];
     }
 
-    public void ChangeFriendsScore()
+    public void IncreaseFriendsScore()
     {
         friendsNumber += 1;
         numberOfFriendsImage.texture = allNumbers[friendsNumber];

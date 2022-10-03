@@ -24,14 +24,14 @@ public class ItemManager : MonoBehaviour
         numberOfSticksImage.texture = allNumbers[stickNumber];
     }
 
-    public void ChangeCandyNumber()
+    public void IncreaseCandyNumber()
     {
         candyNumber += 1;
         numberOfCandiesImage.texture = allNumbers[candyNumber];
         
     }
 
-    public void ChangeStickNumber()
+    public void IncreaseStickNumber()
     {
         stickNumber += 1;
         numberOfSticksImage.texture = allNumbers[stickNumber];

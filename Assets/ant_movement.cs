@@ -53,6 +53,7 @@ public class ant_movement : MonoBehaviour
     private float MovementSpeed = 3;
 
     private bool m_FacingRight = true;
+    private bool couldAntMove = true;
 
     public static int NUMBER_OF_TELEPORTS_PAIRS = 6;
     public static float distanceFromStartingTeleport = 0.5f;
@@ -75,7 +76,7 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        if (couldAntMove())
+        if (couldAntMove)
         {
             Move();
             climb();
@@ -114,6 +115,16 @@ public class ant_movement : MonoBehaviour
         detachFromWall();
         rightGoDown();
         
+    }
+
+    private void antCanMove()
+    {
+        couldAntMove = true;
+    }
+
+    private void antCantMove()
+    {
+        couldAntMove = false;
     }
 
     void rightClimbFromWallToSurface()
@@ -422,7 +433,7 @@ public class ant_movement : MonoBehaviour
         PlayerAnt.gravityScale = 0 ;
     }
 
-    private bool couldAntMove()
+    /*private bool couldAntMove()
     {
         if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("rightClimb") &&
             !this.animator.GetCurrentAnimatorStateInfo(0).IsName("leftClimb"))
@@ -430,7 +441,7 @@ public class ant_movement : MonoBehaviour
             return true;
         }
         return false;
-    }
+    }*/
     public void teleportPlayerAnt()
     {
         Transform teleportationPosition = findDestinationTeleport();
