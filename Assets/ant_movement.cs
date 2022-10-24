@@ -76,27 +76,30 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        if (couldAntMove)
-        {
-            Move();
-            climb();
-        }
+        Move();
     }
-
-
 
     private void Move()
     {
-
-        if (!isClimbing())
+        if (couldAntMove)
         {
+            if (isClimbing())
+                climb();
+            else
+                walk();
+        }
+    }
+
+    private void walk()
+    {
             var movement = Input.GetAxisRaw("Horizontal");
             transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
             doNotBuggingWhileWalking(movement);
             doNotFallDownFromPlatform(movement);
             flippingWhenAntIsOnTheFloor(movement);
-        }
-
+            rightClimbOnWall();
+            leftClimbOnWall();
+            rightGoDown();
     }
 
     private void climb()
@@ -105,16 +108,12 @@ public class ant_movement : MonoBehaviour
         var verticalMovement = Input.GetAxisRaw("Vertical");
         Debug.Log("aaaaaaaaa");
         goDownFromRightWallToFloor();
-        rightClimbOnWall();
-        leftClimbOnWall();
         upToDownWallMoveRight();
         upToDownWallMoveLeft();
         rightClimbFromWallToSurface();
         leftClimbFromWallToSurface();
         doNotBuggingOnRightWallWhenAntGoingDown(movement);
-        detachFromWall();
-        rightGoDown();
-        
+        detachFromWall();   
     }
 
     private void antCanMove()
