@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ItemManager : MonoBehaviour
+{
+    public static ItemManager instance;
+    int candyNumber = 0; //na razie, do testow 
+    int stickNumber = 0;
+    public RawImage numberOfCandiesImage;
+    public RawImage numberOfSticksImage;
+    public Texture[] allNumbers = new Texture[10];
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        numberOfCandiesImage.texture = allNumbers[candyNumber];
+        numberOfSticksImage.texture = allNumbers[stickNumber];
+    }
+
+    public void IncreaseCandyNumber()
+    {
+        candyNumber += 1;
+        numberOfCandiesImage.texture = allNumbers[candyNumber];
+        
+    }
+
+    public void IncreaseStickNumber()
+    {
+        stickNumber += 1;
+        numberOfSticksImage.texture = allNumbers[stickNumber];
+    }
+
+}

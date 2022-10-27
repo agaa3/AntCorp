@@ -7,9 +7,15 @@ public class SmallAnt : MonoBehaviour
     private Rigidbody2D rb;
     private bool facingRight = false;
     private Vector3 localScale;
-    public KeyCode[] combo;
-    private int currentIndex = 0;
+    public KeyCode combo;
     public bool comboDone = false;
+    public Animator animatorMud;
+    public Animator animatorAnt;
+
+    public float mashDelay = .5f;
+    public float mash;
+    bool pressed;
+    public float collides = 0;
 
     // Start is called before the first frame update
     private void Start()
@@ -18,21 +24,47 @@ public class SmallAnt : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         dirX = -1f;
         moveSpeed = 0.5f;
+        mash = 0f;
+        animatorMud.SetInteger("mash", 0);
+        animatorAnt.SetInteger("mash1", 0);
+
     }
 
     private void Update()
     {
-        if (currentIndex < combo.Length)
+        if (FriendsManager.instance.collides == true)
         {
-            if (Input.GetKeyDown(combo[currentIndex]))
+            collides = 1;
+            if(mash > 0f)
             {
-                currentIndex++;
+                mash -= 0.5f * Time.deltaTime;
+            }
+            if (Input.GetKeyDown(combo) && !pressed)
+            {
+                pressed = true;
+                mash += mashDelay;
+                animatorMud.SetInteger("mash", 1);
+                animatorAnt.SetInteger("mash1", 1);
+                moveSpeed = 0;  
+            } else if (Input.GetKeyUp(combo))
+            {
+                pressed = false;
+                animatorMud.SetInteger("mash", 2);
             }
         }
         else
         {
-            comboDone = true;
+            collides = 0;
+            mash = 0f;
+            animatorAnt.SetInteger("mash1", 0);
+            animatorMud.SetInteger("mash", 0);
+
+            moveSpeed = 0.5f;
         }
+        if (mash > 5)
+        {
+            comboDone = true;
+        }       
     }
 
 
@@ -42,6 +74,7 @@ public class SmallAnt : MonoBehaviour
         {
             dirX *= -1f;
         }
+
     }
 
     void FixedUpdate()
