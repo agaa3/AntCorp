@@ -38,11 +38,13 @@ public class ant_movement : MonoBehaviour
     public GameObject downAheadDetector;
     public GameObject topBehindDetector;
     public GameObject downBehindDetector;
+    public GameObject middleAheadDetector;
 
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
     topBehindDetect topBehindDetectScript;
     downBehindDetect downBehindDetectScript;
+    middleAheadDetect middleAheadDetectScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -66,12 +68,15 @@ public class ant_movement : MonoBehaviour
         downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
         topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
         downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
+        middleAheadDetectScript = middleAheadDetector.GetComponent<middleAheadDetect>();
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
         Physics2D.gravity = new Vector2(0, -9.81f);
         setTeleportsInArray();
+        PlayerAnt.gravityScale = 1;
+
     }
 
     private void Update()
@@ -221,6 +226,14 @@ public class ant_movement : MonoBehaviour
     private bool topAheadCheckPoint()
     {
         if (topAheadDetectScript.flag)
+            return true;
+        else
+            return false;
+    }
+
+    private bool middleAheadCheckPoint()
+    {
+        if (middleAheadDetectScript.flag)
             return true;
         else
             return false;
