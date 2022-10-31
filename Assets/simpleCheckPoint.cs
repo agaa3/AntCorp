@@ -14,7 +14,6 @@ public class simpleCheckPoint : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D other)
     {
         flag = true;
-        //return true;
     }
 
     public void OnTriggerExit2D(Collider2D collision)

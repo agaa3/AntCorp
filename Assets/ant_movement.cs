@@ -39,12 +39,14 @@ public class ant_movement : MonoBehaviour
     public GameObject topBehindDetector;
     public GameObject downBehindDetector;
     public GameObject middleAheadDetector;
+    public GameObject aheadCheck;
 
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
     topBehindDetect topBehindDetectScript;
     downBehindDetect downBehindDetectScript;
     middleAheadDetect middleAheadDetectScript;
+    aheadCheck aheadCheckScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -69,6 +71,7 @@ public class ant_movement : MonoBehaviour
         topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
         downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
         middleAheadDetectScript = middleAheadDetector.GetComponent<middleAheadDetect>();
+        aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -106,6 +109,7 @@ public class ant_movement : MonoBehaviour
             leftClimbOnWall();
             rightGoDown();
     }
+
 
     private void climb()
     {
@@ -265,6 +269,7 @@ public class ant_movement : MonoBehaviour
 
     private bool rightCheck()
     {
+        /*
         RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0, Vector2.right, extraHeightText, layerMask);
         Color rayColor;
         if (Toutch.collider != null)
@@ -288,7 +293,11 @@ public class ant_movement : MonoBehaviour
         {
             Debug.Log("RIGHT CHECK: FALSE");
             return false;
-        }
+        }*/
+        if (aheadCheckScript.isTouching())
+            return true;
+        else
+            return false;
     }
 
     private bool leftCheck()
