@@ -102,12 +102,12 @@ public class ant_movement : MonoBehaviour
     {
             var movement = Input.GetAxisRaw("Horizontal");
             transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-            doNotBuggingWhileWalking(movement);
-            doNotFallDownFromPlatform(movement);
+            
+            //doNotFallDownFromPlatform(movement);
             flippingWhenAntIsOnTheFloor(movement);
             rightClimbOnWall();
-            leftClimbOnWall();
-            rightGoDown();
+            //leftClimbOnWall();
+            //rightGoDown();
     }
 
 
@@ -116,13 +116,13 @@ public class ant_movement : MonoBehaviour
         var movement = Input.GetAxisRaw("Horizontal");
         var verticalMovement = Input.GetAxisRaw("Vertical");
         Debug.Log("aaaaaaaaa");
-        goDownFromRightWallToFloor();
+        //goDownFromRightWallToFloor();
         upToDownWallMoveRight();
-        upToDownWallMoveLeft();
+        //upToDownWallMoveLeft();
         rightClimbFromWallToSurface();
-        leftClimbFromWallToSurface();
-        doNotBuggingOnRightWallWhenAntGoingDown(movement);
-        detachFromWall();   
+        //leftClimbFromWallToSurface();
+        //doNotBuggingOnRightWallWhenAntGoingDown(movement);
+       // detachFromWall();   
     }
 
     private void antCanMove()
@@ -137,11 +137,10 @@ public class ant_movement : MonoBehaviour
 
     void rightClimbFromWallToSurface()
     {
-        if (isClimbing()&&!topAheadCheckPoint()&&rightCheck()&&Input.GetKey(KeyCode.R))
+        if (isClimbing()&&!topAheadCheckPoint()&&rightCheck())
+        if (isClimbing()&&!topAheadCheckPoint()&&rightCheck())
         {
-            //teleportPlayerAnt();
             animator.SetInteger("wallClimbSide", 2137);
-            //turnOnGravity();
         }      
     }
 
@@ -189,21 +188,6 @@ public class ant_movement : MonoBehaviour
     {
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
-    }
-    
-    private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
-    {
-        if(isClimbing() && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
-        {
-            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
-        }
-    }
-
-    private void doNotBuggingWhileWalking(float movement)
-    {
-        doNotBuggingOnLeftWall(movement);
-        doNotBuggingOnRightWall(movement);
-        doNotBuggingOnFloor(movement);
     }
 
     private void doNotFallDownFromPlatform(float movement)
@@ -269,31 +253,6 @@ public class ant_movement : MonoBehaviour
 
     private bool rightCheck()
     {
-        /*
-        RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0, Vector2.right, extraHeightText, layerMask);
-        Color rayColor;
-        if (Toutch.collider != null)
-        {
-            rayColor = Color.green;
-        }
-        else
-        {
-            rayColor = Color.red;
-        }
-        Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.down *
-            (boxCollider2d.bounds.extents.y), rayColor);
-        Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.up *
-            (boxCollider2d.bounds.extents.y), rayColor);
-        if (Toutch.collider != null)
-        {
-            Debug.Log("RIGHT CHECK: TRUE");
-            return true;
-        }
-        else
-        {
-            Debug.Log("RIGHT CHECK: FALSE");
-            return false;
-        }*/
         if (aheadCheckScript.isTouching())
             return true;
         else
@@ -387,9 +346,10 @@ public class ant_movement : MonoBehaviour
 
     private void rightClimbOnWall()//**************************************************************************************************************************************
     {
-        if (rightCheck() && Input.GetKey(KeyCode.E) && !isClimbing())
+        if (rightCheck() && !isClimbing())
         {
-            animator.SetInteger("wallClimbSide", 2323);
+            //animator.SetInteger("wallClimbSide", 2323);
+            transform.Rotate(0f, 0f, 90f);
             turnOffGravity();
         }
     }
@@ -409,7 +369,7 @@ public class ant_movement : MonoBehaviour
 
     private void upToDownWallMoveRight()
     {
-        if ((rightCheck() && isClimbing()))
+        if ((isClimbing()))
         {
             turnOffGravity();
             var wallMovement = Input.GetAxisRaw("Vertical");
@@ -454,15 +414,6 @@ public class ant_movement : MonoBehaviour
         PlayerAnt.gravityScale = 0 ;
     }
 
-    /*private bool couldAntMove()
-    {
-        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("rightClimb") &&
-            !this.animator.GetCurrentAnimatorStateInfo(0).IsName("leftClimb"))
-        {
-            return true;
-        }
-        return false;
-    }*/
     public void teleportPlayerAnt()
     {
         Transform teleportationPosition = findDestinationTeleport();
@@ -515,27 +466,4 @@ public class ant_movement : MonoBehaviour
         }
     }
 
-    private void doNotBuggingOnLeftWall(float movement)
-    {
-        if (leftCheck() == true && Input.GetKey(KeyCode.A))
-        {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
-    }
-
-    private void doNotBuggingOnRightWall(float movement)
-    {
-        if (rightCheck() == true && Input.GetKey(KeyCode.D))
-        {
-            transform.position -= new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        }
-    }
-
-    private void doNotBuggingOnFloor(float movement)
-    {
-        if (downCheck() == true && Input.GetKey(KeyCode.S))
-        {
-            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
-        }
-    }
 }
