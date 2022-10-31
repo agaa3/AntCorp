@@ -21,19 +21,19 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 936bd684857439b40818d69363612101, type: 3}
-    - time: 0.2
+    - time: 0.2857143
       value: {fileID: 21300000, guid: faac3278cbfbc33429c44733ff62cf01, type: 3}
-    - time: 0.3
+    - time: 0.42857143
       value: {fileID: 21300000, guid: ecd4c2e800da845469bdf02e6f4f29cb, type: 3}
-    - time: 0.4
+    - time: 0.5714286
       value: {fileID: 21300000, guid: f1ce9909625f2ca43bea1f3257bde7b5, type: 3}
-    - time: 0.6
-      value: {fileID: 21300000, guid: 958e03f63c6aaf640994fbd68e4c57c8, type: 3}
+    - time: 0.85714287
+      value: {fileID: 21300000, guid: 936bd684857439b40818d69363612101, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 10
+  m_SampleRate: 7
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -52,13 +52,13 @@ AnimationClip:
     - {fileID: 21300000, guid: faac3278cbfbc33429c44733ff62cf01, type: 3}
     - {fileID: 21300000, guid: ecd4c2e800da845469bdf02e6f4f29cb, type: 3}
     - {fileID: 21300000, guid: f1ce9909625f2ca43bea1f3257bde7b5, type: 3}
-    - {fileID: 21300000, guid: 958e03f63c6aaf640994fbd68e4c57c8, type: 3}
+    - {fileID: 21300000, guid: 936bd684857439b40818d69363612101, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.70000005
+    m_StopTime: 1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -85,22 +85,36 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.7
+  - time: 1
+    functionName: turnOnGravity
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
+    functionName: antCanMove
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
+    functionName: rotate_minus_90
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
     functionName: teleportPlayerAnt
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.7
-    functionName: turnOffGravity
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.7
-    functionName: antCanMove
+  - time: 1
+    functionName: antWalk
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

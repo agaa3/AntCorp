@@ -27364,7 +27364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.88317513, y: -7.646926, z: -10}
+  m_LocalPosition: {x: -1.1039116, y: -7.646926, z: -10}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98934,6 +98934,7 @@ MonoBehaviour:
   downBehindDetector: {fileID: 176644726}
   middleAheadDetector: {fileID: 933885535}
   aheadCheck: {fileID: 2116551513}
+  downCHeck: {fileID: 1471085092}
   animator: {fileID: 831651476}
   layerMask:
     serializedVersion: 2
@@ -100484,7 +100485,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.9837618, y: 1}
+    m_SensorSize: {x: 3.1635582, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -100501,7 +100502,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256733010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.88317513, y: -7.646926, z: -10}
+  m_LocalPosition: {x: -1.1039116, y: -7.646926, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -101003,10 +101004,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1471085092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d281e5c9e4a174f8bcdf640fffabc2, type: 3}
+  m_Script: {fileID: 11500000, guid: cfd64bb9582d67f479a3cb849d439878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flag: 0
+  flag: 1
   aheadCheck1: {fileID: 1841237766}
   aheadCheck2: {fileID: 1066338532}
   aheadCheck3: {fileID: 257894590}

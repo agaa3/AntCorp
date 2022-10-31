@@ -87,6 +87,10 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
+        if (couldAntMove)
+            Debug.Log("COULD ANT MOVE : TRUE");
+        else
+            Debug.Log("COULD ANT MOVE: FALSE");
         Move();
     }
 
@@ -113,6 +117,10 @@ public class ant_movement : MonoBehaviour
             //rightGoDown();
     }
 
+    public void antWalk()
+    {
+        animator.SetInteger("wallClimbSide", 2022);
+    }
 
     private void climb()
     {
@@ -190,6 +198,12 @@ public class ant_movement : MonoBehaviour
     {
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    private void rotate_minus_90()
+    {
+        m_FacingRight = !m_FacingRight;
+        transform.Rotate(0f, 0f, -90f);
     }
 
     private void doNotFallDownFromPlatform(float movement)
