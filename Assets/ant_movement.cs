@@ -40,6 +40,7 @@ public class ant_movement : MonoBehaviour
     public GameObject downBehindDetector;
     public GameObject middleAheadDetector;
     public GameObject aheadCheck;
+    public GameObject downCHeck;
 
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
@@ -47,6 +48,7 @@ public class ant_movement : MonoBehaviour
     downBehindDetect downBehindDetectScript;
     middleAheadDetect middleAheadDetectScript;
     aheadCheck aheadCheckScript;
+    downCheck downCheckScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -72,6 +74,7 @@ public class ant_movement : MonoBehaviour
         downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
         middleAheadDetectScript = middleAheadDetector.GetComponent<middleAheadDetect>();
         aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
+        downCheckScript = downCHeck.GetComponent<downCheck>();
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -137,8 +140,7 @@ public class ant_movement : MonoBehaviour
 
     void rightClimbFromWallToSurface()
     {
-        if (isClimbing()&&!topAheadCheckPoint()&&rightCheck())
-        if (isClimbing()&&!topAheadCheckPoint()&&rightCheck())
+        if (isClimbing()&&!downAheadCheckPoint())
         {
             animator.SetInteger("wallClimbSide", 2137);
         }      
@@ -315,26 +317,8 @@ public class ant_movement : MonoBehaviour
     }
 
     private bool downCheck()
-    {
-        RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, extraHeightText, layerMask);
-
-        Color rayColor;
-        if (Toutch.collider != null)
-        {
-            Debug.Log("DOWN CHECK : TRUE");
-            rayColor = Color.green;
-        }
-        else
-        {
-            Debug.Log("DOWN CHECK : FALSE");
-            rayColor = Color.red;
-        }
-        Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.left *
-            (boxCollider2d.bounds.extents.y), rayColor);
-        Debug.DrawRay(boxCollider2d.bounds.center - new Vector3(0, boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.right *
-            (boxCollider2d.bounds.extents.y), rayColor);
-
-        if (Toutch.collider != null)
+    { 
+        if (downCheckScript.isTouching())
         {
             return true;
         }
@@ -380,7 +364,7 @@ public class ant_movement : MonoBehaviour
 
     private void doNotClimbTooFarWhileUpToDownWallMoveRight(float wallMovement)
     {
-        if (!topAheadCheckPoint() && Input.GetKey(KeyCode.W))
+        if (!downAheadCheckPoint() && Input.GetKey(KeyCode.W))
         {
             transform.position -= new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
         }
