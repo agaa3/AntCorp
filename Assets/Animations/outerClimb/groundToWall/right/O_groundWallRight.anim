@@ -78,13 +78,6 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: antCantMove
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 1
     functionName: teleportPlayerAnt
     data: 
@@ -94,20 +87,6 @@ AnimationClip:
     messageOptions: 0
   - time: 1
     functionName: antWalk
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1
-    functionName: turnOnGravity
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1
-    functionName: antCanMove
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
