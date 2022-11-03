@@ -93,7 +93,7 @@ public class ant_movement : MonoBehaviour
             if (isClimbing())
                 MOVEMENT = Input.GetAxis("Vertical");
             else
-                MOVEMENT = Input.GetAxis("Hotizontal");
+                MOVEMENT = Input.GetAxis("Horizontal");
         }
     }
 
@@ -120,8 +120,7 @@ public class ant_movement : MonoBehaviour
 
     private void walk()
     {
-            var movement = Input.GetAxisRaw("Horizontal");
-            transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
+            transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
             
             //doNotFallDownFromPlatform(movement);
             //flippingWhenAntIsOnTheFloor(movement);
@@ -332,17 +331,16 @@ public class ant_movement : MonoBehaviour
         if ((isClimbing()))
         {
             turnOffGravity();
-            var wallMovement = Input.GetAxisRaw("Vertical");
-            doNotClimbTooFarWhileUpToDownWallMoveRight(wallMovement);
-            transform.position += new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            doNotClimbTooFarWhileUpToDownWallMoveRight();
+            transform.position += new Vector3(0, MOVEMENT, 0) * Time.deltaTime * MovementSpeed;
         }
     }
 
-    private void doNotClimbTooFarWhileUpToDownWallMoveRight(float wallMovement)
+    private void doNotClimbTooFarWhileUpToDownWallMoveRight()
     {
         if (!downAheadCheckPoint() && Input.GetKey(KeyCode.W))
         {
-            transform.position -= new Vector3(0, wallMovement, 0) * Time.deltaTime * MovementSpeed;
+            transform.position -= new Vector3(0, MOVEMENT, 0) * Time.deltaTime * MovementSpeed;
         }
     }
 
