@@ -53,6 +53,7 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
+
         if(couldAntMove)
         {
             if (isClimbing())
@@ -82,7 +83,6 @@ public class ant_movement : MonoBehaviour
                 walk();
         }
     }
-
     private void walk()
     {
             transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
@@ -306,6 +306,9 @@ public class ant_movement : MonoBehaviour
     {
         float x = transform.position.x;
         float y = transform.position.y;
-        transform.position = new Vector2(x + 1.32f, y + 1f);
+        if(m_FacingRight)
+            transform.position = new Vector2(x + 1.32f, y + 1f);
+        else
+            transform.position = new Vector2(x - 1.32f, y + 1f);
     }
 }
