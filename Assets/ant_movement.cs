@@ -53,11 +53,15 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-
         if(couldAntMove)
         {
             if (isClimbing())
-                MOVEMENT = Input.GetAxis("Vertical");
+            {
+                if (m_FacingRight)
+                    MOVEMENT = Input.GetAxis("Vertical");
+                else
+                    MOVEMENT = Input.GetAxis("ReverseVertical");
+            }
             else
                 MOVEMENT = Input.GetAxis("Horizontal");
         }
@@ -161,6 +165,11 @@ public class ant_movement : MonoBehaviour
     private void rotate_minus_90()
     {
         transform.Rotate(0f, 0f, -90f);
+    }
+
+    private void rotate_plus_90()
+    {
+        transform.Rotate(0f, 0f, 90f);
     }
 
     private void doNotFallDownFromPlatform()
@@ -278,9 +287,15 @@ public class ant_movement : MonoBehaviour
     {
         if (rightCheck() && !isClimbing())
         {
-            transform.Rotate(0f, 0f, 90f);
+            antCantMove();
+            animator.SetInteger("wallClimbSide", 1);
             turnOffGravity();
         }
+    }
+
+    private void idleAnimation()
+    {
+        animator.SetInteger("wallClimbSide", 6969);
     }
 
     private void upToDownWallMoveRight()
