@@ -31,7 +31,7 @@ public class ant_movement : MonoBehaviour
     private bool m_FacingRight = true;
     private bool couldAntMove = true;
     private bool isAntClimbing = false;
-    [SerializeField] private bool readyForNextAction = false;
+    [SerializeField] private bool isAntReadyForNextAction = false;
 
     float MOVEMENT;
 
@@ -57,7 +57,7 @@ public class ant_movement : MonoBehaviour
     {
         if(couldAntMove)
         {
-            Debug.Log("ready: " + readyForNextAction);
+            Debug.Log("ready: " + isAntReadyForNextAction);
             if (isAntClimbing)
             {
                 if (m_FacingRight)
@@ -96,17 +96,17 @@ public class ant_movement : MonoBehaviour
             
             flippingWhenAntIsOnTheFloor();
             rightClimbOnWall();
-            doNotFallDownFromPlatform();
+            goDownFromFloorToWall();
     }
 
-    private void ready()
+    private void readyForNextAction()
     {
-        readyForNextAction = true;
+        isAntReadyForNextAction = true;
     }
 
-    private void notready()
+    private void notReadyForNextAction()
     {
-        readyForNextAction = true;
+        isAntReadyForNextAction = false;
     }
 
 
@@ -126,6 +126,7 @@ public class ant_movement : MonoBehaviour
     {
         upToDownWallMoveRight();
         rightClimbFromWallToSurface();
+        //goDownFromRightWallToFloor();
     }
 
     private void antCanMove()
@@ -140,8 +141,10 @@ public class ant_movement : MonoBehaviour
 
     void rightClimbFromWallToSurface()
     {
-        if (isAntClimbing &&!downAheadCheckPoint()&&readyForNextAction)
+        if (isAntClimbing &&!downAheadCheckPoint()&&isAntReadyForNextAction)
         {
+            Debug.Log("przechuj!");
+            notReadyForNextAction();
             antCantMove();
             animator.SetInteger("wallClimbSide", 2137);
         }      
@@ -149,9 +152,10 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromRightWallToFloor()
     {
-        if (isAntClimbing && downAheadCheckPoint() && Input.GetKey(KeyCode.E))
+        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint())
         {
-            animator.SetInteger("wallClimbSide", 9999);
+            antCantMove();
+            animator.SetInteger("wallClimbSide", 3);
         }
     }
 
@@ -159,6 +163,7 @@ public class ant_movement : MonoBehaviour
     {
         if(!isAntClimbing && !downAheadCheckPoint() && Input.GetKey(KeyCode.R))
         {
+            
             animator.SetInteger("wallClimbSide", 1111);
         }
     }
@@ -193,12 +198,13 @@ public class ant_movement : MonoBehaviour
         transform.Rotate(0f, 0f, 90f);
     }
 
-    private void doNotFallDownFromPlatform()
+    private void goDownFromFloorToWall()
     {
-        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && readyForNextAction)
+        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && isAntReadyForNextAction)
         {
             turnOffGravity();
             antCantMove();
+            notReadyForNextAction();
             animator.SetInteger("wallClimbSide", 2);
         }
             //transform.position -= new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
