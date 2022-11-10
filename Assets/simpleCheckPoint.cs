@@ -25,12 +25,10 @@ public class simpleCheckPoint : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("DOWN AHEAD : TRUE");
             return true;
         }
         else
         {
-            Debug.Log("DOWN AHEAD : FALSE");
             return false;
         }
     }
