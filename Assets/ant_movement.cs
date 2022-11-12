@@ -126,7 +126,7 @@ public class ant_movement : MonoBehaviour
     {
         upToDownWallMoveRight();
         rightClimbFromWallToSurface();
-        //goDownFromRightWallToFloor();
+        goDownFromRightWallToFloor();
     }
 
     private void antCanMove()
@@ -152,9 +152,10 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromRightWallToFloor()
     {
-        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint())
+        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntReadyForNextAction)
         {
             antCantMove();
+            notReadyForNextAction();
             animator.SetInteger("wallClimbSide", 3);
         }
     }
@@ -202,8 +203,8 @@ public class ant_movement : MonoBehaviour
     {
         if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && isAntReadyForNextAction)
         {
-            turnOffGravity();
             antCantMove();
+            turnOffGravity();
             notReadyForNextAction();
             animator.SetInteger("wallClimbSide", 2);
         }
@@ -317,8 +318,9 @@ public class ant_movement : MonoBehaviour
 
     private void rightClimbOnWall()
     {
-        if (rightCheck() && !isAntClimbing)
+        if (rightCheck() && !isAntClimbing && isAntReadyForNextAction)
         {
+            notReadyForNextAction();
             antCantMove();
             animator.SetInteger("wallClimbSide", 1);
             turnOffGravity();
