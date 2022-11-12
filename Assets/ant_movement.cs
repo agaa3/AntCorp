@@ -73,10 +73,6 @@ public class ant_movement : MonoBehaviour
     private void FixedUpdate()
     {
         isClimbing();
-        if (couldAntMove)
-            Debug.Log("COULD ANT MOVE : TRUE");
-        else
-            Debug.Log("COULD ANT MOVE: FALSE");
         Move();
     }
 
@@ -95,7 +91,7 @@ public class ant_movement : MonoBehaviour
             transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
             
             flippingWhenAntIsOnTheFloor();
-            rightClimbOnWall();
+            climbOnWall();
             goDownFromFloorToWall();
     }
 
@@ -125,8 +121,8 @@ public class ant_movement : MonoBehaviour
     private void climb()
     {
         upToDownWallMoveRight();
-        rightClimbFromWallToSurface();
-        goDownFromRightWallToFloor();
+        climbFromWallToSurface();
+        goDownFromtWallToFloor();
     }
 
     private void antCanMove()
@@ -139,7 +135,7 @@ public class ant_movement : MonoBehaviour
         couldAntMove = false;
     }
 
-    void rightClimbFromWallToSurface()
+    void climbFromWallToSurface()
     {
         if (isAntClimbing &&!downAheadCheckPoint()&&isAntReadyForNextAction)
         {
@@ -150,22 +146,13 @@ public class ant_movement : MonoBehaviour
         }      
     }
 
-    private void goDownFromRightWallToFloor()
+    private void goDownFromtWallToFloor()
     {
         if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntReadyForNextAction)
         {
             antCantMove();
             notReadyForNextAction();
             animator.SetInteger("wallClimbSide", 3);
-        }
-    }
-
-    void rightGoDown()
-    {
-        if(!isAntClimbing && !downAheadCheckPoint() && Input.GetKey(KeyCode.R))
-        {
-            
-            animator.SetInteger("wallClimbSide", 1111);
         }
     }
 
@@ -201,14 +188,13 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromFloorToWall()
     {
-        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && isAntReadyForNextAction)
+        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && isAntReadyForNextAction && !rightCheck())
         {
             antCantMove();
             turnOffGravity();
             notReadyForNextAction();
             animator.SetInteger("wallClimbSide", 2);
         }
-            //transform.position -= new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
     }
 
     private void flippingWhenAntIsOnTheFloor()
@@ -279,21 +265,6 @@ public class ant_movement : MonoBehaviour
     {
         RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.up, extraHeightText, layerMask);
 
-        Color rayColor;
-        if (Toutch.collider != null)
-        {
-            Debug.Log("UP CHECK : TRUE");
-            rayColor = Color.green;
-        }
-        else
-        {
-            Debug.Log("UP CHECK : FALSE");
-            rayColor = Color.red;
-        }
-        Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.left *
-            (boxCollider2d.bounds.extents.y), rayColor);
-        Debug.DrawRay(boxCollider2d.bounds.center + new Vector3(0, boxCollider2d.bounds.extents.x + extraHeightText, 0), Vector2.right *
-            (boxCollider2d.bounds.extents.y), rayColor);
         if (Toutch.collider != null)
         {
             return true;
@@ -316,7 +287,7 @@ public class ant_movement : MonoBehaviour
         }
     }
 
-    private void rightClimbOnWall()
+    private void climbOnWall()
     {
         if (rightCheck() && !isAntClimbing && isAntReadyForNextAction)
         {
