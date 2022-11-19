@@ -64,19 +64,25 @@ public class ant_movement : MonoBehaviour
             {
                 if (m_FacingRight && !isAntGoingDown())
                 {
+                    Debug.Log("ACTUAL MOVEMENT: Vertical");
                     MOVEMENT = Input.GetAxis("Vertical");
                 }
-                else if(!m_FacingRight && isAntGoingDown())
+                else if (!m_FacingRight && isAntGoingDown())
                 {
+                    Debug.Log("ACTUAL MOVEMENT: Vertical");
                     MOVEMENT = Input.GetAxis("Vertical");
                 }
-                else 
+                else
                 {
+                    Debug.Log("ACTUAL MOVEMENT: ReverseVertical");
                     MOVEMENT = Input.GetAxis("ReverseVertical");
                 }
             }
             else
+            {
                 MOVEMENT = Input.GetAxis("Horizontal");
+                Debug.Log("ACTUAL MOVEMENT: Horizontal");
+            }
         }
     }
 
@@ -133,6 +139,7 @@ public class ant_movement : MonoBehaviour
         upToDownWallMoveRight();
         climbFromWallToSurface();
         goDownFromtWallToFloor();
+        climbOnCeiling();
     }
 
     private void antCanMove()
@@ -158,7 +165,7 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromtWallToFloor()
     {
-        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntReadyForNextAction)
+        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown() && isAntReadyForNextAction)
         {
             antCantMove();
             notReadyForNextAction();
@@ -305,6 +312,16 @@ public class ant_movement : MonoBehaviour
             antCantMove();
             animator.SetInteger("wallClimbSide", 1);
             turnOffGravity();
+        }
+    }
+
+    private void climbOnCeiling()
+    {
+        if (rightCheck() && !isAntGoingDown() && isAntClimbing && isAntReadyForNextAction)
+        {
+            notReadyForNextAction();
+            antCantMove();
+            animator.SetInteger("wallClimbSide", 5);
         }
     }
 
