@@ -98665,6 +98665,7 @@ MonoBehaviour:
   middleAheadDetector: {fileID: 933885535}
   aheadCheck: {fileID: 2116551513}
   downCHeck: {fileID: 1471085092}
+  goingDownCheck: {fileID: 1198697199}
   animator: {fileID: 831651476}
   layerMask:
     serializedVersion: 2
@@ -100150,6 +100151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8ba8d41f195744baa71bc7d92c095d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  check1: {fileID: 1400272357}
+  check2: {fileID: 1263085599}
 --- !u!1 &1214389023
 GameObject:
   m_ObjectHideFlags: 0

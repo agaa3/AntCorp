@@ -58,21 +58,21 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("aaaaaaaaaaaaaaaaaaa" + isAntGoingDown());
         if(couldAntMove)
         {
-            Debug.Log("ready: " + m_FacingRight);
             if (isAntClimbing)
             {
-                if (m_FacingRight)
+                if (m_FacingRight && !isAntGoingDown())
                 {
                     MOVEMENT = Input.GetAxis("Vertical");
-                    Debug.Log("ready: Vertical ");
                 }
-                else
+                else if(!m_FacingRight && isAntGoingDown())
+                {
+                    MOVEMENT = Input.GetAxis("Vertical");
+                }
+                else 
                 {
                     MOVEMENT = Input.GetAxis("ReverseVertical");
-                    Debug.Log("ready: REVERSE_verticcal ");
                 }
             }
             else
