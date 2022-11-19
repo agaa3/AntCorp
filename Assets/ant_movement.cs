@@ -11,6 +11,7 @@ public class ant_movement : MonoBehaviour
     public GameObject middleAheadDetector;
     public GameObject aheadCheck;
     public GameObject downCHeck;
+    public GameObject goingDownCheck;
 
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
@@ -19,6 +20,7 @@ public class ant_movement : MonoBehaviour
     middleAheadDetect middleAheadDetectScript;
     aheadCheck aheadCheckScript;
     downCheck downCheckScript;
+    goingDownCheck goingDownDetectScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -45,6 +47,7 @@ public class ant_movement : MonoBehaviour
         middleAheadDetectScript = middleAheadDetector.GetComponent<middleAheadDetect>();
         aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
         downCheckScript = downCHeck.GetComponent<downCheck>();
+        goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -55,15 +58,22 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("aaaaaaaaaaaaaaaaaaa" + isAntGoingDown());
         if(couldAntMove)
         {
-            Debug.Log("ready: " + isAntReadyForNextAction);
+            Debug.Log("ready: " + m_FacingRight);
             if (isAntClimbing)
             {
                 if (m_FacingRight)
+                {
                     MOVEMENT = Input.GetAxis("Vertical");
+                    Debug.Log("ready: Vertical ");
+                }
                 else
+                {
                     MOVEMENT = Input.GetAxis("ReverseVertical");
+                    Debug.Log("ready: REVERSE_verticcal ");
+                }
             }
             else
                 MOVEMENT = Input.GetAxis("Horizontal");
@@ -340,5 +350,10 @@ public class ant_movement : MonoBehaviour
             transform.position = new Vector2(x + 1f, y - 1f);
         else
             transform.position = new Vector2(x - 1f, y - 1f);
+    }
+
+    public bool isAntGoingDown()
+    {
+        return goingDownDetectScript.isAntGoingDown();
     }
 }
