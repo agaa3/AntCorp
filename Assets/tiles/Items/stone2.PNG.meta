@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b44f262792111be4894b2e74e4df909c
+guid: 43bf68d5057498e4481792ab47ed7888
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -51,7 +52,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: 1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -103,20 +104,26 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline:
-    - - {x: 3, y: -2}
-      - {x: -1, y: -1}
-      - {x: -8, y: -1}
-      - {x: -11, y: -2}
-      - {x: -13, y: -4}
-      - {x: -13, y: -14}
+    - - {x: 12, y: 2}
+      - {x: 8, y: 3}
+      - {x: 6, y: 5}
+      - {x: 1, y: 6}
+      - {x: -2, y: 7}
+      - {x: -5, y: 7}
+      - {x: -12, y: 6}
+      - {x: -15, y: 3}
+      - {x: -16, y: 0}
+      - {x: -16, y: -12}
+      - {x: -14, y: -14}
       - {x: -12, y: -15}
       - {x: -10, y: -16}
-      - {x: 6, y: -16}
-      - {x: 8, y: -15}
-      - {x: 10, y: -13}
-      - {x: 10, y: -6}
-      - {x: 9, y: -4}
-      - {x: 8, y: -3}
+      - {x: 7, y: -16}
+      - {x: 12, y: -15}
+      - {x: 14, y: -14}
+      - {x: 16, y: -12}
+      - {x: 16, y: -2}
+      - {x: 15, y: 0}
+      - {x: 14, y: 1}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -126,6 +133,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e9faff7590075f440bc4dee76c1aaaee
+guid: c564e8efb2e93c94db8251842eeffe86
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -103,24 +104,30 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline:
-    - - {x: -16, y: -12}
+    - - {x: 5, y: 7}
+      - {x: -5, y: 6}
+      - {x: -10, y: 5}
+      - {x: -11, y: 4}
+      - {x: -13, y: 1}
+      - {x: -14, y: 0}
+      - {x: -15, y: -3}
+      - {x: -16, y: -8}
+      - {x: -16, y: -12}
       - {x: -13, y: -15}
-      - {x: -11, y: -16}
-      - {x: 7, y: -16}
-      - {x: 15, y: -15}
-      - {x: 16, y: -14}
-      - {x: 16, y: -9}
-      - {x: 10, y: -3}
-      - {x: 9, y: 1}
-      - {x: 4, y: 6}
-      - {x: 0, y: 6}
-      - {x: -2, y: 4}
-      - {x: -9, y: 4}
-      - {x: -10, y: 3}
-      - {x: -11, y: 1}
-      - {x: -12, y: 0}
-      - {x: -14, y: -1}
-      - {x: -16, y: -3}
+      - {x: -8.883965, y: -16}
+      - {x: 6, y: -16}
+      - {x: 8, y: -15}
+      - {x: 10, y: -14}
+      - {x: 13, y: -12}
+      - {x: 14, y: -11}
+      - {x: 15, y: -9}
+      - {x: 16, y: -7}
+      - {x: 16, y: -2}
+      - {x: 15, y: 1}
+      - {x: 14, y: 3}
+      - {x: 13, y: 5}
+      - {x: 12, y: 6}
+      - {x: 11, y: 7}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -130,6 +137,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

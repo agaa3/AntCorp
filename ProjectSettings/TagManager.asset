@@ -21,6 +21,7 @@ TagManager:
   - TELEPORTER_5_2
   - TELEPORTER_6_1
   - TELEPORTER_6_2
+  - Stone
   layers:
   - Default
   - TransparentFX
@@ -29,8 +30,8 @@ TagManager:
   - Water
   - UI
   - ground
-  - 
-  - 
+  - Pickable
+  - Ant
   - 
   - 
   - 
