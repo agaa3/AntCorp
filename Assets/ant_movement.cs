@@ -156,7 +156,7 @@ public class ant_movement : MonoBehaviour
     {
         if (isAntClimbing &&!downAheadCheckPoint()&&isAntReadyForNextAction)
         {
-            Debug.Log("przechuj!");
+            Debug.Log("notReady");
             notReadyForNextAction();
             antCantMove();
             animator.SetInteger("wallClimbSide", 2137);
