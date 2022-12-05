@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ant_movement : MonoBehaviour
-{
+{// naprawic ustawienia imputu do usera!!!!!!!!!!!!!!!!!!!
     public GameObject topAheadDetector;
     public GameObject downAheadDetector;
     public GameObject topBehindDetector;
@@ -59,26 +59,30 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("test pierdolony" + m_FacingRight);
         if(couldAntMove)
         {
             if (isAntClimbing)
             {
-                if (m_FacingRight && !isAntGoingDown())
+                if (!isCeilingWalk)
                 {
-                    Debug.Log("ACTUAL MOVEMENT: Vertical");
-                    MOVEMENT = Input.GetAxis("Vertical");
-                }
-                else if (!m_FacingRight && isAntGoingDown())
-                {
-                    Debug.Log("ACTUAL MOVEMENT: Vertical");
-                    MOVEMENT = Input.GetAxis("Vertical");
+                    if (m_FacingRight && !isAntGoingDown())
+                    {
+                        Debug.Log("ACTUAL MOVEMENT: Vertical");
+                        MOVEMENT = Input.GetAxis("Vertical");
+                    }
+                    else if (!m_FacingRight && isAntGoingDown())
+                    {
+                        Debug.Log("ACTUAL MOVEMENT: Vertical");
+                        MOVEMENT = Input.GetAxis("Vertical");
+                    }
+                    else
+                    {
+                        Debug.Log("ACTUAL MOVEMENT: ReverseVertical");
+                        MOVEMENT = Input.GetAxis("ReverseVertical");
+                    }
                 }
                 else
-                {
-                    Debug.Log("ACTUAL MOVEMENT: ReverseVertical");
-                    MOVEMENT = Input.GetAxis("ReverseVertical");
-                }
+                    MOVEMENT = Input.GetAxis("Horizontal");
             }
             else
             {
@@ -113,7 +117,7 @@ public class ant_movement : MonoBehaviour
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
         climbFromCeilingToWall();
         goDownFromCeilingToWall();
-        //flippingWhenAntIsOnTheCeiling();
+        flippingWhenAntIsOnTheCeiling();
         
     }
 
@@ -179,6 +183,7 @@ public class ant_movement : MonoBehaviour
         goDownFromtWallToFloor();
         climbOnCeiling();
         climbFromWallToCeilingWhileAntIsClimbingDown();
+        flippingWhenAntIsOnTheWall();
     }
 
     private void antCanMove()
@@ -263,6 +268,23 @@ public class ant_movement : MonoBehaviour
         }
     }
 
+    private void flippingWhenAntIsOnTheWall()// tutaj naprawic cos
+
+    {
+        if (isAntClimbing)
+        {
+            Debug.Log("MOVEMENT VALUE:" + MOVEMENT);
+                if (MOVEMENT < 0 && !m_FacingRight)
+                {
+                    Flip();
+                }
+                else if (MOVEMENT > 0 && m_FacingRight)
+                {
+                    Flip();
+                }        
+        }
+    }
+
     private void flippingWhenAntIsOnTheFloor()
     {
         if (!isAntClimbing)
@@ -281,11 +303,11 @@ public class ant_movement : MonoBehaviour
     private void flippingWhenAntIsOnTheCeiling()
     {
 
-            if (MOVEMENT > 0 && !m_FacingRight)
+            if (MOVEMENT < 0 && !m_FacingRight)
             {
                 Flip();
             }
-            else if (MOVEMENT < 0 && m_FacingRight)
+            else if (MOVEMENT > 0 && m_FacingRight)
             {
                 Flip();
             }
