@@ -30,10 +30,10 @@ public class ant_movement : MonoBehaviour
     private float extraHeightText = 0.009f;
     private float MovementSpeed = 3;
 
-    private bool m_FacingRight = true;
-    private bool couldAntMove = true;
-    private bool isAntClimbing = false;
-    private bool isCeilingWalk = false;
+    public bool m_FacingRight = true;
+    public bool couldAntMove = true;
+    public bool isAntClimbing = false;
+    public bool isCeilingWalk = false;
     [SerializeField] private bool isAntReadyForNextAction = false;
 
     float MOVEMENT;
@@ -59,7 +59,7 @@ public class ant_movement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("test pierdolony" + isCeilingWalk);
+        Debug.Log("test pierdolony" + m_FacingRight);
         if(couldAntMove)
         {
             if (isAntClimbing)
@@ -113,6 +113,7 @@ public class ant_movement : MonoBehaviour
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
         climbFromCeilingToWall();
         goDownFromCeilingToWall();
+        //flippingWhenAntIsOnTheCeiling();
         
     }
 
@@ -122,7 +123,7 @@ public class ant_movement : MonoBehaviour
         {
             notReadyForNextAction();
             antCantMove();
-            animator.SetInteger("wallClimbSide", 5);
+            animator.SetInteger("wallClimbSide", 21);
             turnOffCeilingWalk();
         }
     }
@@ -177,6 +178,7 @@ public class ant_movement : MonoBehaviour
         climbFromWallToSurface();
         goDownFromtWallToFloor();
         climbOnCeiling();
+        climbFromWallToCeilingWhileAntIsClimbingDown();
     }
 
     private void antCanMove()
@@ -200,6 +202,16 @@ public class ant_movement : MonoBehaviour
         }      
     }
 
+    void climbFromWallToCeilingWhileAntIsClimbingDown()
+    {
+        if (isAntClimbing && !downAheadCheckPoint() && isAntReadyForNextAction && isAntGoingDown())
+        {
+            turnOnCeilingWalk();
+            notReadyForNextAction();
+            antCantMove();
+            animator.SetInteger("wallClimbSide", 20);
+        }
+    }
     private void goDownFromtWallToFloor()
     {
         if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown() && isAntReadyForNextAction)
@@ -264,6 +276,19 @@ public class ant_movement : MonoBehaviour
                 Flip();
             }
         }
+    }
+
+    private void flippingWhenAntIsOnTheCeiling()
+    {
+
+            if (MOVEMENT > 0 && !m_FacingRight)
+            {
+                Flip();
+            }
+            else if (MOVEMENT < 0 && m_FacingRight)
+            {
+                Flip();
+            }
     }
 
     private bool topAheadCheckPoint()
@@ -421,6 +446,16 @@ public class ant_movement : MonoBehaviour
             transform.position = new Vector2(x - 1f, y + 1f);
         else
             transform.position = new Vector2(x + 1f, y + 1f);
+    }
+
+    public void teleportPlayerAnWhileClimbingFromWallToCeiling()
+    {
+        float x = transform.position.x;
+        float y = transform.position.y;
+        if (m_FacingRight)
+            transform.position = new Vector2(x - 1f, y - 1f);
+        else
+            transform.position = new Vector2(x + 1f, y - 1f);
     }
 
     public void turnOnCeilingWalk()

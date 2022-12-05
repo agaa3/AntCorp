@@ -6,7 +6,7 @@ public class downAheadDetect : MonoBehaviour
 {
     public bool flag = false;
 
-    public void Update()
+    public void FixedUpdate()
     {
         isTouching();
     }
