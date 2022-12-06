@@ -23,6 +23,7 @@ TagManager:
   - TELEPORTER_6_2
   - Stone
   - climbing_walls
+  - wallForSmallAnts
   layers:
   - Default
   - TransparentFX
