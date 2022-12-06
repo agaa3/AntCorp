@@ -9,12 +9,17 @@ public class ant_movement : MonoBehaviour
     public GameObject topBehindDetector;
     public GameObject downBehindDetector;
     public GameObject middleAheadDetector;
-
+    public GameObject aheadCheck;
+    public GameObject downCHeck;
+    public GameObject goingDownCheck;
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
     topBehindDetect topBehindDetectScript;
     downBehindDetect downBehindDetectScript;
     middleAheadDetect middleAheadDetectScript;
+    aheadCheck aheadCheckScript;
+    downCheck downCheckScript;
+    goingDownCheck goingDownDetectScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -34,12 +39,16 @@ public class ant_movement : MonoBehaviour
 
 
     private void Start()
-    { 
+    {
         topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
         downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
         topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
         downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
         middleAheadDetectScript = middleAheadDetector.GetComponent<middleAheadDetect>();
+        aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
+        downCheckScript = downCHeck.GetComponent<downCheck>();
+        goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
+
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -240,7 +249,7 @@ public class ant_movement : MonoBehaviour
     
     private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
     {
-        if(isClimbing() && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
+        if(isAntClimbing && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
         {
             transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
         }
