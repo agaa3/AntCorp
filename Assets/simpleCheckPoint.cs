@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class downAheadDetect : MonoBehaviour
+public class simpleCheckPoint : MonoBehaviour
 {
     public bool flag = false;
-
 
     public void FixedUpdate()
     {
@@ -15,7 +14,6 @@ public class downAheadDetect : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D other)
     {
         flag = true;
-        //return true;
     }
 
     public void OnTriggerExit2D(Collider2D collision)
@@ -27,12 +25,10 @@ public class downAheadDetect : MonoBehaviour
     {
         if (flag == true)
         {
-            Debug.Log("DOWN AHEAD : TRUE");
             return true;
         }
         else
         {
-            Debug.Log("DOWN AHEAD : FALSE");
             return false;
         }
     }
