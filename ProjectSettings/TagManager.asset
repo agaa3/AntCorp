@@ -22,6 +22,7 @@ TagManager:
   - TELEPORTER_6_1
   - TELEPORTER_6_2
   - Stone
+  - climbing_walls
   layers:
   - Default
   - TransparentFX

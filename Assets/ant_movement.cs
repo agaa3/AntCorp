@@ -113,7 +113,6 @@ public class ant_movement : MonoBehaviour
 
     private void ceilingWalk()
     {
-        Debug.Log("I Am POWERFULL CEILING WALK !!!");
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
         climbFromCeilingToWall();
         goDownFromCeilingToWall();
@@ -149,7 +148,7 @@ public class ant_movement : MonoBehaviour
             
             flippingWhenAntIsOnTheFloor();
             climbOnWall();
-            goDownFromFloorToWall();
+           goDownFromFloorToWall();
     }
 
     private void readyForNextAction()
@@ -183,7 +182,7 @@ public class ant_movement : MonoBehaviour
         goDownFromtWallToFloor();
         climbOnCeiling();
         climbFromWallToCeilingWhileAntIsClimbingDown();
-        flippingWhenAntIsOnTheWall();
+        //flippingWhenAntIsOnTheWall();
     }
 
     private void antCanMove()
