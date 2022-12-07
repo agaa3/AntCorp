@@ -275,11 +275,9 @@ public class ant_movement : MonoBehaviour
         }
     }
 
-    private void flippingWhenAntIsOnTheWall()// tutaj naprawic cos
+    private void flippingWhenAntIsOnTheWall()
 
     {
-        if (isAntClimbing)
-        {
             Debug.Log("MOVEMENT VALUE:" + MOVEMENT);
                 if (MOVEMENT < 0 && !m_FacingRight)
                 {
@@ -289,7 +287,7 @@ public class ant_movement : MonoBehaviour
                 {
                     Flip();
                 }        
-        }
+        
     }
 
     private void flippingWhenAntIsOnTheFloor()
