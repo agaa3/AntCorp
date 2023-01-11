@@ -36,7 +36,7 @@ public class ant_collecting : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Friends"))
         {
-            string message = "Hit " + other.gameObject.GetComponent<SmallAnt>().combo + " key. ";
+            string message = "Hit " + other.gameObject.GetComponent<SmallAnt>().combo + " key \nto get mud off small ant. ";
             FriendsManager.instance.PopMessage(message);
             friend = other.gameObject;
 
