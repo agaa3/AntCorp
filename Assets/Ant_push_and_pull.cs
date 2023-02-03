@@ -12,7 +12,8 @@ public class Ant_push_and_pull : MonoBehaviour
 
     private void NoFlip()
     {
-        if (!Flipped && (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A)))
+        if (!Flipped && (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) ||
+                         Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)))
         {
             transform.Rotate(0f,180f,0);
             Flipped = true;
@@ -27,7 +28,7 @@ public class Ant_push_and_pull : MonoBehaviour
 
        if(grabCheck.collider != null && grabCheck.collider.CompareTag("Stone"))
        {
-            if(Input.GetKey(KeyCode.F))
+            if(Input.GetKey(KeyCode.Space))
             {
                 grabCheck.collider.gameObject.transform.parent = stoneHolder;
                 grabCheck.collider.gameObject.transform.position = stoneHolder.position;
@@ -39,7 +40,7 @@ public class Ant_push_and_pull : MonoBehaviour
                 grabCheck.collider.gameObject.transform.parent = null;
                 grabCheck.collider.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
             }
-            if (Input.GetKeyUp(KeyCode.F))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
                 transform.Rotate(0f,180f,0);
                 Flipped = false;
