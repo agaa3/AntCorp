@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class ant_movement : MonoBehaviour
 {// naprawic ustawienia imputu do usera!!!!!!!!!!!!!!!!!!!
@@ -35,6 +36,7 @@ public class ant_movement : MonoBehaviour
     public bool isAntClimbing = false;
     public bool isCeilingWalk = false;
     public bool isAntClimbingOnRightWall = false;
+    public bool isTeleportingEnable = true;
     [SerializeField] private bool isAntReadyForNextAction = false;
 
     float MOVEMENT;
@@ -62,7 +64,7 @@ public class ant_movement : MonoBehaviour
     {
         if(couldAntMove)
         {
-            if (isAntClimbing)
+            if (isAntClimbing && !isCeilingWalk)
             {
                 MOVEMENT = Input.GetAxis("Vertical");
             }
@@ -86,17 +88,28 @@ public class ant_movement : MonoBehaviour
         {
             walk();
         }
-        else
+        else if (isAntClimbing && !isCeilingWalk)
         {
             climb();
         }
+        else
+        {
+            ceilingWalk();
+        }
+    }
+
+    private void disableTeleports()
+    {
+        isTeleportingEnable = false;
+        Thread.Sleep(5);
+        isTeleportingEnable = true;
     }
 
     private void ceilingWalk()
     {
         
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
-        climbFromCeilingToWall();
+        //climbFromCeilingToWall();
         goDownFromCeilingToWall();
         flippingWhenAntIsOnTheCeiling();
         
@@ -106,10 +119,17 @@ public class ant_movement : MonoBehaviour
     {
         if(rightCheck() && isAntReadyForNextAction)
         {
+            turnOffGravity();
             notReadyForNextAction();
-            antCantMove();
-            animator.SetInteger("wallClimbSide", 21);
+            rotate_plus_90();
+            //antCantMove();
+            //animator.SetInteger("wallClimbSide", 21);
             turnOffCeilingWalk();
+            if (m_FacingRight)
+                turnOnGravityForClimbingOnLefttWall();
+            else
+                turnOnGravityForClimbingOnRightWall();
+            turnOnGravity();
         }
     }
      
@@ -162,7 +182,7 @@ public class ant_movement : MonoBehaviour
         upToDownWallMoveRight();
         climbFromWallToSurface();
         goDownFromtWallToFloor();
-        //climbOnCeiling();
+        climbOnCeiling();
         //climbFromWallToCeilingWhileAntIsClimbingDown();
         flippingWhenAntIsOnTheWall();
     }
@@ -179,7 +199,7 @@ public class ant_movement : MonoBehaviour
 
     void climbFromWallToSurface()
     {
-        if (isAntClimbing &&!downAheadCheckPoint() && !isAntGoingDown())
+        if (isAntClimbing &&!downAheadCheckPoint() && !isAntGoingDown() && isTeleportingEnable)
         {
             turnOffGravity();
             teleportPlayerAnt();
@@ -188,6 +208,7 @@ public class ant_movement : MonoBehaviour
             //animator.SetInteger("wallClimbSide", 2137);
             turnOnGravityForFloorWalk();
             turnOnGravity();
+            disableTeleports();
         }      
     }
 
@@ -247,7 +268,7 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromFloorToWall()
     {
-        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing)
+        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && isTeleportingEnable)
         {
             turnOffGravity();
             teleportPlayerAntToDown();
@@ -268,7 +289,7 @@ public class ant_movement : MonoBehaviour
             turnOnGravity();
             rotate_minus_90();
             antStartClimbing();
-            
+            disableTeleports();
         }
     }
 
@@ -449,10 +470,14 @@ public class ant_movement : MonoBehaviour
     {
         if (rightCheck() && !isAntGoingDown() && isAntClimbing && isAntReadyForNextAction)
         {
+            turnOffGravity();
+            turnOnGravityForCeilingWalk();
             notReadyForNextAction();
-            antCantMove();
-            animator.SetInteger("wallClimbSide", 5);
-            isCeilingWalk = true;
+            rotate_plus_90();
+            //animator.SetInteger("wallClimbSide", 5);
+            //isCeilingWalk = true;
+            turnOnCeilingWalk();
+            turnOnGravity();
         }
     }
 
