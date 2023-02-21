@@ -54,7 +54,8 @@ public class ant_movement : MonoBehaviour
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
-        PlayerAnt.gravityScale = 0;
+        turnOnGravityForFloorWalk();
+        turnOnGravity();
     }
 
     private void Update()
@@ -180,10 +181,13 @@ public class ant_movement : MonoBehaviour
     {
         if (isAntClimbing &&!downAheadCheckPoint() && !isAntGoingDown())
         {
+            turnOffGravity();
             teleportPlayerAnt();
             rotate_minus_90();
             antStopClimbing();
             //animator.SetInteger("wallClimbSide", 2137);
+            turnOnGravityForFloorWalk();
+            turnOnGravity();
         }      
     }
 
@@ -201,8 +205,11 @@ public class ant_movement : MonoBehaviour
     {
         if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown())
         {
+            turnOffGravity();
+            turnOnGravityForFloorWalk();
             rotate_plus_90();
             antStopClimbing();
+            turnOnGravity();
             //animator.SetInteger("wallClimbSide", 3);
         }
     }
@@ -240,17 +247,25 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromFloorToWall()
     {
-        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && m_FacingRight)
+        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing)
         {
+            turnOffGravity();
+            teleportPlayerAntToDown();
             //antCantMove();
             //turnOffGravity();
             //notReadyForNextAction();
             //animator.SetInteger("wallClimbSide", 2);
-            if (m_FacingRight)
+            if (!m_FacingRight)
+            {
                 isAntClimbingOnRightWall = true;
+                turnOnGravityForClimbingOnRightWall();
+            }
             else
+            {
                 isAntClimbingOnRightWall = false;
-            teleportPlayerAntToDown();
+                turnOnGravityForClimbingOnLefttWall();
+            }
+            turnOnGravity();
             rotate_minus_90();
             antStartClimbing();
             
@@ -398,15 +413,24 @@ public class ant_movement : MonoBehaviour
     {
         if (rightCheck() && !isAntClimbing)
         {
+            turnOffGravity();
             //notReadyForNextAction();
             //antCantMove();
             //animator.SetInteger("wallClimbSide", 1);
             //turnOffGravity();
             antStartClimbing();
             if (m_FacingRight)
+            {
                 isAntClimbingOnRightWall = true;
+                turnOnGravityForClimbingOnRightWall();
+                turnOnGravity();
+            }
             else
+            {
                 isAntClimbingOnRightWall = false;
+                turnOnGravityForClimbingOnLefttWall();
+                turnOnGravity();
+            }
             rotate_plus_90();
         }
     }
@@ -456,15 +480,35 @@ public class ant_movement : MonoBehaviour
         PlayerAnt.gravityScale = 0 ;
     }
 
+    private void turnOnGravityForClimbingOnRightWall()
+    {
+        Physics2D.gravity = new Vector2(9.8f, 0);
+    }
+
+    private void turnOnGravityForClimbingOnLefttWall()
+    {
+        Physics2D.gravity = new Vector2(-9.8f, 0);
+    }
+
+    private void turnOnGravityForFloorWalk()
+    {
+        Physics2D.gravity = new Vector2(0, -9.8f);
+    }
+
+    private void turnOnGravityForCeilingWalk()
+    {
+        Physics2D.gravity = new Vector2(0, 9.8f);
+    }
+
     public void teleportPlayerAnt()
     {
         
         float x = transform.position.x;
         float y = transform.position.y;
         if(m_FacingRight)
-            transform.position = new Vector2(x + 1.2f, y + 1f);
+            transform.position = new Vector2(x + 1.3f, y + 1f);
         else
-            transform.position = new Vector2(x - 1.2f, y + 1f);
+            transform.position = new Vector2(x - 1.3f, y + 1f);
     }
 
     public void teleportPlayerAntToDown()
@@ -472,9 +516,9 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if (m_FacingRight)
-            transform.position = new Vector2(x + 1f, y - 1f);
+            transform.position = new Vector2(x + 1f, y - 1.3f);
         else
-            transform.position = new Vector2(x - 1f, y - 1f);
+            transform.position = new Vector2(x - 1f, y - 1.3f);
     }
 
     public void teleportPlayerAntToUp()
