@@ -13,6 +13,7 @@ public class ant_movement : MonoBehaviour
     public GameObject aheadCheck;
     public GameObject downCHeck;
     public GameObject goingDownCheck;
+    public GameObject wallCheck;
 
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
@@ -22,6 +23,7 @@ public class ant_movement : MonoBehaviour
     aheadCheck aheadCheckScript;
     downCheck downCheckScript;
     goingDownCheck goingDownDetectScript;
+    wallCheck wallCheckScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -35,7 +37,6 @@ public class ant_movement : MonoBehaviour
     public bool couldAntMove = true;
     public bool isAntClimbing = false;
     public bool isCeilingWalk = false;
-    public bool isAntClimbingOnRightWall = false;
     public bool isTeleportingEnable = true;
     [SerializeField] private bool isAntReadyForNextAction = false;
 
@@ -52,6 +53,7 @@ public class ant_movement : MonoBehaviour
         aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
         downCheckScript = downCHeck.GetComponent<downCheck>();
         goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
+        wallCheckScript = wallCheck.GetComponent<wallCheck>();
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -278,12 +280,10 @@ public class ant_movement : MonoBehaviour
             //animator.SetInteger("wallClimbSide", 2);
             if (!m_FacingRight)
             {
-                isAntClimbingOnRightWall = true;
                 turnOnGravityForClimbingOnRightWall();
             }
             else
             {
-                isAntClimbingOnRightWall = false;
                 turnOnGravityForClimbingOnLefttWall();
             }
             turnOnGravity();
@@ -294,27 +294,14 @@ public class ant_movement : MonoBehaviour
     }
 
     private void flippingWhenAntIsOnTheWall()
-
     {
-        if (isAntClimbingOnRightWall)
+        if (isAntClimbing)//isAntClimbingOnRightWall
         {
-        
-                if (MOVEMENT < 0 && m_FacingRight)
-                {
-                    Flip();
-                }
-                else if (MOVEMENT > 0 && !m_FacingRight)
-                {
-                    Flip();
-                }        
-        }
-        else
-        {
-            if (MOVEMENT < 0 && !m_FacingRight)
+            if (MOVEMENT > 0 && !m_FacingRight)
             {
                 Flip();
             }
-            else if (MOVEMENT > 0 && m_FacingRight)
+            else if (MOVEMENT < 0 && m_FacingRight)
             {
                 Flip();
             }
@@ -442,13 +429,12 @@ public class ant_movement : MonoBehaviour
             antStartClimbing();
             if (m_FacingRight)
             {
-                isAntClimbingOnRightWall = true;
+
                 turnOnGravityForClimbingOnRightWall();
                 turnOnGravity();
             }
             else
             {
-                isAntClimbingOnRightWall = false;
                 turnOnGravityForClimbingOnLefttWall();
                 turnOnGravity();
             }
@@ -579,5 +565,10 @@ public class ant_movement : MonoBehaviour
     public bool isAntGoingDown()
     {
         return goingDownDetectScript.isAntGoingDown();
+    }
+
+    public bool isAntClimbingOnRightWall()
+    {
+        return wallCheckScript.isAntOnRightWall();
     }
 }
