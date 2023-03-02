@@ -76,6 +76,8 @@ public class ant_movement : MonoBehaviour
             }
         }
 
+        Debug.Log("Idzie w prawo: " + isAntGoingRight());
+
     }
 
     private void FixedUpdate()
@@ -89,14 +91,17 @@ public class ant_movement : MonoBehaviour
         if (!isAntClimbing)
         {
             walk();
+            Debug.Log("walk!");
         }
         else if (isAntClimbing && !isCeilingWalk)
         {
             climb();
+            Debug.Log("climb!");
         }
         else
         {
             ceilingWalk();
+            Debug.Log("ceiling!");
         }
     }
 
@@ -127,7 +132,7 @@ public class ant_movement : MonoBehaviour
             //antCantMove();
             //animator.SetInteger("wallClimbSide", 21);
             turnOffCeilingWalk();
-            if (m_FacingRight)
+            if (!isAntClimbingOnRightWall())
                 turnOnGravityForClimbingOnLefttWall();
             else
                 turnOnGravityForClimbingOnRightWall();
@@ -228,12 +233,17 @@ public class ant_movement : MonoBehaviour
     {
         if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown())
         {
+            couldAntMove = false;
+            MOVEMENT = 0f;
             turnOffGravity();
             turnOnGravityForFloorWalk();
             rotate_plus_90();
             antStopClimbing();
             turnOnGravity();
+            ////////////////////////////////////////////
             //animator.SetInteger("wallClimbSide", 3);
+            setFacingRight();
+            couldAntMove = true;
         }
     }
 
@@ -255,6 +265,23 @@ public class ant_movement : MonoBehaviour
     {
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    private void wallFlip()
+    {
+        transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void setFacingRight()
+    {
+        if(isAntGoingRight() == true)
+        {
+            m_FacingRight = true;
+        }
+        else
+        {
+            m_FacingRight = false;
+        }
     }
 
     private void rotate_minus_90()
@@ -294,18 +321,15 @@ public class ant_movement : MonoBehaviour
     }
 
     private void flippingWhenAntIsOnTheWall()
-    {
-        if (isAntClimbing)//isAntClimbingOnRightWall
-        {
-            if (MOVEMENT > 0 && !m_FacingRight)
+    {     
+            if (MOVEMENT > 0 && isAntGoingDown())
             {
                 Flip();
             }
-            else if (MOVEMENT < 0 && m_FacingRight)
+            else if (MOVEMENT < 0 && !isAntGoingDown())
             {
                 Flip();
             }
-        }
     }
 
     private void flippingWhenAntIsOnTheFloor()
@@ -326,11 +350,11 @@ public class ant_movement : MonoBehaviour
     private void flippingWhenAntIsOnTheCeiling()
     {
 
-            if (MOVEMENT < 0 && !m_FacingRight)
+            if (MOVEMENT < 0 && m_FacingRight)
             {
                 Flip();
             }
-            else if (MOVEMENT > 0 && m_FacingRight)
+            else if (MOVEMENT > 0 && !m_FacingRight)
             {
                 Flip();
             }
@@ -464,6 +488,7 @@ public class ant_movement : MonoBehaviour
             //isCeilingWalk = true;
             turnOnCeilingWalk();
             turnOnGravity();
+            setFacingRight();
         }
     }
 
@@ -569,6 +594,11 @@ public class ant_movement : MonoBehaviour
 
     public bool isAntClimbingOnRightWall()
     {
-        return wallCheckScript.isAntOnRightWall();
+        return !wallCheckScript.isAntOnRightWall();
+    }
+
+    public bool isAntGoingRight()
+    {
+        return goingDownDetectScript.isAntGoingRight();
     }
 }
