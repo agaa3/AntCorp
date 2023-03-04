@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Threading;
 
 public class ant_movement : MonoBehaviour
-{// naprawic ustawienia imputu do usera!!!!!!!!!!!!!!!!!!!
+{
     public GameObject topAheadDetector;
     public GameObject downAheadDetector;
     public GameObject topBehindDetector;
@@ -76,7 +76,6 @@ public class ant_movement : MonoBehaviour
             }
         }
 
-        Debug.Log("Idzie w prawo: " + isAntGoingRight());
 
     }
 
@@ -148,9 +147,9 @@ public class ant_movement : MonoBehaviour
             notReadyForNextAction();
             antCantMove();
             turnOffGravity();
-            rotate_minus_90();
             teleportPlayerAntToUp();
-            if (isAntGoingRight())
+            rotate_minus_90();
+            if (isAntClimbingOnRightWall())//tutaj skonczylem
             {
                 turnOnGravityForClimbingOnRightWall();
             }
@@ -158,11 +157,13 @@ public class ant_movement : MonoBehaviour
             {
                 turnOnGravityForClimbingOnLefttWall();
             }
+            
             turnOnGravity();
             antCanMove();
             readyForNextAction();
             turnOffCeilingWalk();
             antStartClimbing();
+            
             //animator.SetInteger("wallClimbSide", 11);
         }
     }
@@ -224,6 +225,7 @@ public class ant_movement : MonoBehaviour
     {
         if (isAntClimbing &&!downAheadCheckPoint() && !isAntGoingDown() && isTeleportingEnable && isAntReadyForNextAction)
         {
+            
             notReadyForNextAction();
             turnOffGravity();
             teleportPlayerAnt();
@@ -501,7 +503,7 @@ public class ant_movement : MonoBehaviour
         isAntClimbing = false;
     }
 
-    private void climbOnCeiling()
+    private void climbOnCeiling()//tahktalbfkabfafsafasfasfsaffsaf
     {
         if (rightCheck() && !isAntGoingDown() && isAntClimbing && isAntReadyForNextAction)
         {
@@ -587,9 +589,9 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if (isAntGoingRight())
-            transform.position = new Vector2(x - 1f, y + 1.4f);
-        else
             transform.position = new Vector2(x + 1f, y + 1.4f);
+        else
+            transform.position = new Vector2(x - 1f, y + 1.4f);
     }
 
     public void teleportPlayerAnWhileClimbingFromWallToCeiling()
