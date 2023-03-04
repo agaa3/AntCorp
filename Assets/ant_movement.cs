@@ -112,7 +112,7 @@ public class ant_movement : MonoBehaviour
         isTeleportingEnable = true;
     }
 
-    private void ceilingWalk()
+    private void ceilingWalk()//////////////////////////////////////////////////////////////
     {
         
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
@@ -200,7 +200,7 @@ public class ant_movement : MonoBehaviour
         animator.SetInteger("wallClimbSide", 6969);
     }
 
-    private void climb()
+    private void climb()//????????????????????????????????????????????????????????????????????
     {
         upToDownWallMoveRight();
         climbFromWallToSurface();
@@ -222,8 +222,9 @@ public class ant_movement : MonoBehaviour
 
     void climbFromWallToSurface()
     {
-        if (isAntClimbing &&!downAheadCheckPoint() && !isAntGoingDown() && isTeleportingEnable)
+        if (isAntClimbing &&!downAheadCheckPoint() && !isAntGoingDown() && isTeleportingEnable && isAntReadyForNextAction)
         {
+            notReadyForNextAction();
             turnOffGravity();
             teleportPlayerAnt();
             rotate_minus_90();
@@ -566,9 +567,9 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if(m_FacingRight)
-            transform.position = new Vector2(x + 1.3f, y + 1f);
+            transform.position = new Vector2(x + 1.4f, y + 1f);
         else
-            transform.position = new Vector2(x - 1.3f, y + 1f);
+            transform.position = new Vector2(x - 1.4f, y + 1f);
     }
 
     public void teleportPlayerAntToDown()
@@ -576,9 +577,9 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if (m_FacingRight)
-            transform.position = new Vector2(x + 1f, y - 1.3f);
+            transform.position = new Vector2(x + 1f, y - 1.4f);
         else
-            transform.position = new Vector2(x - 1f, y - 1.3f);
+            transform.position = new Vector2(x - 1f, y - 1.4f);
     }
 
     public void teleportPlayerAntToUp()
@@ -586,9 +587,9 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if (isAntGoingRight())
-            transform.position = new Vector2(x - 1f, y + 1.3f);
+            transform.position = new Vector2(x - 1f, y + 1.4f);
         else
-            transform.position = new Vector2(x + 1f, y + 1.3f);
+            transform.position = new Vector2(x + 1f, y + 1.4f);
     }
 
     public void teleportPlayerAnWhileClimbingFromWallToCeiling()
@@ -596,9 +597,9 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if (!isAntGoingRight())
-            transform.position = new Vector2(x - 1.3f, y - 1f);
+            transform.position = new Vector2(x - 1.4f, y - 1f);
         else
-            transform.position = new Vector2(x + 1.3f, y - 1f);
+            transform.position = new Vector2(x + 1.4f, y - 1f);
     }
 
     public void turnOnCeilingWalk()
