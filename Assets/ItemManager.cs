@@ -55,9 +55,21 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+	public int GetCandyNumber()
+    {
+        return candyNumber;        
+    }
+
     public void IncreaseCandyNumber()
     {
         candyNumber += 1;
+        numberOfCandiesImage.texture = allNumbers[candyNumber];
+        
+    }
+	
+	public void DecreaseCandyNumber()
+    {
+        candyNumber -= 1;
         numberOfCandiesImage.texture = allNumbers[candyNumber];
         
     }
