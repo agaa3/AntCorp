@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class aheadCheck : MonoBehaviour
 {
-    public bool flag = false;
+    public bool flag = true;
 
     public GameObject aheadCheck1;
     public GameObject aheadCheck2;
@@ -35,7 +35,7 @@ public class aheadCheck : MonoBehaviour
 
     public void isTouchingUpdate()
     {
-        if (aheadCheckPoint1.isTouching() && aheadCheckPoint2.isTouching() && aheadCheckPoint3.isTouching())
+        if (aheadCheckPoint1.isTouching() || aheadCheckPoint2.isTouching() || aheadCheckPoint3.isTouching())
             flag = true;
         else
             flag = false;

@@ -23,15 +23,4 @@ public class goingDownCheck : MonoBehaviour
         else
             return true;
     }
-
-    public bool isAntGoingRight()
-    {
-        float val = checkPoint2.getPositionX() - checkPoint1.getPositionX();
-
-        if (val >= 0)
-            return true;
-        else
-            return false;
-    }
-
 }

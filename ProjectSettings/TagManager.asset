@@ -24,7 +24,6 @@ TagManager:
   - Stone
   - climbing_walls
   - wallForSmallAnts
-  - Friends1
   layers:
   - Default
   - TransparentFX
