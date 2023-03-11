@@ -13,7 +13,9 @@ public class ant_movement : MonoBehaviour
     public GameObject aheadCheck;
     public GameObject downCHeck;
     public GameObject goingDownCheck;
+
     public GameObject wallCheck;
+
 
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
@@ -48,7 +50,7 @@ public class ant_movement : MonoBehaviour
 
 
     private void Start()
-    { 
+    {
         topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
         downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
         topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
@@ -58,6 +60,7 @@ public class ant_movement : MonoBehaviour
         downCheckScript = downCHeck.GetComponent<downCheck>();
         goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
         wallCheckScript = wallCheck.GetComponent<wallCheck>();
+
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -134,7 +137,9 @@ public class ant_movement : MonoBehaviour
 
     private void ceilingWalk()
     {
+
         flippingWhenAntIsOnTheCeiling();
+
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
         climbFromCeilingToWall();
         goDownFromCeilingToWall();
@@ -195,6 +200,8 @@ public class ant_movement : MonoBehaviour
         flippingWhenAntIsOnTheFloor();          
         climbOnWall();
         goDownFromFloorToWall();
+
+
     }
 
     private void readyForNextAction()
@@ -227,6 +234,8 @@ public class ant_movement : MonoBehaviour
         goDownFromtWallToFloor();
         climbOnCeiling();
         climbFromWallToCeilingWhileAntIsClimbingDown();
+
+
     }
 
     private void antCanMove()
@@ -403,6 +412,14 @@ public class ant_movement : MonoBehaviour
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
+    
+    private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
+    {
+        if(isAntClimbing && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
+        {
+            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
+        }
+    }
 
     private void wallFlip()
     {
@@ -459,6 +476,7 @@ public class ant_movement : MonoBehaviour
     }
 
     private void flippingWhenAntIsOnTheWall()
+
     {
         
             if (MOVEMENT > 0 && isAntGoingDown())
@@ -469,6 +487,7 @@ public class ant_movement : MonoBehaviour
             {
             Flip();
             }
+
     }
 
     private void flippingWhenAntIsOnTheFloor()
@@ -558,7 +577,6 @@ public class ant_movement : MonoBehaviour
     private bool upCheck()
     {
         RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.up, extraHeightText, layerMask);
-
         if (Toutch.collider != null)
         {
             return true;

@@ -13,7 +13,8 @@ public class middleAheadDetect : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        flag = true;
+        if (other.CompareTag("climbing_walls"))
+            flag = true;
         //return true;
     }
 
