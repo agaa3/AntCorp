@@ -12,10 +12,6 @@ public class ant_movement : MonoBehaviour
     public GameObject aheadCheck;
     public GameObject downCHeck;
     public GameObject goingDownCheck;
-
-    public GameObject wallCheck;
-
-
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
     topBehindDetect topBehindDetectScript;
@@ -43,7 +39,7 @@ public class ant_movement : MonoBehaviour
 
 
     private void Start()
-    { 
+    {
         topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
         downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
         topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
@@ -52,6 +48,7 @@ public class ant_movement : MonoBehaviour
         aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
         downCheckScript = downCHeck.GetComponent<downCheck>();
         goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
+
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
@@ -116,9 +113,6 @@ public class ant_movement : MonoBehaviour
 
     private void ceilingWalk()
     {
-
-        flippingWhenAntIsOnTheCeiling();
-
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
         climbFromCeilingToWall();
         goDownFromCeilingToWall();
@@ -150,18 +144,11 @@ public class ant_movement : MonoBehaviour
 
     private void walk()
     {
-
             transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
             
             flippingWhenAntIsOnTheFloor();
             climbOnWall();
            goDownFromFloorToWall();
-
-        transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
-        flippingWhenAntIsOnTheFloor();          
-        climbOnWall();
-        goDownFromFloorToWall();
-
     }
 
     private void readyForNextAction()
@@ -195,9 +182,7 @@ public class ant_movement : MonoBehaviour
         goDownFromtWallToFloor();
         climbOnCeiling();
         climbFromWallToCeilingWhileAntIsClimbingDown();
-
         //flippingWhenAntIsOnTheWall();
-
     }
 
     private void antCanMove()
@@ -260,6 +245,14 @@ public class ant_movement : MonoBehaviour
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
+    
+    private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
+    {
+        if(isAntClimbing && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
+        {
+            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
+        }
+    }
 
     private void rotate_minus_90()
     {
@@ -283,6 +276,7 @@ public class ant_movement : MonoBehaviour
     }
 
     private void flippingWhenAntIsOnTheWall()
+
     {
             Debug.Log("MOVEMENT VALUE:" + MOVEMENT);
                 if (MOVEMENT < 0 && !m_FacingRight)
@@ -294,16 +288,6 @@ public class ant_movement : MonoBehaviour
                     Flip();
                 }        
         
-
-            if (MOVEMENT > 0 && isAntGoingDown())
-            {
-            Flip();
-            }
-            else if (MOVEMENT < 0 && !isAntGoingDown())
-            {
-            Flip();
-            }
-
     }
 
     private void flippingWhenAntIsOnTheFloor()
@@ -354,12 +338,12 @@ public class ant_movement : MonoBehaviour
     {
         if (downAheadDetectScript.flag)
         {
-            
+            Debug.Log("KURWA TRUE");
             return true;
         }
         else
         {
-            
+            Debug.Log("KURWA FALSE");
             return false;
         }
     }
@@ -392,7 +376,6 @@ public class ant_movement : MonoBehaviour
     private bool upCheck()
     {
         RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.up, extraHeightText, layerMask);
-
         if (Toutch.collider != null)
         {
             return true;
