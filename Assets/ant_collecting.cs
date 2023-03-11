@@ -22,15 +22,6 @@ public class ant_collecting : MonoBehaviour
             FriendsManager.instance.IncreaseFriendsScore();
             friend = null;
         }
-		Debug.Log(ItemManager.instance.GetCandyNumber());
-		if (friend != null && ItemManager.instance.GetCandyNumber() > 0 && friend.GetComponent<SmallAnt1>().comboDone == true)
-        {
-            Destroy(friend);
-			ItemManager.instance.DecreaseCandyNumber();
-            FriendsManager.instance.messageBox.SetActive(false);
-            FriendsManager.instance.IncreaseFriendsScore();
-            friend = null;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -45,15 +36,7 @@ public class ant_collecting : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Friends"))
         {
-            string message = "Hit " + other.gameObject.GetComponent<SmallAnt>().combo + " key \nto get mud off small ant. ";
-            FriendsManager.instance.PopMessage(message);
-            friend = other.gameObject;
-
-        }
-		
-		if (other.gameObject.CompareTag("Friends1"))
-        {
-            string message = "Hit " + other.gameObject.GetComponent<SmallAnt1>().combo + " key \nto give candy to the small ant. ";
+            string message = "Hit " + other.gameObject.GetComponent<SmallAnt>().combo + " key. ";
             FriendsManager.instance.PopMessage(message);
             friend = other.gameObject;
 

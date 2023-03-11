@@ -13,8 +13,7 @@ public class topBehindDetect : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("climbing_walls"))
-            flag = true;
+        flag = true;
         //return true;
     }
 
