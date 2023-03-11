@@ -70,7 +70,7 @@ public class SmallAnt : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("wallForSmallAnts"))
+        if (collision.GetComponent<Wall>())
         {
             dirX *= -1f;
         }
