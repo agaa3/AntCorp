@@ -31,7 +31,7 @@ public class ant_movement : MonoBehaviour
     [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
 
     private float extraHeightText = 0.009f;
-    private float MovementSpeed = 3f;
+    private float MovementSpeed = 2.3f;
 
     public bool m_FacingRight = true;
     public bool couldAntMove = true;
@@ -60,6 +60,7 @@ public class ant_movement : MonoBehaviour
         animator.SetInteger("wallClimbSide", 0);
         turnOnGravityForFloorWalk();
         turnOnGravity();
+        animator.speed = 2;
     }
 
     private void Update()
@@ -350,18 +351,18 @@ public class ant_movement : MonoBehaviour
             teleportPlayerAntToDown();
             //antCantMove();
             //turnOffGravity();
-            //notReadyForNextAction();
+            notReadyForNextAction();
+            rotate_minus_90();
             //animator.SetInteger("wallClimbSide", 2);
             if (!isAntClimbingOnRightWall())
             {
-                turnOnGravityForClimbingOnRightWall();
+                turnOnGravityForClimbingOnLefttWall();
             }
             else
             {
-                turnOnGravityForClimbingOnLefttWall();
+                turnOnGravityForClimbingOnRightWall();
             }
             turnOnGravity();
-            rotate_minus_90();
             antStartClimbing();
             disableTeleports();
             MOVEMENT = 0;
@@ -513,6 +514,7 @@ public class ant_movement : MonoBehaviour
                 turnOnGravity();
             }
             rotate_plus_90();
+            MOVEMENT = 0f;
         }
     }
 
