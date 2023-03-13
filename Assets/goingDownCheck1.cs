@@ -8,4 +8,9 @@ public class goingDownCheck1 : MonoBehaviour
     {
         return transform.position.y;
     }
+
+    public float getPositionX()
+    {
+        return transform.position.x;
+    }
 }

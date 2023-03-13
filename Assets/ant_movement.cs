@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class ant_movement : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class ant_movement : MonoBehaviour
     public GameObject aheadCheck;
     public GameObject downCHeck;
     public GameObject goingDownCheck;
+    public GameObject wallCheck;
+
     topAheadDetect topAheadDetectScript;
     downAheadDetect downAheadDetectScript;
     topBehindDetect topBehindDetectScript;
@@ -20,6 +23,7 @@ public class ant_movement : MonoBehaviour
     aheadCheck aheadCheckScript;
     downCheck downCheckScript;
     goingDownCheck goingDownDetectScript;
+    wallCheck wallCheckScript;
 
     private Rigidbody2D PlayerAnt;
     private BoxCollider2D boxCollider2d;
@@ -27,12 +31,13 @@ public class ant_movement : MonoBehaviour
     [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
 
     private float extraHeightText = 0.009f;
-    private float MovementSpeed = 3;
+    private float MovementSpeed = 2.3f;
 
     public bool m_FacingRight = true;
     public bool couldAntMove = true;
     public bool isAntClimbing = false;
     public bool isCeilingWalk = false;
+    public bool isTeleportingEnable = true;
     [SerializeField] private bool isAntReadyForNextAction = false;
 
     float MOVEMENT;
@@ -48,107 +53,130 @@ public class ant_movement : MonoBehaviour
         aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
         downCheckScript = downCHeck.GetComponent<downCheck>();
         goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
-
+        wallCheckScript = wallCheck.GetComponent<wallCheck>();
 
         PlayerAnt = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
-        Physics2D.gravity = new Vector2(0, -9.81f);
-        PlayerAnt.gravityScale = 1;
+        turnOnGravityForFloorWalk();
+        turnOnGravity();
+        animator.speed = 2;
     }
 
     private void Update()
     {
-        if(couldAntMove)
+        if (couldAntMove)
         {
-            if (isAntClimbing)
+            if (isAntClimbing && !isCeilingWalk)
             {
-                if (!isCeilingWalk)
-                {
-                    if (m_FacingRight && !isAntGoingDown())
-                    {
-                        Debug.Log("ACTUAL MOVEMENT: Vertical");
-                        MOVEMENT = Input.GetAxis("Vertical");
-                    }
-                    else if (!m_FacingRight && isAntGoingDown())
-                    {
-                        Debug.Log("ACTUAL MOVEMENT: Vertical");
-                        MOVEMENT = Input.GetAxis("Vertical");
-                    }
-                    else
-                    {
-                        Debug.Log("ACTUAL MOVEMENT: ReverseVertical");
-                        MOVEMENT = Input.GetAxis("ReverseVertical");
-                    }
-                }
-                else
-                    MOVEMENT = Input.GetAxis("Horizontal");
+                MOVEMENT = Input.GetAxis("Vertical") / 2f;
             }
             else
             {
                 MOVEMENT = Input.GetAxis("Horizontal");
-                Debug.Log("ACTUAL MOVEMENT: Horizontal");
             }
         }
+
+
     }
 
     private void FixedUpdate()
     {
-        isClimbing();
+        //isClimbing();
         Move();
     }
 
     private void Move()
     {
-        if (couldAntMove)
+        if (!isAntClimbing)
         {
-            if (isAntClimbing && !isCeilingWalk)
-                climb();
-            else if (isAntClimbing && isCeilingWalk)
-                ceilingWalk();
-            else if (!isAntClimbing && !isCeilingWalk)
-                walk();
+            walk();
+            Debug.Log("walk!");
         }
+        else if (isAntClimbing && !isCeilingWalk)
+        {
+            climb();
+            Debug.Log("climb!");
+        }
+        else
+        {
+            ceilingWalk();
+            Debug.Log("ceiling!");
+        }
+    }
+
+    private void disableTeleports()
+    {
+        isTeleportingEnable = false;
+        Thread.Sleep(5);
+        isTeleportingEnable = true;
     }
 
     private void ceilingWalk()
     {
+        flippingWhenAntIsOnTheCeiling();
         transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
         climbFromCeilingToWall();
         goDownFromCeilingToWall();
-        flippingWhenAntIsOnTheCeiling();
-        
+
     }
 
     private void goDownFromCeilingToWall()
     {
-        if(rightCheck() && isAntReadyForNextAction)
+        if (rightCheck() && isAntReadyForNextAction)
         {
+            turnOffGravity();
             notReadyForNextAction();
-            antCantMove();
-            animator.SetInteger("wallClimbSide", 21);
+            rotate_plus_90();
+            //antCantMove();
+            //animator.SetInteger("wallClimbSide", 21);
             turnOffCeilingWalk();
+            if (!isAntClimbingOnRightWall())
+                turnOnGravityForClimbingOnLefttWall();
+            else
+                turnOnGravityForClimbingOnRightWall();
+            turnOnGravity();
+            MOVEMENT = 0;
         }
     }
-     
+
 
     private void climbFromCeilingToWall()
     {
-        if (!downAheadCheckPoint() && isAntReadyForNextAction)
+        if (!downAheadCheckPoint() && isAntReadyForNextAction && isTeleportingEnable)
         {
             notReadyForNextAction();
             antCantMove();
-            animator.SetInteger("wallClimbSide", 11);
+            turnOffGravity();
+            teleportPlayerAntToUp();
+            rotate_minus_90();
+            if (isAntClimbingOnRightWall())
+            {
+                turnOnGravityForClimbingOnRightWall();
+            }
+            else
+            {
+                turnOnGravityForClimbingOnLefttWall();
+            }
+
+            turnOnGravity();
+            antCanMove();
+            readyForNextAction();
+            turnOffCeilingWalk();
+            antStartClimbing();
+            MOVEMENT = 0;
+            //animator.SetInteger("wallClimbSide", 11);
         }
     }
 
     private void walk()
     {
-            transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
-            
-            flippingWhenAntIsOnTheFloor();
-            climbOnWall();
-           goDownFromFloorToWall();
+        flippingWhenAntIsOnTheFloor();
+        transform.position += new Vector3(MOVEMENT, 0, 0) * Time.deltaTime * MovementSpeed;
+
+
+        climbOnWall();
+        goDownFromFloorToWall();
     }
 
     private void readyForNextAction()
@@ -176,13 +204,13 @@ public class ant_movement : MonoBehaviour
 
     private void climb()
     {
-        Debug.Log("CLIMB");
-        upToDownWallMoveRight();
         climbFromWallToSurface();
+        flippingWhenAntIsOnTheWall();
+        upToDownWallMoveRight();
+        upToDownWallMoveRight();
         goDownFromtWallToFloor();
         climbOnCeiling();
         climbFromWallToCeilingWhileAntIsClimbingDown();
-        //flippingWhenAntIsOnTheWall();
     }
 
     private void antCanMove()
@@ -197,32 +225,73 @@ public class ant_movement : MonoBehaviour
 
     void climbFromWallToSurface()
     {
-        if (isAntClimbing &&!downAheadCheckPoint()&&isAntReadyForNextAction && !isAntGoingDown())
+        if (isAntClimbing && !downAheadCheckPoint() && !isAntGoingDown() && isTeleportingEnable && isAntReadyForNextAction)
         {
-            Debug.Log("przechuj!");
             notReadyForNextAction();
+            turnOffGravity();
             antCantMove();
-            animator.SetInteger("wallClimbSide", 2137);
-        }      
+            antStopClimbing();
+            turnOnGravityForFloorWalk();
+            MOVEMENT = 0;
+            turnOffGravity();
+            teleportPlayerAnt();
+            rotate_minus_90();
+            turnOnGravity();
+            disableTeleports();
+            setFacingRight();
+            antCanMove();
+            MOVEMENT = 0;
+        }
     }
 
     void climbFromWallToCeilingWhileAntIsClimbingDown()
     {
-        if (isAntClimbing && !downAheadCheckPoint() && isAntReadyForNextAction && isAntGoingDown())
+        if (isAntClimbing && !downAheadCheckPoint() && isAntReadyForNextAction && isAntGoingDown() && isTeleportingEnable)
         {
+            turnOffGravity();
             turnOnCeilingWalk();
+            turnOnGravityForCeilingWalk();
             notReadyForNextAction();
             antCantMove();
-            animator.SetInteger("wallClimbSide", 20);
+            if (isAntClimbingOnRightWall())
+            {
+                m_FacingRight = true;
+            }
+            else
+            {
+                m_FacingRight = false;
+            }
+
+            rotate_minus_90();
+            teleportPlayerAnWhileClimbingFromWallToCeiling();
+            antCanMove();
+            turnOnGravity();
+            MOVEMENT = 0;
+            //if(!isAntClimbingOnRightWall())
+            //{
+            //    Flip();
+            //}
+            //setFacingRight();
+
+            //animator.SetInteger("wallClimbSide", 20);
         }
     }
     private void goDownFromtWallToFloor()
     {
-        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown() && isAntReadyForNextAction)
+        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown())
         {
-            antCantMove();
-            notReadyForNextAction();
-            animator.SetInteger("wallClimbSide", 3);
+            couldAntMove = false;
+            MOVEMENT = 0f;
+            turnOffGravity();
+            turnOnGravityForFloorWalk();
+            rotate_plus_90();
+            antStopClimbing();
+            turnOnGravity();
+            ////////////////////////////////////////////
+            //animator.SetInteger("wallClimbSide", 3);
+            setFacingRight();
+            couldAntMove = true;
+            MOVEMENT = 0;
         }
     }
 
@@ -230,12 +299,12 @@ public class ant_movement : MonoBehaviour
     {
         if (PlayerAnt.gravityScale == 0)
         {
-            Debug.Log("is Climbing: true");
+
             isAntClimbing = true;
         }
         else
         {
-            Debug.Log("is Climbing: false");
+
             isAntClimbing = false;
         }
     }
@@ -245,12 +314,21 @@ public class ant_movement : MonoBehaviour
         m_FacingRight = !m_FacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
-    
-    private void doNotBuggingOnRightWallWhenAntGoingDown(float movement)
+
+    private void wallFlip()
     {
-        if(isAntClimbing && downAheadCheckPoint() && Input.GetKey(KeyCode.S))
+        transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void setFacingRight()
+    {
+        if (isAntGoingRight() == true)
         {
-            transform.position -= new Vector3(0, movement, 0) * Time.deltaTime * MovementSpeed;
+            m_FacingRight = true;
+        }
+        else
+        {
+            m_FacingRight = false;
         }
     }
 
@@ -261,37 +339,52 @@ public class ant_movement : MonoBehaviour
 
     private void rotate_plus_90()
     {
+        notReadyForNextAction();
         transform.Rotate(0f, 0f, 90f);
     }
 
     private void goDownFromFloorToWall()
     {
-        if ( !downAheadCheckPoint() && downCheck() && !isAntClimbing && isAntReadyForNextAction && !rightCheck())
+        if (!downAheadCheckPoint() && downCheck() && !isAntClimbing && isTeleportingEnable && isAntReadyForNextAction)
         {
-            antCantMove();
             turnOffGravity();
+            teleportPlayerAntToDown();
+            //antCantMove();
+            //turnOffGravity();
             notReadyForNextAction();
-            animator.SetInteger("wallClimbSide", 2);
+            rotate_minus_90();
+            //animator.SetInteger("wallClimbSide", 2);
+            if (!isAntClimbingOnRightWall())
+            {
+                turnOnGravityForClimbingOnLefttWall();
+            }
+            else
+            {
+                turnOnGravityForClimbingOnRightWall();
+            }
+            turnOnGravity();
+            antStartClimbing();
+            disableTeleports();
+            MOVEMENT = 0;
         }
     }
 
     private void flippingWhenAntIsOnTheWall()
-
     {
-            Debug.Log("MOVEMENT VALUE:" + MOVEMENT);
-                if (MOVEMENT < 0 && !m_FacingRight)
-                {
-                    Flip();
-                }
-                else if (MOVEMENT > 0 && m_FacingRight)
-                {
-                    Flip();
-                }        
-        
+
+        if (MOVEMENT > 0 && isAntGoingDown())
+        {
+            Flip();
+        }
+        else if (MOVEMENT < 0 && !isAntGoingDown())
+        {
+            Flip();
+        }
     }
 
     private void flippingWhenAntIsOnTheFloor()
     {
+
         if (!isAntClimbing)
         {
             if (MOVEMENT > 0 && !m_FacingRight)
@@ -308,14 +401,14 @@ public class ant_movement : MonoBehaviour
     private void flippingWhenAntIsOnTheCeiling()
     {
 
-            if (MOVEMENT < 0 && !m_FacingRight)
-            {
-                Flip();
-            }
-            else if (MOVEMENT > 0 && m_FacingRight)
-            {
-                Flip();
-            }
+        if (MOVEMENT < 0 && m_FacingRight)
+        {
+            Flip();
+        }
+        else if (MOVEMENT > 0 && !m_FacingRight)
+        {
+            Flip();
+        }
     }
 
     private bool topAheadCheckPoint()
@@ -338,12 +431,12 @@ public class ant_movement : MonoBehaviour
     {
         if (downAheadDetectScript.flag)
         {
-            Debug.Log("KURWA TRUE");
+
             return true;
         }
         else
         {
-            Debug.Log("KURWA FALSE");
+
             return false;
         }
     }
@@ -376,6 +469,7 @@ public class ant_movement : MonoBehaviour
     private bool upCheck()
     {
         RaycastHit2D Toutch = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.up, extraHeightText, layerMask);
+
         if (Toutch.collider != null)
         {
             return true;
@@ -387,7 +481,7 @@ public class ant_movement : MonoBehaviour
     }
 
     private bool downCheck()
-    { 
+    {
         if (downCheckScript.isTouching())
         {
             return true;
@@ -402,21 +496,52 @@ public class ant_movement : MonoBehaviour
     {
         if (rightCheck() && !isAntClimbing && isAntReadyForNextAction)
         {
-            notReadyForNextAction();
-            antCantMove();
-            animator.SetInteger("wallClimbSide", 1);
             turnOffGravity();
+            //notReadyForNextAction();
+            //antCantMove();
+            //animator.SetInteger("wallClimbSide", 1);
+            //turnOffGravity();
+            antStartClimbing();
+            if (m_FacingRight)
+            {
+
+                turnOnGravityForClimbingOnRightWall();
+                turnOnGravity();
+            }
+            else
+            {
+                turnOnGravityForClimbingOnLefttWall();
+                turnOnGravity();
+            }
+            rotate_plus_90();
+            MOVEMENT = 0f;
         }
+    }
+
+    private void antStartClimbing()
+    {
+        isAntClimbing = true;
+    }
+
+    private void antStopClimbing()
+    {
+        isAntClimbing = false;
     }
 
     private void climbOnCeiling()
     {
         if (rightCheck() && !isAntGoingDown() && isAntClimbing && isAntReadyForNextAction)
         {
+            turnOffGravity();
+            turnOnGravityForCeilingWalk();
             notReadyForNextAction();
-            antCantMove();
-            animator.SetInteger("wallClimbSide", 5);
-            isCeilingWalk = true;
+            rotate_plus_90();
+            //animator.SetInteger("wallClimbSide", 5);
+            //isCeilingWalk = true;
+            turnOnCeilingWalk();
+            turnOnGravity();
+            setFacingRight();
+            MOVEMENT = 0f;
         }
     }
 
@@ -429,7 +554,7 @@ public class ant_movement : MonoBehaviour
     {
         if (isAntClimbing)
         {
-            turnOffGravity();
+            //turnOffGravity();
             transform.position += new Vector3(0, MOVEMENT, 0) * Time.deltaTime * MovementSpeed;
         }
     }
@@ -441,17 +566,39 @@ public class ant_movement : MonoBehaviour
 
     private void turnOffGravity()
     {
-        PlayerAnt.gravityScale = 0 ;
+       
+        PlayerAnt.gravityScale = 0;
+    }
+
+    private void turnOnGravityForClimbingOnRightWall()
+    {
+        Physics2D.gravity = new Vector2(9.8f, 0);
+    }
+
+    private void turnOnGravityForClimbingOnLefttWall()
+    {
+        Physics2D.gravity = new Vector2(-9.8f, 0);
+    }
+
+    private void turnOnGravityForFloorWalk()
+    {
+        Physics2D.gravity = new Vector2(0, -9.8f);
+    }
+
+    private void turnOnGravityForCeilingWalk()
+    {
+        Physics2D.gravity = new Vector2(0, 9.8f);
     }
 
     public void teleportPlayerAnt()
     {
+
         float x = transform.position.x;
         float y = transform.position.y;
-        if(m_FacingRight)
-            transform.position = new Vector2(x + 1.32f, y + 1f);
+        if (isAntClimbingOnRightWall())
+            transform.position = new Vector2(x + 1.1f, y + 1f);
         else
-            transform.position = new Vector2(x - 1.32f, y + 1f);
+            transform.position = new Vector2(x - 1.1f, y + 1f);
     }
 
     public void teleportPlayerAntToDown()
@@ -459,29 +606,29 @@ public class ant_movement : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         if (m_FacingRight)
-            transform.position = new Vector2(x + 1f, y - 1f);
+            transform.position = new Vector2(x + 1f, y - 1.4f);
         else
-            transform.position = new Vector2(x - 1f, y - 1f);
+            transform.position = new Vector2(x - 1f, y - 1.4f);
     }
 
     public void teleportPlayerAntToUp()
     {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (m_FacingRight)
-            transform.position = new Vector2(x - 1f, y + 1f);
+        if (isAntGoingRight())
+            transform.position = new Vector2(x + 1f, y + 1.4f);
         else
-            transform.position = new Vector2(x + 1f, y + 1f);
+            transform.position = new Vector2(x - 1f, y + 1.4f);
     }
 
     public void teleportPlayerAnWhileClimbingFromWallToCeiling()
     {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (m_FacingRight)
-            transform.position = new Vector2(x - 1f, y - 1f);
+        if (!isAntGoingRight())
+            transform.position = new Vector2(x - 1.4f, y - 1f);
         else
-            transform.position = new Vector2(x + 1f, y - 1f);
+            transform.position = new Vector2(x + 1.4f, y - 1f);
     }
 
     public void turnOnCeilingWalk()
@@ -497,5 +644,15 @@ public class ant_movement : MonoBehaviour
     public bool isAntGoingDown()
     {
         return goingDownDetectScript.isAntGoingDown();
+    }
+
+    public bool isAntClimbingOnRightWall()
+    {
+        return !wallCheckScript.isAntOnRightWall();
+    }
+
+    public bool isAntGoingRight()
+    {
+        return goingDownDetectScript.isAntGoingRight();
     }
 }

@@ -18,9 +18,20 @@ public class goingDownCheck : MonoBehaviour
     {
         float val = checkPoint2.getPositionY() - checkPoint1.getPositionY();
 
-        if ( val >= 0)
+        if (val >= 0)
             return false;
         else
             return true;
     }
+
+    public bool isAntGoingRight()
+    {
+        float val = checkPoint2.getPositionX() - checkPoint1.getPositionX();
+
+        if (val >= 0)
+            return true;
+        else
+            return false;
+    }
+
 }

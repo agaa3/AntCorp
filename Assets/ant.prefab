@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1378059530505255849
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1099749070629493251}
-  m_Layer: 0
-  m_Name: StoneHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1099749070629493251
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1378059530505255849}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.05, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8341136226376578888}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1572730062345962120
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8341136226376578888}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8341136224734311412
 GameObject:
@@ -1060,7 +1029,6 @@ Transform:
   - {fileID: 8341136224734311413}
   - {fileID: 8341136225007182624}
   - {fileID: 8341136225295962592}
-  - {fileID: 1099749070629493251}
   - {fileID: 2476671116373331656}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1137,6 +1105,7 @@ MonoBehaviour:
   aheadCheck: {fileID: 8341136225430178441}
   downCHeck: {fileID: 8341136224734311412}
   goingDownCheck: {fileID: 8341136225007182655}
+  wallCheck: {fileID: 0}
   animator: {fileID: 8341136226376578884}
   layerMask:
     serializedVersion: 2
@@ -1151,6 +1120,7 @@ MonoBehaviour:
   couldAntMove: 1
   isAntClimbing: 0
   isCeilingWalk: 0
+  isTeleportingEnable: 1
   isAntReadyForNextAction: 0
 --- !u!50 &8341136226376578885
 Rigidbody2D:
@@ -1244,7 +1214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabDetect: {fileID: 2476671116373331656}
-  stoneHolder: {fileID: 1099749070629493251}
+  stoneHolder: {fileID: 0}
   rayDist: 2
 --- !u!1 &8341136226477113652
 GameObject:
