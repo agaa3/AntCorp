@@ -25,7 +25,7 @@ public class ant_movement : MonoBehaviour
     goingDownCheck goingDownDetectScript;
     wallCheck wallCheckScript;
 
-    private Rigidbody2D PlayerAnt;
+    private Rigidbody2D UseRigidbody;
     private BoxCollider2D boxCollider2d;
     public Animator animator;
     [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
@@ -41,6 +41,7 @@ public class ant_movement : MonoBehaviour
     [SerializeField] private bool isAntReadyForNextAction = false;
 
     float MOVEMENT;
+    Vector2 gravityOverride;
 
 
     private void Start()
@@ -55,10 +56,10 @@ public class ant_movement : MonoBehaviour
         goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
         wallCheckScript = wallCheck.GetComponent<wallCheck>();
 
-        PlayerAnt = GetComponent<Rigidbody2D>();
+        UseRigidbody = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
-        turnOnGravityForFloorWalk();
+        SetFloorGravity();
         turnOnGravity();
         animator.speed = 2;
     }
@@ -83,6 +84,7 @@ public class ant_movement : MonoBehaviour
     private void FixedUpdate()
     {
         //isClimbing();
+        ApplyGravityOverride();
         Move();
     }
 
@@ -132,9 +134,9 @@ public class ant_movement : MonoBehaviour
             //animator.SetInteger("wallClimbSide", 21);
             turnOffCeilingWalk();
             if (!isAntClimbingOnRightWall())
-                turnOnGravityForClimbingOnLefttWall();
+                SetWallGravity(false);
             else
-                turnOnGravityForClimbingOnRightWall();
+                SetWallGravity(true);
             turnOnGravity();
             MOVEMENT = 0;
         }
@@ -152,11 +154,11 @@ public class ant_movement : MonoBehaviour
             rotate_minus_90();
             if (isAntClimbingOnRightWall())
             {
-                turnOnGravityForClimbingOnRightWall();
+                SetWallGravity(true);
             }
             else
             {
-                turnOnGravityForClimbingOnLefttWall();
+                SetWallGravity(false);
             }
 
             turnOnGravity();
@@ -231,7 +233,7 @@ public class ant_movement : MonoBehaviour
             turnOffGravity();
             antCantMove();
             antStopClimbing();
-            turnOnGravityForFloorWalk();
+            SetFloorGravity();
             MOVEMENT = 0;
             turnOffGravity();
             teleportPlayerAnt();
@@ -250,7 +252,7 @@ public class ant_movement : MonoBehaviour
         {
             turnOffGravity();
             turnOnCeilingWalk();
-            turnOnGravityForCeilingWalk();
+            SetCeilingGravity();
             notReadyForNextAction();
             antCantMove();
             if (isAntClimbingOnRightWall())
@@ -283,7 +285,7 @@ public class ant_movement : MonoBehaviour
             couldAntMove = false;
             MOVEMENT = 0f;
             turnOffGravity();
-            turnOnGravityForFloorWalk();
+            SetFloorGravity();
             rotate_plus_90();
             antStopClimbing();
             turnOnGravity();
@@ -297,7 +299,7 @@ public class ant_movement : MonoBehaviour
 
     private void isClimbing()
     {
-        if (PlayerAnt.gravityScale == 0)
+        if (UseRigidbody.gravityScale == 0)
         {
 
             isAntClimbing = true;
@@ -356,11 +358,11 @@ public class ant_movement : MonoBehaviour
             //animator.SetInteger("wallClimbSide", 2);
             if (!isAntClimbingOnRightWall())
             {
-                turnOnGravityForClimbingOnLefttWall();
+                SetWallGravity(false);
             }
             else
             {
-                turnOnGravityForClimbingOnRightWall();
+                SetWallGravity(true);
             }
             turnOnGravity();
             antStartClimbing();
@@ -505,12 +507,12 @@ public class ant_movement : MonoBehaviour
             if (m_FacingRight)
             {
 
-                turnOnGravityForClimbingOnRightWall();
+                SetWallGravity(true);
                 turnOnGravity();
             }
             else
             {
-                turnOnGravityForClimbingOnLefttWall();
+                SetWallGravity(false);
                 turnOnGravity();
             }
             rotate_plus_90();
@@ -533,7 +535,7 @@ public class ant_movement : MonoBehaviour
         if (rightCheck() && !isAntGoingDown() && isAntClimbing && isAntReadyForNextAction)
         {
             turnOffGravity();
-            turnOnGravityForCeilingWalk();
+            SetCeilingGravity();
             notReadyForNextAction();
             rotate_plus_90();
             //animator.SetInteger("wallClimbSide", 5);
@@ -561,33 +563,13 @@ public class ant_movement : MonoBehaviour
 
     private void turnOnGravity()
     {
-        PlayerAnt.gravityScale = 1;
+        UseRigidbody.gravityScale = 1;
     }
 
     private void turnOffGravity()
     {
        
-        PlayerAnt.gravityScale = 0;
-    }
-
-    private void turnOnGravityForClimbingOnRightWall()
-    {
-        Physics2D.gravity = new Vector2(9.8f, 0);
-    }
-
-    private void turnOnGravityForClimbingOnLefttWall()
-    {
-        Physics2D.gravity = new Vector2(-9.8f, 0);
-    }
-
-    private void turnOnGravityForFloorWalk()
-    {
-        Physics2D.gravity = new Vector2(0, -9.8f);
-    }
-
-    private void turnOnGravityForCeilingWalk()
-    {
-        Physics2D.gravity = new Vector2(0, 9.8f);
+        UseRigidbody.gravityScale = 0;
     }
 
     public void teleportPlayerAnt()
@@ -654,5 +636,30 @@ public class ant_movement : MonoBehaviour
     public bool isAntGoingRight()
     {
         return goingDownDetectScript.isAntGoingRight();
+    }
+
+
+    private void SetWallGravity(bool right)
+    {
+        float h = -Physics2D.gravity.y;
+        gravityOverride.y = h;
+        if (!right)
+        {
+            h = -h;
+        }
+        gravityOverride.x = h;
+    }
+    private void SetFloorGravity()
+    {
+        gravityOverride = Vector2.zero;
+    }
+    private void SetCeilingGravity()
+    {
+        gravityOverride.x = 0;
+        gravityOverride.y = -Physics2D.gravity.y;
+    }
+    private void ApplyGravityOverride()
+    {
+        UseRigidbody.AddForce(gravityOverride);
     }
 }
