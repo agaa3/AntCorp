@@ -48,7 +48,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8398396963648053195}
-  - component: {fileID: 5735106296562651132}
+  - component: {fileID: 394456113786042916}
   - component: {fileID: 8026550644672846632}
   m_Layer: 0
   m_Name: Below
@@ -72,8 +72,8 @@ Transform:
   m_Father: {fileID: 9154244057967385328}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &5735106296562651132
-CircleCollider2D:
+--- !u!61 &394456113786042916
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -86,8 +86,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.025
+  m_Size: {x: 0.75, y: 0.05}
+  m_EdgeRadius: 0
 --- !u!114 &8026550644672846632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &5699034156668071305
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &6320618305968810969
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8185842807062842847}
-  - component: {fileID: 8337877593719815730}
+  - component: {fileID: 2685159178517076468}
   - component: {fileID: 7266880622416975901}
   m_Layer: 0
   m_Name: Above
@@ -196,8 +208,8 @@ Transform:
   m_Father: {fileID: 9154244057967385328}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &8337877593719815730
-CircleCollider2D:
+--- !u!61 &2685159178517076468
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -210,8 +222,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.025
+  m_Size: {x: 0.75, y: 0.05}
+  m_EdgeRadius: 0
 --- !u!114 &7266880622416975901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &8341136224818803528
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &8341136225884420994
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &8341136226166046855
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &8341136226292067238
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &8341136226344599439
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggering: 0
+  TagWhitelist: []
+  inside: []
 --- !u!1 &8341136226376578883
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,11 +682,13 @@ MonoBehaviour:
   Axis: 0
   CanMove: 1
   CanFace: 1
+  CanFlip: 1
   IsMidTurn: 0
   IsFacingRight: 1
   IsMidTeleport: 1
   MoveSpeed: 2
-  TurnDuration: 0.25
+  InsideTurnDuration: 0.25
+  OutsideTurnDuration: 0.4
 --- !u!50 &8341136226376578885
 Rigidbody2D:
   serializedVersion: 4

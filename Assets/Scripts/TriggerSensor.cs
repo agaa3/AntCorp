@@ -1,22 +1,40 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerSensor : MonoBehaviour
 {
-    public bool IsTriggering => triggering;
-    [SerializeField] private bool triggering = false;
+    public string[] TagWhitelist;
+    public IReadOnlyList<Collider2D> CollidersInside => inside;
+    public bool IsTriggering { get; private set; }
+
+    [SerializeField] private List<Collider2D> inside;
+
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("climbing_walls"))
+        foreach(string s in TagWhitelist)
         {
-            triggering = true;
+            if (other.CompareTag(s))
+            {
+                IsTriggering = true;
+                inside.Add(other);
+                break;
+            }
         }
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("climbing_walls"))
+        foreach (string s in TagWhitelist)
         {
-            triggering = false;
+            if (other.CompareTag(s))
+            {
+                inside.Remove(other);
+                if (inside.Count == 0)
+                {
+                    IsTriggering = false;
+                }
+                break;
+            }
         }
     }
 }

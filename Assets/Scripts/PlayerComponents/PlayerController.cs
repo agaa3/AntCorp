@@ -15,6 +15,7 @@ public class PlayerController : PlayerComponent
     public HeadAxis Axis = HeadAxis.Floor;
     public bool CanMove = true;
     public bool CanFace = true;
+    public bool CanFlip = true;
     public bool IsMidTurn = false;
     public bool IsFacingRight = true;
     public bool IsMidTeleport = false;
@@ -28,6 +29,42 @@ public class PlayerController : PlayerComponent
 
 
 
+
+    public void Flip()
+    {
+        if (CanFlip && !IsMidTurn && !Sensors.HasGroundBelow() && Sensors.HasGroundAbove() && Axis == HeadAxis.Ceiling)
+        {
+            SetAxis(HeadAxis.Floor, true);
+        }
+    }
+
+    #region Axis
+    public void SetAxis(HeadAxis axis, bool updateGravity)
+    {
+        Vector3 ax = transform.eulerAngles;
+        switch (axis)
+        {
+            case HeadAxis.Floor:
+                ax.z = 0;
+                break;
+            case HeadAxis.Ceiling:
+                ax.z = 180;
+                break;
+            case HeadAxis.WallLeft:
+                ax.z = -90;
+                break;
+            case HeadAxis.WallRight:
+                ax.z = 90;
+                break;
+        }
+        transform.eulerAngles = ax;
+        Axis = axis;
+        if (updateGravity)
+        {
+            UpdateGravityOverride();
+        }
+    }
+    #endregion
 
     #region Facing
     /// <summary>
@@ -88,35 +125,34 @@ public class PlayerController : PlayerComponent
         CheckSensors();
         UpdateFacing();
         Move();
+        EnsureGrounded();
     }
     #endregion
 
     private void Move()
     {
-        if (!CanMove || IsMidTurn)
+        if (CanMove && !IsMidTurn && Sensors.HasGroundBelow())
         {
-            return;
+            Vector3 move = Vector3.zero;
+            switch (Axis)
+            {
+                case HeadAxis.Floor:
+                    move.x = moveInput;
+                    break;
+                case HeadAxis.Ceiling:
+                    move.x = -moveInput;
+                    break;
+                case HeadAxis.WallLeft:
+                    move.y = -moveInput;
+                    break;
+                case HeadAxis.WallRight:
+                    move.y = moveInput;
+                    break;
+            }
+            transform.position += (move * MoveSpeed * Time.fixedDeltaTime);
         }
-
-        Vector3 move = Vector3.zero;
-        switch (Axis)
-        {
-            case HeadAxis.Floor:
-                move.x = moveInput;
-                break;
-            case HeadAxis.Ceiling:
-                move.x = -moveInput;
-                break;
-            case HeadAxis.WallLeft:
-                move.y = -moveInput;
-                break;
-            case HeadAxis.WallRight:
-                move.y = moveInput;
-                break;
-        }
-        transform.position += (move * MoveSpeed * Time.fixedDeltaTime);
     }
-    
+
     private void CheckSensors()
     {
         if (!IsMidTurn)
@@ -148,8 +184,30 @@ public class PlayerController : PlayerComponent
         }
     }
 
+    private void EnsureGrounded()
+    {
+        if (!IsMidTurn && !Sensors.HasGroundBelow())
+        {
+            if (Axis != HeadAxis.Floor)
+            {
+                if (Axis == HeadAxis.Ceiling)
+                {
+                    SetFloorGravity();
+                }
+                else
+                {
+                    SetAxis(HeadAxis.Floor, true);
+                }
+            }
+        }
+    }
+
     private IEnumerator TurnInside(bool right)
     {
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Round(pos.x * 2) / 2;
+        pos.y = Mathf.Round(pos.y * 2) / 2;
+        transform.position = pos;
         if (right)
         {
             TurnRight();
@@ -164,7 +222,10 @@ public class PlayerController : PlayerComponent
     private IEnumerator TurnOutside(bool right)
     {
         Vector2 pos1 = transform.position;
-        Vector2 pos2 = pos1 + ((Vector2)transform.right * (IsFacingRight ? 1 : -1));
+        Vector2 pos2 = pos1;
+        pos2.x = Mathf.Round(pos2.x * 2) / 2;
+        pos2.y = Mathf.Round(pos2.y * 2) / 2;
+        pos2 += ((Vector2)transform.right * (IsFacingRight ? 1 : -1));
         Vector2 pos3 = pos2 + -((Vector2)transform.up);
         float timer = 0;
         while (timer < OutsideTurnDuration)
@@ -219,7 +280,7 @@ public class PlayerController : PlayerComponent
     }
     private void UpdateFacing()
     {
-        if (CanFace && !IsMidTurn)
+        if (CanFace && !IsMidTurn && Sensors.HasGroundBelow())
         {
             if (moveInput > float.Epsilon && !IsFacingRight)
             {
@@ -273,7 +334,7 @@ public class PlayerController : PlayerComponent
     }
     private void ApplyGravityOverride()
     {
-        UseRigidbody.AddForce(gravityOverride);
+        UseRigidbody.AddForce(gravityOverride * UseRigidbody.gravityScale);
     }
     #endregion
 
@@ -285,13 +346,9 @@ public class PlayerController : PlayerComponent
             moveInput = Input.GetAxisRaw("Vertical");
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetButtonDown("Jump"))
         {
-            TurnRight();
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            TurnLeft();
+            Flip();
         }
     }
 }

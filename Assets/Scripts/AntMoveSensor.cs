@@ -21,10 +21,18 @@ public class AntMoveSensor
     }
     public bool CanTurnOutside()
     {
-        return !Ahead.IsTriggering && !AheadBelow.IsTriggering && Below.IsTriggering;
+        return !Ahead.IsTriggering && (!AheadBelow.IsTriggering || (!Below.IsTriggering && BehindBelow.IsTriggering)) && Below.IsTriggering;
     }
     public bool InFreefall()
     {
         return !(Ahead.IsTriggering && AheadAbove.IsTriggering && AheadBelow.IsTriggering && Behind.IsTriggering && BehindAbove.IsTriggering && BehindBelow.IsTriggering && Above.IsTriggering && Below.IsTriggering);
+    }
+    public bool HasGroundBelow()
+    {
+        return Below.IsTriggering;
+    }
+    public bool HasGroundAbove()
+    {
+        return Above.IsTriggering || AheadAbove.IsTriggering || BehindAbove.IsTriggering;
     }
 }

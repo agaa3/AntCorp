@@ -21,9 +21,11 @@ TagManager:
   - TELEPORTER_5_2
   - TELEPORTER_6_1
   - TELEPORTER_6_2
-  - Stone
   - climbing_walls
   - wallForSmallAnts
+  - movable
+  - slowing_ground
+  - water
   layers:
   - Default
   - TransparentFX
