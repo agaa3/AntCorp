@@ -20,7 +20,8 @@ public class PlayerController : PlayerComponent
     public bool IsMidTeleport = false;
     [Header("Parameters")]
     public float MoveSpeed = 2f;
-    public float TurnDuration = 0.25f;
+    public float InsideTurnDuration = 0.25f;
+    public float OutsideTurnDuration = 0.4f;
 
     Vector2 gravityOverride = Vector2.zero;
     float moveInput = 0.0f;
@@ -118,40 +119,78 @@ public class PlayerController : PlayerComponent
     
     private void CheckSensors()
     {
-        if (Sensors.CanTurnInside())
+        if (!IsMidTurn)
         {
-            if (IsFacingRight)
+            if (Sensors.CanTurnInside())
             {
-                TurnLeft();
-                //StartCoroutine(TurnInsideLeft());
+                IsMidTurn = true;
+                if (IsFacingRight)
+                {
+                    StartCoroutine(TurnInside(false));
+                }
+                else
+                {
+                    StartCoroutine(TurnInside(true));
+                }
             }
-            else
+            if (Sensors.CanTurnOutside())
             {
-                TurnRight();
-                //StartCoroutine(TurnInsideRight());
+                IsMidTurn = true;
+                if (IsFacingRight)
+                {
+                    StartCoroutine(TurnOutside(true));
+                }
+                else
+                {
+                    StartCoroutine(TurnOutside(false));
+                }
             }
         }
     }
 
-    private IEnumerator TurnInsideLeft()
+    private IEnumerator TurnInside(bool right)
     {
-        if (!IsMidTurn)
+        if (right)
         {
-            IsMidTurn = true;
-            yield return new WaitForSeconds(TurnDuration);
-            TurnLeft();
-            IsMidTurn = false;
-        }
-    }
-    private IEnumerator TurnInsideRight()
-    {
-        if (!IsMidTurn)
-        {
-            IsMidTurn = true;
-            yield return new WaitForSeconds(TurnDuration);
             TurnRight();
-            IsMidTurn = false;
         }
+        else
+        {
+            TurnLeft();
+        }
+        yield return new WaitForSeconds(InsideTurnDuration);
+        IsMidTurn = false;
+    }
+    private IEnumerator TurnOutside(bool right)
+    {
+        Vector2 pos1 = transform.position;
+        Vector2 pos2 = pos1 + ((Vector2)transform.right * (IsFacingRight ? 1 : -1));
+        Vector2 pos3 = pos2 + -((Vector2)transform.up);
+        float timer = 0;
+        while (timer < OutsideTurnDuration)
+        {
+            timer += Time.deltaTime;
+            UseRigidbody.MovePosition(Vector2.Lerp(pos1, pos2, (timer / OutsideTurnDuration)));
+            yield return null;
+        }
+        UseRigidbody.MovePosition(pos2);
+        if (right)
+        {
+            TurnRight();
+        }
+        else
+        {
+            TurnLeft();
+        }
+        timer = 0;
+        while (timer < OutsideTurnDuration)
+        {
+            timer += Time.deltaTime;
+            UseRigidbody.MovePosition(Vector2.Lerp(pos2, pos3, (timer / OutsideTurnDuration)));
+            yield return null;
+        }
+        UseRigidbody.MovePosition(pos3);
+        IsMidTurn = false;
     }
 
     private void TurnLeft()
@@ -230,7 +269,7 @@ public class PlayerController : PlayerComponent
     private void SetCeilingGravity()
     {
         gravityOverride.x = 0;
-        gravityOverride.y = -Physics2D.gravity.y;
+        gravityOverride.y = 2 * -Physics2D.gravity.y;
     }
     private void ApplyGravityOverride()
     {

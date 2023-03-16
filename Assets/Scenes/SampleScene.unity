@@ -21973,8 +21973,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: Grid
+      value: 
+      objectReference: {fileID: 389290528}
+    - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
       propertyPath: CanMove
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: TurnDuration
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: OutsideTurnDuration
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 8341136226376578888, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
       propertyPath: m_RootOrder
