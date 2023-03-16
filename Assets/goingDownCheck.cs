@@ -1,37 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class goingDownCheck : MonoBehaviour
 {
-    public GameObject check1;
-    public GameObject check2;
+    public Transform Point1;
+    public Transform Point2;
 
-    goingDownCheck1 checkPoint1;
-    goingDownCheck2 checkPoint2;
-    void Start()
+    public bool IsGoingDown()
     {
-        checkPoint1 = check1.GetComponent<goingDownCheck1>();
-        checkPoint2 = check2.GetComponent<goingDownCheck2>();
+        return !((Point2.position.y - Point1.position.y) >= 0);
     }
-    public bool isAntGoingDown()
+    public bool IsGoingRight()
     {
-        float val = checkPoint2.getPositionY() - checkPoint1.getPositionY();
-
-        if (val >= 0)
-            return false;
-        else
-            return true;
-    }
-
-    public bool isAntGoingRight()
-    {
-        float val = checkPoint2.getPositionX() - checkPoint1.getPositionX();
-
-        if (val >= 0)
-            return true;
-        else
-            return false;
+        return (Point2.position.x - Point1.position.x) >= 0;
     }
 
 }

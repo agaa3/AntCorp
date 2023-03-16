@@ -1,37 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
 
 public class ant_movement : MonoBehaviour
 {
-    public GameObject topAheadDetector;
-    public GameObject downAheadDetector;
-    public GameObject topBehindDetector;
-    public GameObject downBehindDetector;
-    public GameObject middleAheadDetector;
-    public GameObject aheadCheck;
-    public GameObject downCHeck;
-    public GameObject goingDownCheck;
-    public GameObject wallCheck;
+    public Animator animator;
 
-    topAheadDetect topAheadDetectScript;
-    downAheadDetect downAheadDetectScript;
-    topBehindDetect topBehindDetectScript;
-    downBehindDetect downBehindDetectScript;
-    middleAheadDetect middleAheadDetectScript;
-    aheadCheck aheadCheckScript;
-    downCheck downCheckScript;
-    goingDownCheck goingDownDetectScript;
-    wallCheck wallCheckScript;
+    // TO-DO: Figure out how much sensors does ant actually need.
+    //        Test OnCollisionEnter2D and OnCollisionExit2D.
+
+    [Header("Sensors")]
+    public TriggerSensor AheadTopSensor;
+    public TriggerSensor AheadMidSensor;
+    public TriggerSensor AheadDownSensor;
+    public TriggerSensor BehindTopSensor;
+    public TriggerSensor BehindDownSensor;
+    [Header("Checks")]
+    public TriggerSensor[] AheadChecks;
+    public TriggerSensor[] DownChecks;
+    public goingDownCheck goingDownDetectScript;
+    public wallCheck wallCheckScript;
+
 
     private Rigidbody2D UseRigidbody;
     private BoxCollider2D boxCollider2d;
-    public Animator animator;
-    [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
 
     private float extraHeightText = 0.009f;
     private float MovementSpeed = 2.3f;
+    [SerializeField] private LayerMask layerMask, groundLayerMask, groundLayerMask1;
 
     public bool m_FacingRight = true;
     public bool couldAntMove = true;
@@ -46,16 +41,6 @@ public class ant_movement : MonoBehaviour
 
     private void Start()
     {
-        topAheadDetectScript = topAheadDetector.GetComponent<topAheadDetect>();
-        downAheadDetectScript = downAheadDetector.GetComponent<downAheadDetect>();
-        topBehindDetectScript = topBehindDetector.GetComponent<topBehindDetect>();
-        downBehindDetectScript = downBehindDetector.GetComponent<downBehindDetect>();
-        middleAheadDetectScript = middleAheadDetector.GetComponent<middleAheadDetect>();
-        aheadCheckScript = aheadCheck.GetComponent<aheadCheck>();
-        downCheckScript = downCHeck.GetComponent<downCheck>();
-        goingDownDetectScript = goingDownCheck.GetComponent<goingDownCheck>();
-        wallCheckScript = wallCheck.GetComponent<wallCheck>();
-
         UseRigidbody = GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         animator.SetInteger("wallClimbSide", 0);
@@ -145,7 +130,7 @@ public class ant_movement : MonoBehaviour
 
     private void climbFromCeilingToWall()
     {
-        if (!downAheadCheckPoint() && isAntReadyForNextAction && isTeleportingEnable)
+        if (!AheadDownSensor.IsTriggering() && isAntReadyForNextAction && isTeleportingEnable)
         {
             notReadyForNextAction();
             antCantMove();
@@ -227,7 +212,7 @@ public class ant_movement : MonoBehaviour
 
     void climbFromWallToSurface()
     {
-        if (isAntClimbing && !downAheadCheckPoint() && !isAntGoingDown() && isTeleportingEnable && isAntReadyForNextAction)
+        if (isAntClimbing && !AheadDownSensor.IsTriggering() && !isAntGoingDown() && isTeleportingEnable && isAntReadyForNextAction)
         {
             notReadyForNextAction();
             turnOffGravity();
@@ -248,7 +233,7 @@ public class ant_movement : MonoBehaviour
 
     void climbFromWallToCeilingWhileAntIsClimbingDown()
     {
-        if (isAntClimbing && !downAheadCheckPoint() && isAntReadyForNextAction && isAntGoingDown() && isTeleportingEnable)
+        if (isAntClimbing && !AheadDownSensor.IsTriggering() && isAntReadyForNextAction && isAntGoingDown() && isTeleportingEnable)
         {
             turnOffGravity();
             turnOnCeilingWalk();
@@ -280,7 +265,7 @@ public class ant_movement : MonoBehaviour
     }
     private void goDownFromtWallToFloor()
     {
-        if (isAntClimbing && downAheadCheckPoint() && topAheadCheckPoint() && isAntGoingDown())
+        if (isAntClimbing && AheadDownSensor.IsTriggering() && AheadTopSensor.IsTriggering() && isAntGoingDown())
         {
             couldAntMove = false;
             MOVEMENT = 0f;
@@ -347,7 +332,7 @@ public class ant_movement : MonoBehaviour
 
     private void goDownFromFloorToWall()
     {
-        if (!downAheadCheckPoint() && downCheck() && !isAntClimbing && isTeleportingEnable && isAntReadyForNextAction)
+        if (!AheadDownSensor.IsTriggering() && downCheck() && !isAntClimbing && isTeleportingEnable && isAntReadyForNextAction)
         {
             turnOffGravity();
             teleportPlayerAntToDown();
@@ -413,58 +398,14 @@ public class ant_movement : MonoBehaviour
         }
     }
 
-    private bool topAheadCheckPoint()
-    {
-        if (topAheadDetectScript.flag)
-            return true;
-        else
-            return false;
-    }
-
-    private bool middleAheadCheckPoint()
-    {
-        if (middleAheadDetectScript.flag)
-            return true;
-        else
-            return false;
-    }
-
-    private bool downAheadCheckPoint()
-    {
-        if (downAheadDetectScript.flag)
-        {
-
-            return true;
-        }
-        else
-        {
-
-            return false;
-        }
-    }
-
-    private bool topBehindCheckPoint()
-    {
-        if (topBehindDetectScript.flag)
-            return true;
-        else
-            return false;
-    }
-
-    private bool downBehindCheckPoint()
-    {
-        if (downBehindDetectScript.flag)
-            return true;
-        else
-            return false;
-    }
-
     private bool rightCheck()
     {
-        if (aheadCheckScript.isTouching())
-            return true;
-        else
-            return false;
+        bool flag = false;
+        for (int i = 0; i < AheadChecks.Length && flag != true; i++)
+        {
+            flag = AheadChecks[i].IsTriggering();
+        }
+        return flag;
     }
 
 
@@ -484,14 +425,12 @@ public class ant_movement : MonoBehaviour
 
     private bool downCheck()
     {
-        if (downCheckScript.isTouching())
+        bool flag = false;
+        for (int i = 0; i < DownChecks.Length && flag != true; i++)
         {
-            return true;
+            flag = DownChecks[i].IsTriggering();
         }
-        else
-        {
-            return false;
-        }
+        return flag;
     }
 
     private void climbOnWall()
@@ -625,17 +564,17 @@ public class ant_movement : MonoBehaviour
 
     public bool isAntGoingDown()
     {
-        return goingDownDetectScript.isAntGoingDown();
+        return goingDownDetectScript.IsGoingDown();
     }
 
     public bool isAntClimbingOnRightWall()
     {
-        return !wallCheckScript.isAntOnRightWall();
+        return !wallCheckScript.IsOnRightWall();
     }
 
     public bool isAntGoingRight()
     {
-        return goingDownDetectScript.isAntGoingRight();
+        return goingDownDetectScript.IsGoingRight();
     }
 
 
