@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class TriggerSensor : MonoBehaviour
 {
-    private bool flag = false;
-    public bool IsTriggering()
-    {
-        return flag;
-    }
+    public bool IsTriggering => triggering;
+    [SerializeField] private bool triggering = false;
 
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("climbing_walls"))
         {
-            flag = true;
+            triggering = true;
         }
     }
-    public void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D other)
     {
-        flag = false;
+        if (other.CompareTag("climbing_walls"))
+        {
+            triggering = false;
+        }
     }
 }
