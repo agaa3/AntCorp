@@ -19,10 +19,16 @@ public class PlayerController : PlayerComponent
     public bool IsMidTurn = false;
     public bool IsFacingRight = true;
     public bool IsMidTeleport = false;
+    public bool IsMoving = false;
     [Header("Parameters")]
     public float MoveSpeed = 2f;
     public float InsideTurnDuration = 0.25f;
     public float OutsideTurnDuration = 0.4f;
+
+    /// <summary>
+    /// True if inside, false if outside
+    /// </summary>
+    public Action<bool> PerformedTurn;
 
     Vector2 gravityOverride = Vector2.zero;
     float moveInput = 0.0f;
@@ -149,7 +155,21 @@ public class PlayerController : PlayerComponent
                     move.y = moveInput;
                     break;
             }
-            transform.position += (move * MoveSpeed * Time.fixedDeltaTime);
+            move *= MoveSpeed;
+            move *= Time.fixedDeltaTime;
+            transform.position += move;
+            if (move.magnitude > float.Epsilon)
+            {
+                IsMoving = true;
+            }
+            else
+            {
+                IsMoving = false;
+            }
+        }
+        else
+        {
+            IsMoving = false;
         }
     }
 
@@ -169,7 +189,7 @@ public class PlayerController : PlayerComponent
                     StartCoroutine(TurnInside(true));
                 }
             }
-            if (Sensors.CanTurnOutside())
+            else if (Sensors.CanTurnOutside())
             {
                 IsMidTurn = true;
                 if (IsFacingRight)
@@ -204,19 +224,31 @@ public class PlayerController : PlayerComponent
 
     private IEnumerator TurnInside(bool right)
     {
+        Debug.Log("Turn Inside");
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x * 2) / 2;
         pos.y = Mathf.Round(pos.y * 2) / 2;
         transform.position = pos;
-        if (right)
+        float timer = 0;
+        bool flag = false;
+        PerformedTurn?.Invoke(true);
+        while (timer < InsideTurnDuration)
         {
-            TurnRight();
+            timer += Time.deltaTime;
+            if (timer >= InsideTurnDuration * 0.77f && !flag)
+            {
+                if (right)
+                {
+                    TurnRight();
+                }
+                else
+                {
+                    TurnLeft();
+                }
+                flag = true;
+            }
+            yield return null;
         }
-        else
-        {
-            TurnLeft();
-        }
-        yield return new WaitForSeconds(InsideTurnDuration);
         IsMidTurn = false;
     }
     private IEnumerator TurnOutside(bool right)
@@ -228,13 +260,15 @@ public class PlayerController : PlayerComponent
         pos2 += ((Vector2)transform.right * (IsFacingRight ? 1 : -1));
         Vector2 pos3 = pos2 + -((Vector2)transform.up);
         float timer = 0;
+        bool flag = false;
+        PerformedTurn?.Invoke(false);
         while (timer < OutsideTurnDuration)
         {
             timer += Time.deltaTime;
             UseRigidbody.MovePosition(Vector2.Lerp(pos1, pos2, (timer / OutsideTurnDuration)));
             yield return null;
         }
-        UseRigidbody.MovePosition(pos2);
+        flag = true;
         if (right)
         {
             TurnRight();
@@ -243,6 +277,7 @@ public class PlayerController : PlayerComponent
         {
             TurnLeft();
         }
+        UseRigidbody.MovePosition(pos2);
         timer = 0;
         while (timer < OutsideTurnDuration)
         {

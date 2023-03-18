@@ -21679,6 +21679,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'ant '
       objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: InsideTurnDuration
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: OutsideTurnDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8341136226376578888, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
       propertyPath: m_RootOrder
       value: 13
