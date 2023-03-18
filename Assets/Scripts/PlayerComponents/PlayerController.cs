@@ -41,6 +41,7 @@ public class PlayerController : PlayerComponent
         if (CanFlip && !IsMidTurn && !Sensors.HasGroundBelow() && Sensors.HasGroundAbove() && Axis == HeadAxis.Ceiling)
         {
             SetAxis(HeadAxis.Floor, true);
+            FaceFlip();
         }
     }
 
