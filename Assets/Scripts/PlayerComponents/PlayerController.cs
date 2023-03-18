@@ -158,7 +158,7 @@ public class PlayerController : PlayerComponent
             }
             move *= MoveSpeed;
             move *= Time.fixedDeltaTime;
-            transform.position += move;
+            UseRigidbody.MovePosition(transform.position + move);
             if (move.magnitude > float.Epsilon)
             {
                 IsMoving = true;
