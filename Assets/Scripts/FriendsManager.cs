@@ -11,9 +11,6 @@ public class FriendsManager : MonoBehaviour
     public GameObject messageBox;
     public Text messageText;
 
-    public RawImage numberOfFriendsImage;
-    public Texture[] allNumbers = new Texture[10];
-
     private IEnumerator popCoroutine;
     private IEnumerator stopCoroutine;
 
@@ -27,14 +24,8 @@ public class FriendsManager : MonoBehaviour
             instance = this;
         }
         messageBox.SetActive(false);    
-        numberOfFriendsImage.texture = allNumbers[friendsNumber];
     }
 
-    public void IncreaseFriendsScore()
-    {
-        friendsNumber += 1;
-        numberOfFriendsImage.texture = allNumbers[friendsNumber];
-    }
 
     public void PopMessage(string text)
     {

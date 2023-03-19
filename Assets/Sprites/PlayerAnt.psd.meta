@@ -44,12 +44,12 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -68,7 +68,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 256
     resizeAlgorithm: 1
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
@@ -537,7 +537,6 @@ TextureImporter:
       PlayerAnt_TurnOutside_5: -722761220
       PlayerAnt_Walk_3: -1341818951
       PlayerAnt_TurnInside_4: 2102262776
-      PlayerAnt_TurnInside_1: 826191756
       PlayerAnt_TurnInside_5: -1524141863
       PlayerAnt_TurnOutside_4: 1082331437
       PlayerAnt_Walk_1: 1195649554
@@ -551,6 +550,7 @@ TextureImporter:
       PlayerAnt_TurnOutside_3: -296091831
       PlayerAnt_Idle_4: -1614138752
       PlayerAnt_Walk_5: -1599058084
+      PlayerAnt_TurnInside_1: 826191756
       PlayerAnt_Idle_1: -1318643853
       PlayerAnt_Walk_6: 1967733496
       PlayerAnt_TurnOutside_1: -323545448

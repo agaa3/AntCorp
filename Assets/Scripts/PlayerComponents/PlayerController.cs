@@ -2,15 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
 [DisallowMultipleComponent]
-public class PlayerController : PlayerComponent
+public class PlayerController : PlayerModule
 {
     [Header("Components")]
-    public Rigidbody2D UseRigidbody;
-    public BoxCollider2D Collider;
     public AntMoveSensor Sensors = new AntMoveSensor();
+    public BoxCollider2D Collider => Player.Collider;
+    public Rigidbody2D UseRigidbody => Player.UseRigidbody;
     [Header("Flags")]
     public HeadAxis Axis = HeadAxis.Floor;
     public bool CanMove = true;
@@ -109,24 +107,18 @@ public class PlayerController : PlayerComponent
     #endregion
 
     #region Unity Callbacks
-    private void Awake()
-    {
-        UseRigidbody = GetComponent<Rigidbody2D>();
-        Collider = GetComponent<BoxCollider2D>();
-        //Animator = GetComponent<Animator>();
-    }
 
-    private void Start()
+    public override void OnInitialize(TimeState time)
     {
         SetFloorGravity();
     }
 
-    private void Update()
+    public override void OnUpdate(TimeState time)
     {
         UpdateInputs();
     }
 
-    private void FixedUpdate()
+    public override void OnFixedUpdate(TimeState time)
     {
         ApplyGravityOverride();
         CheckSensors();
@@ -158,7 +150,8 @@ public class PlayerController : PlayerComponent
             }
             move *= MoveSpeed;
             move *= Time.fixedDeltaTime;
-            UseRigidbody.MovePosition(transform.position + move);
+            //UseRigidbody.MovePosition(transform.position + move);
+            transform.position += move;
             if (move.magnitude > float.Epsilon)
             {
                 IsMoving = true;
@@ -261,7 +254,6 @@ public class PlayerController : PlayerComponent
         pos2 += ((Vector2)transform.right * (IsFacingRight ? 1 : -1));
         Vector2 pos3 = pos2 + -((Vector2)transform.up);
         float timer = 0;
-        bool flag = false;
         PerformedTurn?.Invoke(false);
         while (timer < OutsideTurnDuration)
         {
@@ -269,7 +261,6 @@ public class PlayerController : PlayerComponent
             UseRigidbody.MovePosition(Vector2.Lerp(pos1, pos2, (timer / OutsideTurnDuration)));
             yield return null;
         }
-        flag = true;
         if (right)
         {
             TurnRight();

@@ -1,84 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemManager : MonoBehaviour
 {
-    public static ItemManager instance;
-    public int candyNumber = 0; //na razie, do testow 
-    public int stickNumber = 0;
-    public RawImage numberOfCandiesImage;
-    public RawImage numberOfSticksImage;
-    public Texture[] allNumbers = new Texture[10];
-
-    private Bridge bridgeToPlace;
-    public GameObject grid;
-    public CustomCursor customCursor;
-    public Tile[] tiles;
-
-    // Start is called before the first frame update
-    void Start()
+    public static ItemManager Main;
+    public int Candies
     {
-        if (instance == null)
+        get => _candies;
+        set
         {
-            instance = this;
-        }
-        numberOfCandiesImage.texture = allNumbers[candyNumber];
-        numberOfSticksImage.texture = allNumbers[stickNumber];
-    }
-
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(0) && bridgeToPlace != null)
-        {
-            Tile nearestTile = null;
-            float shortestDistance = float.MaxValue;
-            foreach(Tile tile in tiles)
+            if (value < 0)
             {
-                float distance = Vector2.Distance(tile.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                if(distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    nearestTile = tile;
-                }
+                value = 0;
             }
-            if(nearestTile.isOccupied == false)
-            {
-                Instantiate(bridgeToPlace, nearestTile.transform.position, Quaternion.identity);
-                bridgeToPlace = null;
-                nearestTile.isOccupied = true;
-                grid.SetActive(false);
-                customCursor.gameObject.SetActive(false);
-                Cursor.visible = true;
-            }
+            CandiesChanged?.Invoke(_candies, value);
+            _candies = value;
         }
     }
-
-    public void IncreaseCandyNumber()
+    public int Sticks
     {
-        candyNumber += 1;
-        numberOfCandiesImage.texture = allNumbers[candyNumber];
-        
-    }
-
-    public void IncreaseStickNumber()
-    {
-        stickNumber += 1;
-        numberOfSticksImage.texture = allNumbers[stickNumber];
-    }
-
-    public void BuildBridge(Bridge bridge)
-    {
-        if(stickNumber >= bridge.cost)
+        get => _sticks;
+        set
         {
-            customCursor.gameObject.SetActive(true);
-            Cursor.visible = false;
-            stickNumber -= bridge.cost;
-            numberOfSticksImage.texture = allNumbers[stickNumber];
-            bridgeToPlace = bridge;
-            grid.SetActive(true);
+            if (value < 0)
+            {
+                value = 0;
+            }
+            SticksChanged?.Invoke(_sticks, value);
+            _sticks = value;
+        }
+    }
+    public int SmallAnts
+    {
+        get => _smallAnts;
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+            SmallAntsChanged?.Invoke(_smallAnts, value);
+            _smallAnts = value;
         }
     }
 
+    public event Action<int, int> SticksChanged;
+    public event Action<int, int> CandiesChanged;
+    public event Action <int, int> SmallAntsChanged;
+
+    private int _candies = 0;
+    private int _sticks = 0;
+    private int _smallAnts = 0;
+
+
+    void Awake()
+    {
+        if (Main == null)
+        {
+            Main = this;
+        }
+        else if (Main != this)
+        {
+            Destroy(this);
+        }
+    }
 }

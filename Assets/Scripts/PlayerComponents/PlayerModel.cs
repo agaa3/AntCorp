@@ -4,23 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class PlayerModel : PlayerComponent
+public class PlayerModel : PlayerModule
 {
     public Animator Animator;
-    private PlayerController controller => Player.Controller;
+    public PlayerController Controller => Player.Controller;
 
-    private void Update()
-    {
-        Animator.SetBool("IsMoving", controller.IsMoving);
-    }
 
-    private void OnEnable()
+    public override void OnInitialize(TimeState time)
     {
-        controller.PerformedTurn += TriggerTurn;
+        Animator = GetComponent<Animator>();
+        Controller.PerformedTurn += TriggerTurn;
     }
-    private void OnDisable()
+    public override void OnUpdate(TimeState time)
     {
-        controller.PerformedTurn -= TriggerTurn;
+        Animator.SetBool("IsMoving", Controller.IsMoving);
     }
 
     private void TriggerTurn(bool isInside)
