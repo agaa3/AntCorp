@@ -5,27 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Friends
-  - Candy
-  - Stick
-  - TELEPORTER11
-  - TELEPORTER12
-  - TELEPORTER_1_1
-  - TELEPORTER_1_2
-  - TELEPORTER_2_1
-  - TELEPORTER_2_2
-  - TELEPORTER_3_1
-  - TELEPORTER_3_2
-  - TELEPORTER_4_1
-  - TELEPORTER_4_2
-  - TELEPORTER_5_1
-  - TELEPORTER_5_2
-  - TELEPORTER_6_1
-  - TELEPORTER_6_2
   - climbing_walls
   - wallForSmallAnts
   - movable
   - slowing_ground
   - water
+  - Pickable
   layers:
   - Default
   - TransparentFX
@@ -34,7 +19,7 @@ TagManager:
   - Water
   - UI
   - ground
-  - Pickable
+  - 
   - Ant
   - 
   - 

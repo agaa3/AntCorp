@@ -1,3 +1,5 @@
+using AntCorp;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,21 +35,21 @@ public class PlayerGatherer : PlayerModule
     private void OnTriggerEnter2D(Collider2D other)
     {
         // TODO: redo all this shit
-        switch (other.tag)
+        if (other.CompareTag(Tag.Pickable))
         {
-            case "Friends":
-                string message = "Hit " + other.gameObject.GetComponent<SmallAnt>().combo + " key \nto get mud off small ant. ";
-                FriendsManager.instance.PopMessage(message);
-                Friend = other.gameObject;
-                break;
-            case "Candy":
-                Destroy(other.gameObject);
-                ItemManager.Main.Candies++;
-                break;
-            case "Stick":
-                Destroy(other.gameObject);
-                ItemManager.Main.Sticks++;
-                break;
+            ItemPickable pickable = other.GetComponent<ItemPickable>();
+            switch (pickable.Type)
+            {
+                case ItemType.Stick:
+                    ItemManager.Main.Sticks++;
+                    break;
+                case ItemType.Candy:
+                    ItemManager.Main.Candies++;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            Destroy(pickable.gameObject);
         }
     }
 }
