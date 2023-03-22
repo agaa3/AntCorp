@@ -130,7 +130,7 @@ public class PlayerController : PlayerModule
 
     private void Move()
     {
-        if (CanMove && !IsMidTurn && Sensors.HasGroundBelow())
+        if (CanMove && !IsMidTurn && Sensors.IsGrounded())
         {
             Vector3 move = Vector3.zero;
             switch (Axis)
@@ -152,14 +152,7 @@ public class PlayerController : PlayerModule
             move *= Time.fixedDeltaTime;
             //UseRigidbody.MovePosition(transform.position + move);
             transform.position += move;
-            if (move.magnitude > float.Epsilon)
-            {
-                IsMoving = true;
-            }
-            else
-            {
-                IsMoving = false;
-            }
+            IsMoving = move.magnitude > float.Epsilon;
         }
         else
         {
@@ -200,7 +193,7 @@ public class PlayerController : PlayerModule
 
     private void EnsureGrounded()
     {
-        if (!IsMidTurn && !Sensors.HasGroundBelow())
+        if (!IsMidTurn && !Sensors.IsGrounded())
         {
             if (Axis != HeadAxis.Floor)
             {

@@ -59,5 +59,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock Variant 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8738474688100799978, guid: ad71f67ff487a3e4cbc5b892e6e94d19, type: 3}
+      propertyPath: m_Size.x
+      value: 0.725
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738474688100799978, guid: ad71f67ff487a3e4cbc5b892e6e94d19, type: 3}
+      propertyPath: m_Size.y
+      value: 0.475
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738474688100799978, guid: ad71f67ff487a3e4cbc5b892e6e94d19, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738474688100799978, guid: ad71f67ff487a3e4cbc5b892e6e94d19, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.24
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad71f67ff487a3e4cbc5b892e6e94d19, type: 3}

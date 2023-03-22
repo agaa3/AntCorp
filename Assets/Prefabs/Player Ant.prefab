@@ -36,6 +36,7 @@ Transform:
   - {fileID: 8341136226292067239}
   - {fileID: 8185842807062842847}
   - {fileID: 8398396963648053195}
+  - {fileID: 160010131797504999}
   m_Father: {fileID: 8341136226376578888}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -96,7 +97,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.05}
+  m_Size: {x: 0.25, y: 0.05}
   m_EdgeRadius: 0
 --- !u!114 &8026550644672846632
 MonoBehaviour:
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TagWhitelist:
   - climbing_walls
+  - slowing_ground
   inside: []
 --- !u!1 &5699034156668071305
 GameObject:
@@ -254,6 +256,81 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6320618305968810969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TagWhitelist:
+  - climbing_walls
+  - slowing_ground
+  inside: []
+--- !u!1 &7843552357672556326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 160010131797504999}
+  - component: {fileID: 6417772945087747934}
+  - component: {fileID: 6965425614363304328}
+  m_Layer: 0
+  m_Name: Grounded
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &160010131797504999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843552357672556326}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.54, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9154244057967385328}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6417772945087747934
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843552357672556326}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.05}
+  m_EdgeRadius: 0
+--- !u!114 &6965425614363304328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843552357672556326}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1db5ed94f2d38d743afc6253437a2f0d, type: 3}
@@ -706,7 +783,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 8341136226376578886}
+  Gatherer: {fileID: 0}
   Model: {fileID: 5037322268045407631}
+  Modules: []
+  UseRigidbody: {fileID: 0}
+  Collider: {fileID: 0}
 --- !u!114 &8341136226376578886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,9 +800,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 409c403cf5d88034e9b5c1aedecbcf7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 5431600615305340511}
-  UseRigidbody: {fileID: 8341136226376578885}
-  Collider: {fileID: 8341136226376578889}
   Sensors:
     Ahead: {fileID: 4033038879377444295}
     AheadAbove: {fileID: 3694838489223120492}
@@ -731,6 +809,7 @@ MonoBehaviour:
     BehindBelow: {fileID: 8414107788883621144}
     Above: {fileID: 7266880622416975901}
     Below: {fileID: 8026550644672846632}
+    Grounded: {fileID: 6965425614363304328}
   Axis: 0
   CanMove: 1
   CanFace: 1
@@ -754,7 +833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7e99f3c5601c347ae05bb9198fb0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 5431600615305340511}
   Animator: {fileID: 3413162032195249615}
 --- !u!114 &8341136226376578890
 MonoBehaviour:
@@ -768,6 +846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daacb05bfb25d544a97626147f9d6eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Friend: {fileID: 0}
 --- !u!114 &666831188158663355
 MonoBehaviour:
   m_ObjectHideFlags: 0

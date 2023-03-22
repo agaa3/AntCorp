@@ -14,6 +14,7 @@ public class AntMoveSensor
     public TriggerSensor BehindBelow;
     public TriggerSensor Above;
     public TriggerSensor Below;
+    public TriggerSensor Grounded;
 
     public bool CanTurnInside()
     {
@@ -34,5 +35,9 @@ public class AntMoveSensor
     public bool HasGroundAbove()
     {
         return Above.IsTriggering || AheadAbove.IsTriggering || BehindAbove.IsTriggering;
+    }
+    public bool IsGrounded()
+    {
+        return Grounded.IsTriggering;
     }
 }
