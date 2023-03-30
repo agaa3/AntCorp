@@ -1,8 +1,10 @@
+using System;
 // TODO: Figure out a better name
-public enum HeadAxis
+[Flags]
+public enum HeadAxis : byte
 {
-    Floor,
-    WallLeft,
-    Ceiling,
-    WallRight
+    Floor = 1 << 0,
+    WallLeft = 1 << 1,
+    Ceiling =  1 << 2,
+    WallRight = 1 << 3
 }

@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     [Header("Modules")]
     public PlayerController Controller;
+    public PlayerPerception Perception;
     public PlayerGatherer Gatherer;
     public PlayerModel Model;
     public PlayerModule[] Modules;
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour
         }
         Controller = (PlayerController)Modules.First(x => x is PlayerController);
         Gatherer = (PlayerGatherer)Modules.First(x => x is PlayerGatherer);
+        Perception = (PlayerPerception)Modules.First(x => x is PlayerPerception);
         Model = (PlayerModel)Modules.First(x => x is PlayerModel);
     }
     private void ModulesUpdate()

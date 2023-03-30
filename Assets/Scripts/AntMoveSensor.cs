@@ -3,6 +3,7 @@ using UnityEngine;
 
 // TODO: Figure out a better name
 [Serializable]
+[Obsolete("AntMoveSensor will be replaced by PlayerPerception module.")]
 public class AntMoveSensor
 {
     [Header("Sensors")]

@@ -5,7 +5,6 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlayerController : PlayerModule
 {
-    [Header("Components")]
     public AntMoveSensor Sensors = new AntMoveSensor();
     public BoxCollider2D Collider => Player.Collider;
     public Rigidbody2D UseRigidbody => Player.UseRigidbody;
@@ -130,7 +129,7 @@ public class PlayerController : PlayerModule
 
     private void Move()
     {
-        if (CanMove && !IsMidTurn && Sensors.IsGrounded())
+        if (CanMove && !IsMidTurn && Player.Perception.IsGrounded)
         {
             Vector3 move = Vector3.zero;
             switch (Axis)
@@ -147,9 +146,12 @@ public class PlayerController : PlayerModule
                 case HeadAxis.WallRight:
                     move.y = moveInput;
                     break;
+                default:
+                    throw new NotImplementedException("That's not how it works!");
             }
             move *= MoveSpeed;
             move *= Time.fixedDeltaTime;
+            move *= Player.Perception.GroundMaterial.AxisToSpeed(Axis);
             //UseRigidbody.MovePosition(transform.position + move);
             transform.position += move;
             IsMoving = move.magnitude > float.Epsilon;
@@ -162,7 +164,7 @@ public class PlayerController : PlayerModule
 
     private void CheckSensors()
     {
-        if (!IsMidTurn)
+        if (!IsMidTurn && Player.Perception.IsGrounded)
         {
             if (Sensors.CanTurnInside())
             {
@@ -190,10 +192,11 @@ public class PlayerController : PlayerModule
             }
         }
     }
+    
 
     private void EnsureGrounded()
     {
-        if (!IsMidTurn && !Sensors.IsGrounded())
+        if (!IsMidTurn && !Player.Perception.IsGrounded)
         {
             if (Axis != HeadAxis.Floor)
             {
@@ -277,10 +280,10 @@ public class PlayerController : PlayerModule
     private void TurnLeft()
     {
         int num = (int)Axis;
-        num--;
-        if (num < 0)
+        num/=2;
+        if (num < 1)
         {
-            num = 3;
+            num = 8;
         }
         Axis = (HeadAxis)num;
         transform.Rotate(0, 0, 90);
@@ -289,10 +292,10 @@ public class PlayerController : PlayerModule
     private void TurnRight()
     {
         int num = (int)Axis;
-        num++;
-        if (num > 3)
+        num*=2;
+        if (num > 8)
         {
-            num = 0;
+            num = 1;
         }
         Axis = (HeadAxis)num;
         transform.Rotate(0, 0, -90);

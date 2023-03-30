@@ -16,7 +16,6 @@ public class TriggerSensor : MonoBehaviour
         {
             if (other.CompareTag(s))
             {
-                Debug.Log(other.gameObject.name);
                 IsTriggering = true;
                 inside.Add(other);
                 break;
