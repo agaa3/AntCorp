@@ -16,16 +16,27 @@ public class Player : MonoBehaviour
     public Rigidbody2D UseRigidbody;
     public BoxCollider2D Collider;
 
+
+
+    public T GetModule<T>() where T : PlayerModule
+    {
+        return (T)Modules.First(x => x is T);
+    }
+    public bool TryGetModule<T>(out T module) where T : PlayerModule
+    {
+        T m = (T)Modules.FirstOrDefault(x => x is T);
+        if (m == null || m == default(T)){
+            module = null;
+            return false;
+        }
+        module = m;
+        return true;
+    }
+
+    #region  Unity Callbacks
     private void Awake()
     {
-        if (Main == null)
-        {
-            Main = this;
-        }
-        else if (Main != this)
-        {
-            Destroy(this.gameObject);
-        }
+        InitSingleton();
         InitComponents();
         InitModules();
     }
@@ -41,7 +52,18 @@ public class Player : MonoBehaviour
     {
         ModulesLateUpdate();
     }
+    #endregion
 
+    private void InitSingleton(){
+        if (Main == null)
+        {
+            Main = this;
+        }
+        else if (Main != this)
+        {
+            Destroy(this.gameObject);
+        }
+    }
     private void InitComponents()
     {
         UseRigidbody = GetComponent<Rigidbody2D>();
@@ -55,10 +77,10 @@ public class Player : MonoBehaviour
         {
             mod.Initialize(this);
         }
-        Controller = (PlayerController)Modules.First(x => x is PlayerController);
-        Gatherer = (PlayerGatherer)Modules.First(x => x is PlayerGatherer);
-        Perception = (PlayerPerception)Modules.First(x => x is PlayerPerception);
-        Model = (PlayerModel)Modules.First(x => x is PlayerModel);
+        Controller = GetModule<PlayerController>();
+        Gatherer = GetModule<PlayerGatherer>();
+        Perception = GetModule<PlayerPerception>();
+        Model = GetModule<PlayerModel>();
     }
     private void ModulesUpdate()
     {
