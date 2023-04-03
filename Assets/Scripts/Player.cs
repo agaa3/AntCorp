@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public static Player Main;
 
     [Header("Modules")]
+    public PlayerCamera Camera;
     public PlayerController Controller;
     public PlayerPerception Perception;
     public PlayerGatherer Gatherer;
@@ -72,7 +73,8 @@ public class Player : MonoBehaviour
     #region Modules
     private void InitModules()
     {
-        Modules = gameObject.GetComponentsInChildren<PlayerModule>();
+        // find a better way to add camera to modules list
+        Modules = GameObject.FindObjectsOfType<PlayerModule>();
         foreach (PlayerModule mod in Modules)
         {
             mod.Initialize(this);
@@ -81,6 +83,7 @@ public class Player : MonoBehaviour
         Gatherer = GetModule<PlayerGatherer>();
         Perception = GetModule<PlayerPerception>();
         Model = GetModule<PlayerModel>();
+        Camera = GetModule<PlayerCamera>();
     }
     private void ModulesUpdate()
     {
