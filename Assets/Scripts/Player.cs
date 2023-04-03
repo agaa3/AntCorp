@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [Header("Components")]
     public Rigidbody2D UseRigidbody;
     public BoxCollider2D Collider;
+    public LivingMixin Mixin;
 
 
 
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
     {
         UseRigidbody = GetComponent<Rigidbody2D>();
         Collider = GetComponent<BoxCollider2D>();
+        Mixin = GetComponent<LivingMixin>();
     }
     #region Modules
     private void InitModules()
