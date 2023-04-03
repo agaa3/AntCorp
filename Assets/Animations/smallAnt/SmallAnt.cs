@@ -32,7 +32,7 @@ public class SmallAnt : MonoBehaviour
 
     private void Update()
     {
-        if (FriendsManager.instance.collides == true)
+        if (false)
         {
             collides = 1;
             if(mash > 0f)
