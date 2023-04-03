@@ -10,39 +10,50 @@ public class LivingMixin : MonoBehaviour
     public Action<float, float> OnTakeDamage;
     public Action<float, float> OnHeal;
     public Action OnDie;
+    public Action OnRevive;
 
 
     public void DealDamage(float amount)
     {
-        float value = health - amount;
-        if (value < float.Epsilon)
+        if (IsAlive)
         {
-            health = 0;
-            OnDie?.Invoke();
-        }
+            float value = health - amount;
+            if (value < float.Epsilon)
+            {
+                health = 0;
+                OnDie?.Invoke();
+            }
 
-        else if (value != health)
-        {
-            OnTakeDamage?.Invoke(health, value);
-            health = value;
+            else if (value != health)
+            {
+                OnTakeDamage?.Invoke(health, value);
+                health = value;
+            }
         }
     }
     public void Heal(float amount)
     {
-        float value = health + amount;
-        if (value > MaxHealth)
+        if (IsAlive)
         {
-            value = maxHealth;
-        }
-        else if (value != health)
-        {
-            OnHeal?.Invoke(health, value);
-            health = value;
+            float value = health + amount;
+            if (value > MaxHealth)
+            {
+                value = maxHealth;
+            }
+            else if (value != health)
+            {
+                OnHeal?.Invoke(health, value);
+                health = value;
+            }
         }
     }
     public void Revive()
     {
-        health = default;
+        if (!IsAlive)
+        {
+            health = default;
+            OnRevive?.Invoke();
+        }
     }
 
     private void Awake()
