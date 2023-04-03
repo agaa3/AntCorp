@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using AntCorp;
 
 public class PlayerPerception : PlayerModule
 {
@@ -12,22 +9,31 @@ public class PlayerPerception : PlayerModule
         GroundCheck();
     }
     private void GroundCheck(){
-        Transform t;
-        EnvironmentMaterial m;
-        bool flag = false;
-        if (Physics2DEx.TryBoxCast(out t, Player.transform.position + -transform.up, new Vector2(1.0f, 0.05f), Player.transform.eulerAngles.z, -Player.transform.up, 1f)){
-            m = t.GetComponent<EnvironmentMaterial>();
-            if (m != null){
-                if ((m.StickAxis & Player.Controller.Axis) != 0){
-                    flag = true;
-                    IsGrounded = flag;
-                    GroundMaterial = m;
+        // Creating new array every frame is very bad solution. Too bad!
+        // Consider using array pooling.
+        RaycastHit2D[] hits = new RaycastHit2D[8];
+        int c = Physics2D.BoxCast(Player.transform.position, new Vector2(1.0f, 0.05f), 0f, -transform.up, default, hits, 1f);
+        if (c > 0)
+        {
+            foreach (RaycastHit2D h in hits)
+            {
+                Transform t = h.transform;
+                EnvironmentMaterial m;
+                if (t != null)
+                {
+                    if (t.TryGetComponent(out m))
+                    {
+                        if ((m.StickAxis & Player.Controller.Axis) != 0)
+                        {
+                            IsGrounded = true;
+                            GroundMaterial = m;
+                            return;
+                        }
+                    }
                 }
             }
         }
-        if (!flag){
-            GroundMaterial = null;
-            IsGrounded = false;
-        }
+        IsGrounded = false;
+        GroundMaterial = null;
     }
 }
