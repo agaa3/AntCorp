@@ -927,7 +927,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.8564594, y: 1}
+    m_SensorSize: {x: 2.1315136, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -34486,6 +34486,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: Renderer
+      value: 
+      objectReference: {fileID: 2009176974}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DeadColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DeadColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DeadColor.g
+      value: 0.5518868
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DeadColor.r
+      value: 0.661823
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DamageColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DamageColor.b
+      value: 0.49803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DamageColor.g
+      value: 0.49803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037322268045407631, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: DamageColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5431600615305340511, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
       propertyPath: Collider
       value: 
@@ -34505,6 +34541,22 @@ PrefabInstance:
     - target: {fileID: 8341136226376578886, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
       propertyPath: OutsideTurnDuration
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578887, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578887, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578887, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341136226376578887, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8341136226376578888, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
       propertyPath: m_RootOrder
@@ -48151,6 +48203,11 @@ Transform:
   m_Father: {fileID: 1575999275}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2009176974 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8341136226376578887, guid: 21c089bf34ebcd84db6f3f5c8885a12f, type: 3}
+  m_PrefabInstance: {fileID: 1398561998}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2042907439
 GameObject:
   m_ObjectHideFlags: 0
