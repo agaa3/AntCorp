@@ -1,85 +1,91 @@
+using AntCorp;
 using UnityEngine;
 
 public class SmallAnt : MonoBehaviour
 {
-    private float dirX;
-    private float moveSpeed;
-    private Rigidbody2D rb;
-    private bool facingRight = false;
-    private Vector3 localScale;
-    public KeyCode combo;
-    public bool comboDone = false;
-    public Animator animatorMud;
-    public Animator animatorAnt;
+    [Header("Components")]
+    public Animator Animator;
+    public Animator MudAnimator;
+    public Rigidbody2D UseRigidbody;
+    public CameraFocusZone FocusZone;
+    public uGUI_Popup Popup;
+    [Header("Options")]
+    public bool CanMove = true;
+    public float MoveSpeed;
+    public KeyCode ComboKey = KeyCode.H;
+    [Header("Mash")]
+    public float EndMash = 5f;
+    public float MashDelay = .5f;
+    public float MashDecreaseRate = 0.5f;
+    [Header("State")]
+    public int Direction = -1;
+    public bool FacingRight = false;
+    public bool SpottedPlayer = false;
+    public bool ComboDone = false;
+    public float CurrentMash = 0;
 
-    public float mashDelay = .5f;
-    public float mash;
+    private Vector3 localScale;
     bool pressed;
-    public float collides = 0;
 
     // Start is called before the first frame update
     private void Start()
     {
         localScale = transform.localScale;
-        rb = GetComponent<Rigidbody2D>();
-        dirX = -1f;
-        moveSpeed = 0.5f;
-        mash = 0f;
-        animatorMud.SetInteger("mash", 0);
-        animatorAnt.SetInteger("mash1", 0);
+        UseRigidbody = GetComponent<Rigidbody2D>();
+        MudAnimator.SetInteger("mash", 0);
+        Animator.SetInteger("mash1", 0);
 
     }
 
     private void Update()
     {
-        if (false)
+        if (SpottedPlayer)
         {
-            collides = 1;
-            if(mash > 0f)
+            if(CurrentMash > 0f)
             {
-                mash -= 0.5f * Time.deltaTime;
+                CurrentMash -= MashDecreaseRate * Time.deltaTime;
             }
-            if (Input.GetKeyDown(combo) && !pressed)
+            if (Input.GetKeyDown(ComboKey) && !pressed)
             {
                 pressed = true;
-                mash += mashDelay;
-                animatorMud.SetInteger("mash", 1);
-                animatorAnt.SetInteger("mash1", 1);
-                moveSpeed = 0;  
-            } else if (Input.GetKeyUp(combo))
+                CurrentMash += MashDelay;
+                MudAnimator.SetInteger("mash", 1);
+                Animator.SetInteger("mash1", 1);
+            } else if (Input.GetKeyUp(ComboKey))
             {
                 pressed = false;
-                animatorMud.SetInteger("mash", 2);
+                MudAnimator.SetInteger("mash", 2);
             }
         }
         else
         {
-            collides = 0;
-            mash = 0f;
-            animatorAnt.SetInteger("mash1", 0);
-            animatorMud.SetInteger("mash", 0);
-
-            moveSpeed = 0.5f;
+            CurrentMash = 0f;
+            Animator.SetInteger("mash1", 0);
+            MudAnimator.SetInteger("mash", 0);
         }
-        if (mash > 5)
+        if (CurrentMash > EndMash)
         {
-            comboDone = true;
+            End();
         }       
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("wallForSmallAnts"))
-        {
-            dirX *= -1f;
-        }
-
-    }
-
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        Move();
+    }
+
+    private void Move()
+    {
+        Vector2 velocity = UseRigidbody.velocity;
+        velocity.x = (CanMove && !SpottedPlayer) ? Direction * MoveSpeed : 0f;
+        UseRigidbody.velocity = velocity;
+    }
+    private void End()
+    {
+        ItemManager.Main.SmallAnts++;
+        Destroy(FocusZone);
+        Destroy(gameObject);
     }
 
     void LateUpdate()
@@ -89,14 +95,37 @@ public class SmallAnt : MonoBehaviour
 
     void CheckWhereToFace()
     {
-        if (dirX > 0)
-            facingRight = true;
-        else if (dirX < 0)
-            facingRight = false;
+        if (Direction > 0)
+            FacingRight = true;
+        else if (Direction < 0)
+            FacingRight = false;
 
-        if (((facingRight) && (localScale.x < 0)) || ((!facingRight) && (localScale.x > 0)))
+        if (((FacingRight) && (localScale.x < 0)) || ((!FacingRight) && (localScale.x > 0)))
             localScale.x *= -1;
 
         transform.localScale = localScale;
     }
+
+    #region Trigger events
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("wallForSmallAnts"))
+        {
+            Direction *= -1;
+        }
+        else if (collision.CompareTag(Tag.Player))
+        {
+            SpottedPlayer = true;
+            Popup.Show();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag(Tag.Player))
+        {
+            SpottedPlayer = false;
+            Popup.Hide();
+        }
+    }
+    #endregion
 }

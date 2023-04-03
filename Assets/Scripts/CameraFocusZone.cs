@@ -8,18 +8,6 @@ public class CameraFocusZone : MonoBehaviour
     public bool AllowMidTurn;
 
 
-    /*private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(Tag.Player))
-        {
-            PlayerCamera c = Player.Main.Camera;
-            bool flag = (AllowedAxis & Player.Main.Controller.Axis) != 0;
-            if (c.ActiveFocusZone != this && flag)
-            {
-                c.OnFocusZoneEnter(this);
-            }
-        }
-    }*/
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag(Tag.Player))
@@ -48,6 +36,13 @@ public class CameraFocusZone : MonoBehaviour
             {
                 c.OnFocusZoneExit(this);
             }
+        }
+    }
+    private void OnDisable()
+    {
+        if (Player.Main.Camera.ActiveFocusZone == this)
+        {
+            Player.Main.Camera.OnFocusZoneExit(this);
         }
     }
 }
