@@ -51,7 +51,7 @@ public class LivingMixin : MonoBehaviour
     {
         if (!IsAlive)
         {
-            health = default;
+            health = defaultHealth;
             OnRevive?.Invoke();
         }
     }
