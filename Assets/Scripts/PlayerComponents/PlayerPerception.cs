@@ -23,7 +23,7 @@ public class PlayerPerception : PlayerModule
                 {
                     if (t.TryGetComponent(out m))
                     {
-                        if ((m.StickAxis & Player.Controller.Axis) != 0)
+                        if (m.CanStick(Player.Controller.Axis))
                         {
                             IsGrounded = true;
                             GroundMaterial = m;

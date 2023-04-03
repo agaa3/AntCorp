@@ -1,20 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnvironmentMaterial : MonoBehaviour
 {
-    public float[] SpeedMultiplier = new float[3] {1, 1, 1};
-    public HeadAxis StickAxis = HeadAxis.Floor;
+    public EnvironmentMaterialDefinition Definition;
 
-    public float AxisToSpeed(HeadAxis axis){
-        switch(axis){
+    public float GetSpeedMultiplier(HeadAxis axis)
+    {
+        switch (axis)
+        {
             case HeadAxis.Floor:
-                return SpeedMultiplier[0];
+                return Definition.FloorSpeed;
+            case HeadAxis.WallLeft:
+                return Definition.WallSpeed;
+            case HeadAxis.WallRight:
+                return Definition.WallSpeed;
             case HeadAxis.Ceiling:
-                return SpeedMultiplier[2];
+                return Definition.CeilingSpeed;
             default:
-                return SpeedMultiplier[1];
+                return 1.0f;
         }
+    }
+    public bool CanStick(HeadAxis axis)
+    {
+        return (Definition.StickAxis & axis) != 0;
     }
 }
