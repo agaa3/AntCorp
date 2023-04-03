@@ -7,10 +7,10 @@ public class LivingMixin : MonoBehaviour
     public float Health => health;
     public bool IsAlive => health > float.Epsilon;
 
-    public Action<float, float> OnTakeDamage;
-    public Action<float, float> OnHeal;
-    public Action OnDie;
-    public Action OnRevive;
+    public event Action<float, float> OnTakeDamage;
+    public event Action<float, float> OnHeal;
+    public event Action OnDie;
+    public event Action OnRevive;
 
 
     public void DealDamage(float amount)
