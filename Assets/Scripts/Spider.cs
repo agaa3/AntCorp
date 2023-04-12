@@ -4,6 +4,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Spider : MonoBehaviour
 {
+    public Vector3 MagnetPoint => transform.position + (Vector3)WebStartPos + Vector3.down * WebCurrentLength;
     [Header("State")]
     public SpiderState State = SpiderState.Rest;
     public float RestCooldown = 0f;
@@ -26,14 +27,59 @@ public class Spider : MonoBehaviour
     public BoxCollider2D Trigger;
 
 
+    #region Unity Callbacks
+    private void Awake()
+    {
+        if (HuntOnAwake)
+        {
+            State = SpiderState.Hunt;
+            WebCurrentLength = WebMaxLength;
+            UpdateLine();
+            UpdateTrigger();
+        }
+    }
+    private void Update()
+    {
+        Tick();
+        UpdateLine();
+        UpdateTrigger();
+    }
+
+    #endregion
+    private void Tick()
+    {
+
+    }
     private void UpdateTrigger()
     {
-        throw new NotImplementedException();
+        Trigger.size = new Vector2(WebTriggerWidth, WebCurrentLength);
+        Trigger.offset = WebStartPos + new Vector2(0, -WebCurrentLength*0.5f);
     }
     private void UpdateLine()
     {
-        throw new NotImplementedException();
+        Vector3 wp = transform.position + (Vector3)WebStartPos;
+        LineRenderer.SetPosition(0, wp);
+        LineRenderer.SetPosition(1, wp + Vector3.down * WebCurrentLength);
     }
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Vector3 wp = transform.position + (Vector3)WebStartPos;
+        Vector3 ep = wp + Vector3.down * WebMaxLength;
+        Gizmos.color = Color.grey;
+        Gizmos.DrawLine(wp, ep);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(wp, Vector3.one * 0.5f);
+        Gizmos.DrawWireCube(ep, Vector3.one * 0.5f);
+        if (WebCurrentLength > float.Epsilon)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(wp, wp + Vector3.down * WebCurrentLength);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube((Vector2)transform.position + Trigger.offset, Trigger.size);
+        }
+    }
+#endif
 }
 public enum SpiderState
 {
