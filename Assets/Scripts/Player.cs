@@ -81,11 +81,11 @@ public class Player : MonoBehaviour
         {
             mod.Initialize(this);
         }
-        Controller = GetModule<PlayerController>();
-        Gatherer = GetModule<PlayerGatherer>();
-        Perception = GetModule<PlayerPerception>();
-        Model = GetModule<PlayerModel>();
-        Camera = GetModule<PlayerCamera>();
+        TryGetModule<PlayerController>(out Controller);
+        TryGetModule<PlayerGatherer>(out Gatherer);
+        TryGetModule<PlayerPerception>(out Perception);
+        TryGetModule<PlayerModel>(out Model);
+        TryGetModule<PlayerCamera>(out Camera);
     }
     private void ModulesUpdate()
     {
