@@ -8,7 +8,7 @@ public class PlayerModel : PlayerModule
 {
     public Animator Animator;
     public SpriteRenderer Renderer;
-    public PlayerController Controller => Player.Controller;
+    public PlayerController Controller => Parent.Controller;
 
     public Color DamageColor;
     public Color DeadColor;
@@ -23,14 +23,14 @@ public class PlayerModel : PlayerModule
         Renderer = GetComponent<SpriteRenderer>();
 
         Controller.PerformedTurn += OnTurn;
-        Player.Mixin.OnTakeDamage += OnTakeDamage;
+        Parent.Mixin.OnTakeDamage += OnTakeDamage;
     }
     public override void OnUpdate(TimeState time)
     {
         Animator.SetBool("IsMoving", Controller.IsMoving);
         if (!ShownDamage)
         {
-            Renderer.color = Player.Mixin.IsAlive ? Color.white : DeadColor;
+            Renderer.color = Parent.Mixin.IsAlive ? Color.white : DeadColor;
         }
     }
 

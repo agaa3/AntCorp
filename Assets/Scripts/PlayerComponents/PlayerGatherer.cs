@@ -5,8 +5,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlayerGatherer : PlayerModule
 {
-    public Rigidbody2D UseRigidbody => Player.UseRigidbody;
-    public BoxCollider2D Collider => Player.Collider;
+    public Rigidbody2D UseRigidbody => Parent.UseRigidbody;
+    public BoxCollider2D Collider => Parent.Collider;
     public GameObject Friend;
 
 

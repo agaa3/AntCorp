@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerController : PlayerModule
 {
     public AntMoveSensor Sensors = new AntMoveSensor();
-    public BoxCollider2D Collider => Player.Collider;
-    public Rigidbody2D UseRigidbody => Player.UseRigidbody;
+    public BoxCollider2D Collider => Parent.Collider;
+    public Rigidbody2D UseRigidbody => Parent.UseRigidbody;
     [Header("Flags")]
     public HeadAxis Axis = HeadAxis.Floor;
     public bool CanMove = true;
@@ -129,7 +129,7 @@ public class PlayerController : PlayerModule
 
     private void Move()
     {
-        if (CanMove && !IsMidTurn && Player.Perception.IsGrounded)
+        if (CanMove && !IsMidTurn && Parent.Perception.IsGrounded)
         {
             Vector3 move = Vector3.zero;
             switch (Axis)
@@ -151,7 +151,7 @@ public class PlayerController : PlayerModule
             }
             move *= MoveSpeed;
             move *= Time.fixedDeltaTime;
-            move *= Player.Perception.GroundMaterial.GetSpeedMultiplier(Axis);
+            move *= Parent.Perception.GroundMaterial.GetSpeedMultiplier(Axis);
             //UseRigidbody.MovePosition(transform.position + move);
             transform.position += move;
             IsMoving = move.magnitude > float.Epsilon;
@@ -164,7 +164,7 @@ public class PlayerController : PlayerModule
 
     private void CheckSensors()
     {
-        if (!IsMidTurn && Player.Perception.IsGrounded)
+        if (!IsMidTurn && Parent.Perception.IsGrounded)
         {
             if (Sensors.CanTurnInside())
             {
@@ -196,7 +196,7 @@ public class PlayerController : PlayerModule
 
     private void EnsureGrounded()
     {
-        if (!IsMidTurn && !Player.Perception.IsGrounded)
+        if (!IsMidTurn && !Parent.Perception.IsGrounded)
         {
             if (Axis != HeadAxis.Floor)
             {

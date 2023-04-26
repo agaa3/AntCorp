@@ -1,17 +1,16 @@
 using UnityEngine;
 
-public abstract class PlayerModule : MonoBehaviour
+public abstract class PlayerModule : EntityModule<Player>
 {
-    public Player Player { get; private set; }
     public bool Initialized { get; private set; } = false;
 
     public void Initialize(Player player)
     {
-        if (Player != null)
+        if (Parent != null)
         {
             return;
         }
-        Player = player;
+        Parent = player;
         Initialized = true;
         OnInitialize(TimeState.Create());
     }

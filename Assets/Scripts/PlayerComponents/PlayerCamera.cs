@@ -17,7 +17,7 @@ public class PlayerCamera : PlayerModule
     }
     public void OnFocusZoneExit(CameraFocusZone zone)
     {
-        CinemaCam.Follow = Player.transform;
+        CinemaCam.Follow = Parent.transform;
         InFocusZone = false;
         ActiveFocusZone = null;
     }

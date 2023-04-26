@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     public static Player Main;
 

@@ -12,7 +12,7 @@ public class PlayerPerception : PlayerModule
         // Creating new array every frame is very bad solution. Too bad!
         // Consider using array pooling.
         RaycastHit2D[] hits = new RaycastHit2D[8];
-        int c = Physics2D.BoxCast(Player.transform.position, new Vector2(1.0f, 0.05f), 0f, -transform.up, default, hits, 0.5f);
+        int c = Physics2D.BoxCast(Parent.transform.position, new Vector2(1.0f, 0.05f), 0f, -transform.up, default, hits, 0.5f);
         if (c > 0)
         {
             foreach (RaycastHit2D h in hits)
@@ -23,7 +23,7 @@ public class PlayerPerception : PlayerModule
                 {
                     if (t.TryGetComponent(out m))
                     {
-                        if (m.CanStick(Player.Controller.Axis))
+                        if (m.CanStick(Parent.Controller.Axis))
                         {
                             IsGrounded = true;
                             GroundMaterial = m;
