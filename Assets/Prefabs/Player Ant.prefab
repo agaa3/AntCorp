@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: 5037322268045407631}
   - component: {fileID: 8341136226376578890}
   - component: {fileID: 2742095654308700257}
+  - component: {fileID: 6324927617525097884}
   - component: {fileID: 9047517077010858560}
   - component: {fileID: 666831188158663355}
   - component: {fileID: 1118894545}
@@ -839,6 +840,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 3413162032195249615}
+  Renderer: {fileID: 0}
+  DamageColor: {r: 0, g: 0, b: 0, a: 0}
+  DeadColor: {r: 0, g: 0, b: 0, a: 0}
+  ShownDamage: 0
+  ShowDamageTime: 0.25
 --- !u!114 &8341136226376578890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,6 +870,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5e5712fe687493e9f43bc47cf1a085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6324927617525097884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341136226376578883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f377a09374034deab506b8161d9565c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanMove: 0
 --- !u!114 &9047517077010858560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,7 +951,7 @@ Rigidbody2D:
   m_Constraints: 4
 --- !u!95 &3413162032195249615
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -949,7 +968,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &8341136226376578889
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerPerception Perception;
     public PlayerGatherer Gatherer;
     public PlayerModel Model;
+    public PlayerMotor Motor;
     public PlayerModule[] Modules;
     [Header("Components")]
     public Rigidbody2D UseRigidbody;
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
         TryGetModule<PlayerPerception>(out Perception);
         TryGetModule<PlayerModel>(out Model);
         TryGetModule<PlayerCamera>(out Camera);
+        TryGetModule<PlayerMotor>(out Motor);
     }
     private void ModulesUpdate()
     {
