@@ -3,7 +3,7 @@ guid: 77021805e1907264198d6d03e753083e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -534,26 +535,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerAnt_TurnOutside_5: -722761220
-      PlayerAnt_Walk_3: -1341818951
+      PlayerAnt_Idle_1: -1318643853
+      PlayerAnt_Idle_2: 1403953871
+      PlayerAnt_Idle_3: 2020526025
+      PlayerAnt_Idle_4: -1614138752
+      PlayerAnt_TurnInside_1: 826191756
+      PlayerAnt_TurnInside_2: -1535119981
+      PlayerAnt_TurnInside_3: -1823665523
       PlayerAnt_TurnInside_4: 2102262776
       PlayerAnt_TurnInside_5: -1524141863
-      PlayerAnt_TurnOutside_4: 1082331437
-      PlayerAnt_Walk_1: 1195649554
-      PlayerAnt_Idle_2: 1403953871
-      PlayerAnt_Walk_4: 471554894
-      PlayerAnt_Walk_2: -1240211398
-      PlayerAnt_TurnInside_3: -1823665523
-      PlayerAnt_TurnOutside_2: -2135967247
-      PlayerAnt_TurnInside_2: -1535119981
-      PlayerAnt_Idle_3: 2020526025
-      PlayerAnt_TurnOutside_3: -296091831
-      PlayerAnt_Idle_4: -1614138752
-      PlayerAnt_Walk_5: -1599058084
-      PlayerAnt_TurnInside_1: 826191756
-      PlayerAnt_Idle_1: -1318643853
-      PlayerAnt_Walk_6: 1967733496
       PlayerAnt_TurnOutside_1: -323545448
+      PlayerAnt_TurnOutside_2: -2135967247
+      PlayerAnt_TurnOutside_3: -296091831
+      PlayerAnt_TurnOutside_4: 1082331437
+      PlayerAnt_TurnOutside_5: -722761220
+      PlayerAnt_Walk_1: 1195649554
+      PlayerAnt_Walk_2: -1240211398
+      PlayerAnt_Walk_3: -1341818951
+      PlayerAnt_Walk_4: 471554894
+      PlayerAnt_Walk_5: -1599058084
+      PlayerAnt_Walk_6: 1967733496
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 1
