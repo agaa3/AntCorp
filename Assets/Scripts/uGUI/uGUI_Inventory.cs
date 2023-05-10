@@ -36,7 +36,6 @@ public class uGUI_Inventory : MonoBehaviour
         {
             nw = 9;
         }
-        CandiesDisplay.sprite = Digits[nw];
     }
     private void UpdateSmallAnts(int old, int nw)
     {

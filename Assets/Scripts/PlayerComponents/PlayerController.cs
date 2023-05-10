@@ -374,4 +374,9 @@ public class PlayerController : PlayerModule
             Flip();
         }
     }
+
+    public void setSpeed(float speed)
+    {
+        MoveSpeed = speed;
+    }
 }
