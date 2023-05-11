@@ -9,31 +9,24 @@ public class PlayerPerception : PlayerModule
         GroundCheck();
     }
     private void GroundCheck(){
-        // Creating new array every frame is very bad solution. Too bad!
-        // Consider using array pooling.
-        RaycastHit2D[] hits = new RaycastHit2D[8];
-        int c = Physics2D.BoxCast(Parent.transform.position, new Vector2(1.0f, 0.05f), 0f, -transform.up, default, hits, 0.5f);
-        if (c > 0)
+        int c = Physics2D.BoxCastNonAlloc(origin: Parent.transform.position, size: new Vector2(1.0f, 0.05f), angle: 0f, direction: -transform.up, results: groundHits, distance: 0.5f, layerMask: Physics2D.DefaultRaycastLayers);
+        for (int i = 0; i < c; i++)
         {
-            foreach (RaycastHit2D h in hits)
+            Transform t = groundHits[i].transform;
+            EnvironmentMaterial m;
+            if (t.TryGetComponent(out m))
             {
-                Transform t = h.transform;
-                EnvironmentMaterial m;
-                if (t != null)
+                if (m.CanStick(Parent.Controller.Axis))
                 {
-                    if (t.TryGetComponent(out m))
-                    {
-                        if (m.CanStick(Parent.Controller.Axis))
-                        {
-                            IsGrounded = true;
-                            GroundMaterial = m;
-                            return;
-                        }
-                    }
+                    IsGrounded = true;
+                    GroundMaterial = m;
+                    return;
                 }
             }
         }
         IsGrounded = false;
         GroundMaterial = null;
     }
+
+    private RaycastHit2D[] groundHits = new RaycastHit2D[8];
 }
