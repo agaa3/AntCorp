@@ -6,6 +6,7 @@ public class Player : Entity
 {
     public static Player Main;
 
+    public PlayerBody Body;
     [Header("Modules")]
     public PlayerCamera Camera;
     public PlayerController Controller;
@@ -76,6 +77,7 @@ public class Player : Entity
     #region Modules
     private void InitModules()
     {
+        Body = new PlayerBody(this);
         // find a better way to add camera to modules list
         Modules = GameObject.FindObjectsOfType<PlayerModule>();
         foreach (PlayerModule mod in Modules)
