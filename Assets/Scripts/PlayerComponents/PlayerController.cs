@@ -151,7 +151,7 @@ public class PlayerController : PlayerModule
             }
             move *= MoveSpeed;
             move *= Time.fixedDeltaTime;
-            move *= Parent.Perception.GroundMaterial.GetSpeedMultiplier(Axis);
+            move *= Parent.Perception.GroundInfo.Material.GetSpeedMultiplier(Axis);
             //UseRigidbody.MovePosition(transform.position + move);
             transform.position += move;
             IsMoving = move.magnitude > float.Epsilon;
