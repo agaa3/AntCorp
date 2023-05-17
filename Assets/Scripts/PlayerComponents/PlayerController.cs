@@ -26,6 +26,14 @@ public class PlayerController : PlayerModule
     /// True if inside, false if outside
     /// </summary>
     public Action<bool> PerformedTurn;
+    /// <summary>
+    /// True if inside, false if outside
+    /// </summary>
+    public Action<bool> OnBeginTurn;
+    /// <summary>
+    /// True if inside, false if outside
+    /// </summary>
+    public Action<bool> OnEndTurn;
 
     Vector2 gravityOverride = Vector2.zero;
     float moveInput = 0.0f;
@@ -214,6 +222,7 @@ public class PlayerController : PlayerModule
 
     private IEnumerator TurnInside(bool right)
     {
+        OnBeginTurn?.Invoke(true);
         Debug.Log("Turn Inside");
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x * 2) / 2;
@@ -240,9 +249,11 @@ public class PlayerController : PlayerModule
             yield return null;
         }
         IsMidTurn = false;
+        OnEndTurn?.Invoke(true);
     }
     private IEnumerator TurnOutside(bool right)
     {
+        OnBeginTurn?.Invoke(true);
         Vector2 pos1 = transform.position;
         Vector2 pos2 = pos1;
         pos2.x = Mathf.Round(pos2.x * 2) / 2;
@@ -275,6 +286,7 @@ public class PlayerController : PlayerModule
         }
         UseRigidbody.MovePosition(pos3);
         IsMidTurn = false;
+        OnEndTurn?.Invoke(true);
     }
 
     private void TurnLeft()
