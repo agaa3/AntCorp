@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class staminaManager : MonoBehaviour
+public class StaminaManager : MonoBehaviour
 {
-    public ItemManager itemManager;
-    public PlayerController playerController;
-    public int numberOfCandies;
+    public ItemManager ItemManager;
+    public PlayerController PlayerController;
+    public int NumberOfCandies;
 
-    public Sprite[] strengthSprites = new Sprite[6];
+    public Sprite[] StrengthSprites = new Sprite[6];
 
     Image actualStrengthSprite;
 
@@ -18,23 +18,23 @@ public class staminaManager : MonoBehaviour
 
     public void setStrenghtUI()
     {
-        if(numberOfCandies < 5)
-            actualStrengthSprite.sprite = strengthSprites[numberOfCandies];
+        if(NumberOfCandies < 5)
+            actualStrengthSprite.sprite = StrengthSprites[NumberOfCandies];
         else
-            actualStrengthSprite.sprite = strengthSprites[5];
+            actualStrengthSprite.sprite = StrengthSprites[5];
     }
 
     public void setAntSpeed()
     {
-        if (numberOfCandies > 2)
-            playerController.setSpeed(2.5f);
+        if (NumberOfCandies > 2)
+            PlayerController.SetAntSpeedMultiplier(1.0f);
         else
-            playerController.setSpeed(1.0f);
+            PlayerController.SetAntSpeedMultiplier(0.5f);
     }
 
     void Update()
     {
-        numberOfCandies = itemManager.getNumberOfCandies();
+        NumberOfCandies = ItemManager.getNumberOfCandies();
         setStrenghtUI();
         setAntSpeed();
     }
