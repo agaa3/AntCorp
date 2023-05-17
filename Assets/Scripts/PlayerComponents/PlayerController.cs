@@ -19,6 +19,7 @@ public class PlayerController : PlayerModule
     public bool IsMoving = false;
     [Header("Parameters")]
     public float MoveSpeed = 2f;
+    public float MoveSpeedMultiplier = 1.0f;
     public float InsideTurnDuration = 0.25f;
     public float OutsideTurnDuration = 0.4f;
 
@@ -150,6 +151,7 @@ public class PlayerController : PlayerModule
                     throw new NotImplementedException("That's not how it works!");
             }
             move *= MoveSpeed;
+            move *= MoveSpeedMultiplier;
             move *= Time.fixedDeltaTime;
             move *= Parent.Perception.GroundMaterial.GetSpeedMultiplier(Axis);
             //UseRigidbody.MovePosition(transform.position + move);
@@ -373,5 +375,10 @@ public class PlayerController : PlayerModule
         {
             Flip();
         }
+    }
+
+    public void SetAntSpeedMultiplier(float speedMultiplier)
+    {
+        MoveSpeedMultiplier = speedMultiplier;
     }
 }

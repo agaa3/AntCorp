@@ -44,6 +44,11 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public int getNumberOfCandies()
+    {
+        return _candies;
+    }
+
     public event Action<int, int> SticksChanged;
     public event Action<int, int> CandiesChanged;
     public event Action <int, int> SmallAntsChanged;
@@ -64,4 +69,5 @@ public class ItemManager : MonoBehaviour
             Destroy(this);
         }
     }
+
 }
