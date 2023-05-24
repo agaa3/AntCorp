@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerPerception : PlayerModule
@@ -6,25 +5,8 @@ public class PlayerPerception : PlayerModule
     public bool IsGrounded { get; private set; }
     public GroundInfo GroundInfo { get; private set; } = new GroundInfo();
 
-    [Header("Forward")]
-    public float FwdCheckHeight = 0.01f;
-    public float FwdCheckDistance = 0.05f;
-    [Header("Bottom")]
-    public float BtmCheckGap = 1f / 16f;
-
     public override void OnFixedUpdate(TimeState time){
         GroundCheck();
-    }
-    public bool FindTurnSurface()
-    {
-        bool flag = false;
-
-        var fwdHit = Physics2D.Raycast(Parent.transform.position + Parent.Body.Right * 1f + -Parent.Body.Up * 0.43f + Parent.Body.Up * FwdCheckHeight, Parent.Body.Right, FwdCheckDistance);
-        if (fwdHit.collider != null)
-        {
-            return true;
-        }
-        throw new NotImplementedException();
     }
     private void GroundCheck(){
         
