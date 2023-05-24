@@ -31,7 +31,7 @@ public class PlayerGrabber : PlayerModule
     {
         Debug.Log("Begin Hold");
         Holded.transform.SetParent(Parent.transform);
-        Holded.transform.localPosition = new Vector3(Parent.Body.Hull.x, Holded.Hull.y*-0.5f, 0);
+        Holded.transform.localPosition = new Vector3(Parent.Body.Hull.x + 0.2f, (Holded.transform.rotation * Holded.Hull).y*-0.5f, 0);
         Parent.Controller.CanFace = false;
         Holded.GetComponent<Rigidbody2D>().gravityScale = 0;
         IsHolding = true;

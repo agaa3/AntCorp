@@ -10,7 +10,7 @@ public class PlayerPerception : PlayerModule
     }
     private void GroundCheck(){
         
-        int c = Physics2D.BoxCastNonAlloc(origin: Parent.transform.position, size: new Vector2(1.0f, 0.05f), angle: 0f, direction: -transform.up, results: groundHits, distance: 0.5f, layerMask: Physics2D.DefaultRaycastLayers);
+        int c = Physics2D.BoxCastNonAlloc(origin: Parent.transform.position, size: new Vector2(0.75f, 0.05f), angle: 0f, direction: -transform.up, results: groundHits, distance: 0.5f, layerMask: Physics2D.DefaultRaycastLayers);
         for (int i = 0; i < c; i++)
         {
             Transform t = groundHits[i].transform;
