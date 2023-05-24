@@ -689,6 +689,7 @@ GameObject:
   - component: {fileID: 5431600615305340511}
   - component: {fileID: 8341136226376578886}
   - component: {fileID: 5037322268045407631}
+  - component: {fileID: 1830662099270720549}
   - component: {fileID: 8341136226376578890}
   - component: {fileID: 2742095654308700257}
   - component: {fileID: 6324927617525097884}
@@ -790,6 +791,7 @@ MonoBehaviour:
   Perception: {fileID: 0}
   Gatherer: {fileID: 0}
   Model: {fileID: 5037322268045407631}
+  Motor: {fileID: 0}
   Modules: []
   UseRigidbody: {fileID: 0}
   Collider: {fileID: 0}
@@ -806,6 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 409c403cf5d88034e9b5c1aedecbcf7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
   Sensors:
     Ahead: {fileID: 4033038879377444295}
     AheadAbove: {fileID: 3694838489223120492}
@@ -839,12 +842,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7e99f3c5601c347ae05bb9198fb0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
   Animator: {fileID: 3413162032195249615}
   Renderer: {fileID: 0}
   DamageColor: {r: 0, g: 0, b: 0, a: 0}
   DeadColor: {r: 0, g: 0, b: 0, a: 0}
   ShownDamage: 0
   ShowDamageTime: 0.25
+--- !u!114 &1830662099270720549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341136226376578883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d42d1c821f60d49ad73449136a5a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
+  Holded: {fileID: 0}
+  IsHolding: 0
+  LookDistance: 1
+  LookHeight: 0.1
 --- !u!114 &8341136226376578890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daacb05bfb25d544a97626147f9d6eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
   Friend: {fileID: 0}
 --- !u!114 &2742095654308700257
 MonoBehaviour:
@@ -870,6 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5e5712fe687493e9f43bc47cf1a085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
 --- !u!114 &6324927617525097884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,7 +905,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f377a09374034deab506b8161d9565c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 0}
   CanMove: 0
+  MoveSpeed: 1
 --- !u!114 &9047517077010858560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,7 +1008,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.070408344}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -994,5 +1019,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.8591833}
+  m_Size: {x: 1, y: 0.95}
   m_EdgeRadius: 0

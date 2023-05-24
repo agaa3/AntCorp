@@ -174,7 +174,7 @@ public class PlayerController : PlayerModule
     {
         if (!IsMidTurn && Parent.Perception.IsGrounded)
         {
-            if (Sensors.CanTurnInside())
+            if (Sensors.CanTurnInside() && Parent.GetModule<PlayerGrabber>().Holded == null)
             {
                 IsMidTurn = true;
                 if (IsFacingRight)
