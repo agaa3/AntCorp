@@ -21,6 +21,7 @@ public class PlayerController : PlayerModule
     public float MoveSpeed = 2f;
     public float InsideTurnDuration = 0.25f;
     public float OutsideTurnDuration = 0.4f;
+    public LayerMask FunnyMask = Physics2D.DefaultRaycastLayers;
 
     /// <summary>
     /// True if inside, false if outside
@@ -224,10 +225,6 @@ public class PlayerController : PlayerModule
     {
         OnBeginTurn?.Invoke(true);
         Debug.Log("Turn Inside");
-        Vector3 pos = transform.position;
-        pos.x = Mathf.Round(pos.x * 2) / 2;
-        pos.y = Mathf.Round(pos.y * 2) / 2;
-        transform.position = pos;
         float timer = 0;
         bool flag = false;
         PerformedTurn?.Invoke(true);
@@ -256,9 +253,8 @@ public class PlayerController : PlayerModule
         OnBeginTurn?.Invoke(true);
         Vector2 pos1 = transform.position;
         Vector2 pos2 = pos1;
-        pos2.x = Mathf.Round(pos2.x * 2) / 2;
-        pos2.y = Mathf.Round(pos2.y * 2) / 2;
-        pos2 += ((Vector2)transform.right * (IsFacingRight ? 1 : -1));
+        float d;
+        pos2 += ((Vector2)Parent.Body.Front * (IsFacingRight ? 1 : -1));
         Vector2 pos3 = pos2 + -((Vector2)transform.up);
         float timer = 0;
         PerformedTurn?.Invoke(false);
